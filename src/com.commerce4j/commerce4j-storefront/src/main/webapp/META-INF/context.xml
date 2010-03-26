@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+	<Resource auth="Container" description="Commerce4j DataSource"
+		name="jdbc/commerce4j" type="javax.sql.DataSource" 
+		driverClassName="com.mysql.jdbc.Driver" maxIdle="2" maxWait="5000"
+		username="c4j" password="c4j" url="jdbc:mysql://localhost/commerce4j"
+		maxActive="25" />
+	<WatchedResource>WEB-INF/web.xml</WatchedResource>
+	<WatchedResource>META-INF/context.xml</WatchedResource>
+</Context>
+
+
