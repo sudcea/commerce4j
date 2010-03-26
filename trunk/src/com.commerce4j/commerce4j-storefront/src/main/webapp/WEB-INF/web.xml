@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="cor-web" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+	<!-- DISPLAY: Web Application Name and Description-->
+	<display-name>commerce4j-storefront</display-name>
+	<description>Commerce4J Store Front Web Application</description>
+
+
+	<context-param>
+		<param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
+		<param-value>i18n</param-value>
+	</context-param>
+	
+	
+	<servlet>
+        <servlet-name>Spring MVC</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+        	<param-name>contextConfigLocation</param-name>
+        	<param-value>WEB-INF/applicationContext.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>Spring MVC</servlet-name>
+        <url-pattern>*.jspa</url-pattern>
+    </servlet-mapping>
+	
+	
+	<!-- FILTER: SetCharacterEncodingFilter, Force Char Encoding -->
+	<filter>
+		<filter-name>SetCharacterEncodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+
+	<!-- FILTER-MAPPING: SetCharacterEncodingFilter, Force Char Encoding -->
+	<filter-mapping>
+		<filter-name>SetCharacterEncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+
+	<!-- WELCOME-FILE-LIST: Directory index allowed files-->
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+
+
+	<resource-ref>
+		<description>Commerce4j Database"</description>
+		<res-ref-name>jdbc/commerce4j</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+		<res-sharing-scope>Shareable</res-sharing-scope>
+	</resource-ref>
+
+
+</web-app>
