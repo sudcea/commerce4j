@@ -22,6 +22,8 @@ import com.commerce4j.model.dso.CategoryDSO;
 import com.commerce4j.model.dto.CategoryDTO;
 
 /**
+ * JDBC Implementation for the {@link CategoryDSO} business object.
+ * 
  * @author carlos.quijano
  * @version $Revision$ $Date$
  */

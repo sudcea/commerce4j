@@ -12,6 +12,8 @@
 	<name>commerce4j-model</name>
 	<description>Commerce4J Model Module</description>
 	<inceptionYear>2010</inceptionYear>
+	
+	<!-- Project Meta Information -->
 	<developers>
 		<developer>
 			<id>carlos.quijano</id>

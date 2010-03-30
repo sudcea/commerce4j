@@ -13,25 +13,27 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.commerce4j.model.dto;
+package com.commerce4j.model.dso;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
+import java.util.List;
+
+import com.commerce4j.model.dto.ItemDTO;
 
 /**
- * Abstract Base Data Transfer Object. This object is designed
- * in order to serve as a parent for DTO's child objects.
+ * Item Data Service Object, the business layer that manage 
+ * all the item's operations.
  * 
  * @author carlos.quijano
  * @version $Revision$ $Date$
  */
-public abstract class AbstractBaseDTO {
+public interface ItemDSO {
 	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
+	/**
+	 * Find All Items for a particular category.
+	 * 
+	 * @param categoryId The category primary key.
+	 * @return The requested Item list or <code>null</code>. 
 	 */
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
-	}
+	public List<ItemDTO> findAllByCategory(Integer categoryId);
 	
-
 }

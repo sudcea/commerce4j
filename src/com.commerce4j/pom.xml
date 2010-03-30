@@ -9,6 +9,8 @@
 	<name>commerce4j-parent</name>
 	<description>Commerce4J Parent Project</description>
 	<inceptionYear>2010</inceptionYear>
+	
+	<!-- Project Meta Information -->
 	<developers>
 		<developer>
 			<id>carlos.quijano</id>
@@ -17,6 +19,8 @@
 			<url>http://ceqm.blogspot.com</url>
 		</developer>
 	</developers>
+	
+	<!-- Project Build Information -->
 	<build>
 		<plugins>
 			<plugin>
@@ -30,6 +34,7 @@
 		</plugins>
 	</build>
 	
+	<!-- Project Modules -->
 	<modules>
 		<module>commerce4j-model</module>
 		<module>commerce4j-storefront</module>

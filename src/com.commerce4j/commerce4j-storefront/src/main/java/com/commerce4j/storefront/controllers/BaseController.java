@@ -15,6 +15,9 @@
  */
 package com.commerce4j.storefront.controllers;
 
+import java.text.MessageFormat;
+import java.util.ResourceBundle;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,7 +30,7 @@ import com.commerce4j.model.dso.ProfileDSO;
 
 
 /**
- * 
+ * Abstract Base MultiActionController.
  * 
  * @author carlos.quijano
  * @version $Revision$ $Date$
@@ -35,12 +38,14 @@ import com.commerce4j.model.dso.ProfileDSO;
 public abstract class BaseController extends MultiActionController {
 	
 	static final String SUCCESS = "success";
+	static final String FAILURE = "failure";
+	static final ResourceBundle bundle = ResourceBundle.getBundle("i18n");
 	
 	private JdbcTemplate jdbcTemplate;
 	private CategoryDSO categoryDSO;
 	private ProfileDSO profileDSO;
 	
-	
+
 	/**
 	 * @param request
 	 * @param response
@@ -94,6 +99,90 @@ public abstract class BaseController extends MultiActionController {
 	 */
 	public void setProfileDSO(ProfileDSO profileDSO) {
 		this.profileDSO = profileDSO;
+	}
+	
+	protected String getString(String key) {
+		return bundle.getString(key);
+	}
+	
+	/**
+	 * @param key
+	 * @param value
+	 * @return
+	 */
+	protected Message newError(String key, String value) {
+		return new Message("ERROR", key, value);
+	}
+	
+	protected Message newError(String key, String value, Object[] replace) {
+		return new Message("ERROR", key, MessageFormat.format(value, replace));
+	}
+	
+	
+
+	
+	class Message {
+		private String key;
+		private String type;
+		private String value;
+		
+		
+		/**
+		 * Constructor, Creates a new type instance of Message.
+		 * @param key
+		 * @param type
+		 * @param value
+		 */
+		public Message(String type, String key, String value) {
+			super();
+			this.key = key;
+			this.type = type;
+			this.value = value;
+		}
+		/**
+		 * JavaBean Getter, Gets the key current value.
+		 * @return The key current value.
+		 */
+		public String getKey() {
+			return key;
+		}
+		/**
+		 * JavaBean Setter, Sets value to key.
+		 * @param key The value of key to set.
+		 */
+		public void setKey(String key) {
+			this.key = key;
+		}
+		/**
+		 * JavaBean Getter, Gets the type current value.
+		 * @return The type current value.
+		 */
+		public String getType() {
+			return type;
+		}
+		/**
+		 * JavaBean Setter, Sets value to type.
+		 * @param type The value of type to set.
+		 */
+		public void setType(String type) {
+			this.type = type;
+		}
+		/**
+		 * JavaBean Getter, Gets the value current value.
+		 * @return The value current value.
+		 */
+		public String getValue() {
+			return value;
+		}
+		/**
+		 * JavaBean Setter, Sets value to value.
+		 * @param value The value of value to set.
+		 */
+		public void setValue(String value) {
+			this.value = value;
+		}
+		
+		
 	}
 	
 	

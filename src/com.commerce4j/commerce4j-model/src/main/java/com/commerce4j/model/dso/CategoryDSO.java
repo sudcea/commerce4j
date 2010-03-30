@@ -20,23 +20,34 @@ import java.util.List;
 import com.commerce4j.model.dto.CategoryDTO;
 
 /**
+ * Category Data Service Object, the business layer that manage 
+ * all the category operations.
+ * 
  * @author carlos.quijano
  * @version $Revision$ $Date$
  */
 public interface CategoryDSO {
 	
 	/**
-	 * @return
+	 * Get a {@link CategoryDTO} entity object by it's primary key.
+	 * 
+	 * @param categoryId The entity primary key
+	 * @return A {@link CategoryDTO} entity object or <code>null</code>.
 	 */
 	public CategoryDTO findCategoryById(Integer categoryId);
 	
 	/**
-	 * @return
+	 * Get a root {@link CategoryDTO} list by store. A category is 
+	 * considered root when it's parent id is null or empty.
+	 * 
+	 * @param storeId The store primary key.
+	 * @return A {@link CategoryDTO} root entity list or <code>null</code>.
 	 */
 	public List<CategoryDTO> findRootCategories(Integer storeId);
 	
 	/**
-	 * @return
+	 * Get a child {@link CategoryDTO} list by store and parent.
+	 * @return A {@link CategoryDTO} child entity list or <code>null</code>.
 	 */
 	public List<CategoryDTO> findCategoriesByParent(Integer storeId, Integer categoryId);
 	

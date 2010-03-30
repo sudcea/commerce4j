@@ -27,6 +27,8 @@ import com.commerce4j.model.dto.CategoryDTO;
 import com.commerce4j.model.dto.StoreDTO;
 
 /**
+ * Spring/JDBC Implementation for the {@link CategoryDAO} interface.
+ * 
  * @author carlos.quijano
  * @version $Revision$ $Date$
  */
@@ -90,8 +92,8 @@ public class CategoryDAOImpl extends JdbcDaoSupport implements CategoryDAO {
 		return l;
 	}
 	
-	/**
-	 * 
+	/*
+	 * Entity Row Mapper 
 	 */
 	class CategoryMapper implements RowMapper {
 

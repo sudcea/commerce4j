@@ -16,6 +16,8 @@
 package com.commerce4j.model.dto;
 
 /**
+ * Country Data Transfer Object.
+ * 
  * @author carlos.quijano
  * @version $Revision$ $Date$
  */

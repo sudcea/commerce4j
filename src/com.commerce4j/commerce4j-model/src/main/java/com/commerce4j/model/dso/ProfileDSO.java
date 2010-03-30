@@ -17,19 +17,24 @@ package com.commerce4j.model.dso;
 
 
 /**
+ * Profile Data Service Object, the business layer that manage 
+ * all the category operations.
+ * 
  * @author carlos.quijano
  * @version $Revision$ $Date$
  */
 public interface ProfileDSO {
 	
 	/**
-	 * @param userName
-	 * @param userPass
-	 * @param emailAddress
-	 * @param firstName
-	 * @param lastName
-	 * @param countryId
-	 * @return
+	 * New user registration.
+	 * 
+	 * @param userName The user name credential, must be unique!.
+	 * @param userPass The user password.
+	 * @param emailAddress The user email address, must be valid!.
+	 * @param firstName The user firstname.
+	 * @param lastName The user lastname.
+	 * @param countryId The user country primary key.
+	 * @return The generated user primary key.
 	 */
 	public Long registerUser(
 			String userName,

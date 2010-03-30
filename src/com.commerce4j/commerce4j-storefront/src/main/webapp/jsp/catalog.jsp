@@ -27,8 +27,7 @@
  			<h1>Explorar Cat&aacute;logo</h1>
  		</c:otherwise>
  	</c:choose>
- 	
- 	
+
  	<table width="100%">
  	<tr>
  	<td width="225" valign="top">

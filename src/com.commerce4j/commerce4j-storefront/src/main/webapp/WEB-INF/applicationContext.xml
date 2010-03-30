@@ -27,12 +27,20 @@
 		<property name="jdbcTemplate" ref="jdbcTemplate" />
 	</bean>
 	
+	<bean id="itemDAO" class="com.commerce4j.model.dao.jdbc.ItemDAOImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+	
 	<bean id="categoryDSO" class="com.commerce4j.model.dso.jdbc.CategoryDSOImpl">
 		<property name="categoryDAO" ref="categoryDAO" />
 	</bean>
 	
 	<bean id="profileDSO" class="com.commerce4j.model.dso.jdbc.ProfileDSOImpl">
 		<property name="userDAO" ref="userDAO" />
+	</bean>
+	
+	<bean id="itemDSO" class="com.commerce4j.model.dso.jdbc.ItemDSOImpl">
+		<property name="itemDAO" ref="itemDAO" />
 	</bean>
 
 	<bean id="paramResolver" class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">

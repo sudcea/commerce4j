@@ -20,13 +20,29 @@ import java.util.List;
 import com.commerce4j.model.dto.CategoryDTO;
 
 /**
+ * Data Access Object for the {@link CategoryDTO} entity.
+ * 
  * @author carlos.quijano
  * @version $Revision$ $Date$
  */
 public interface CategoryDAO {
 	
+	/**
+	 * Get a {@link CategoryDTO} entity object by it's primary key.
+	 * 
+	 * @param categoryId The entity primary key
+	 * @return A {@link CategoryDTO} entity object or <code>null</code>.
+	 */
 	public CategoryDTO findByCategoryById(Integer categoryId);
 	
+	/**
+	 * Get a {@link CategoryDTO} child entity list by store and 
+	 * parent category.
+	 * 
+	 * @param storeId The store primary key.
+	 * @param parentId The parent category primary key.
+	 * @return A {@link CategoryDTO} child entity list or <code>null</code>.
+	 */
 	public List<CategoryDTO> findCategoryByParent(Integer storeId, Integer parentId);
 	
 }
