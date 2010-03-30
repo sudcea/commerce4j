@@ -32,6 +32,8 @@ import com.commerce4j.model.dto.CountryDTO;
 import com.commerce4j.model.dto.UserDTO;
 
 /**
+ * Spring/JDBC Implementation for the {@link UserDAO} interface.
+ * 
  * @author carlos.quijano
  * @version $Revision$ $Date$
  */
@@ -39,6 +41,9 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
 	
 	private RowMapper userRowMapper;
 	
+	/**
+	 * Constructor, Creates a new type instance of {@link UserDAOImpl}.
+	 */
 	public UserDAOImpl() {
 		super();
 		userRowMapper = new UserRowMapper();
@@ -71,6 +76,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
 		"lastname,country_id,creation_date,active)  " +
 		"values (?,?,?,?,?,?,?,?)";
 		
+		// build the SQL Update parameters
 		Object params[] = {
 				userDTO.getUserName(),
 				userDTO.getUserPass(),
@@ -82,6 +88,9 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
 				userDTO.getActive()
 		};
 		
+		// we're going to use a SqlUpdate helper in order
+		// to retrieve the populated last insert id after
+		// the sql update.
 		SqlUpdate su = new SqlUpdate();
 		su.setDataSource(getDataSource());
 		su.setSql(sql);
@@ -95,7 +104,8 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
 		su.declareParameter(new SqlParameter(Types.SMALLINT));
 		su.setReturnGeneratedKeys(true);
 		su.compile();
-
+		
+		// get the generated key
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		su.update(params, keyHolder);
 		long userId = keyHolder.getKey().longValue();
@@ -107,8 +117,8 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
 		return userDTO;
 	}
 	
-	/**
-	 * 
+	/*
+	 * Entity RowMapper 
 	 */
 	class UserRowMapper implements RowMapper {
 

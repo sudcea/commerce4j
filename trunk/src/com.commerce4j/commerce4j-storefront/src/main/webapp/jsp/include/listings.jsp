@@ -1,7 +1,15 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<div class="container ">
-Ver Como
+<c:if test="${listings eq null}">
+No se encontraron productos para esta categor&iacute;a
+</c:if>
+
+<c:if test="${listings ne null}">
+<div class="container">
 <table class="listings" width="100%" cellspacing="0">
+	
 	<tr>
 		<th width="120">Imagen</th>
 		<th>T&iacute;tulo / Descripci&oacute;n</th>
@@ -9,31 +17,20 @@ Ver Como
 		<th>&nbsp;</th>
 	</tr>
 	
+	
+	<c:forEach items="${listings}" var="item">
 	<tr>
 		<td valign="top" align="center">
 		<img src="images/img_not_available.png" />
 		</td>
 		<td valign="top">
-			09 Champions League final in Rome Barcelona's Messi 10
-			<div class="gray smaller">
-			09 Champions League final in Rome Barcelona's Messi 10, NEW BARCELONA HOME JERSEY XAVI NO.6 SIZE M or XL
-			</div>
+			<c:out value="${item.itemTitle}" />
+			<div class="gray smaller"><c:out value="${item.itemDesc}" /></div>
 		</td>
-		<td>US $25.00</td>
+		<td><c:out value="${item.itemPrice}" /></td>
 	</tr>
-	
-	<tr>
-		<td valign="top" align="center">
-		<img src="images/img_not_available.png" />
-		</td>
-		<td valign="top">
-			New Barcelona home Jersey XAVI no.6 size M or XL
-			<div class="gray smaller">
-			09 Champions League final in Rome Barcelona's Messi 10, NEW BARCELONA HOME JERSEY XAVI NO.6 SIZE M or XL
-			</div>
-		</td>
-		<td>US $23.99</td>
-	</tr>
-	
+	</c:forEach>
+
 </table>
 </div>
+</c:if>

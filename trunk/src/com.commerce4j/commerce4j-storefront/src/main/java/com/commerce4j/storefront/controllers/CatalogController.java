@@ -23,7 +23,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.commerce4j.model.dso.ItemDSO;
 import com.commerce4j.model.dto.CategoryDTO;
+import com.commerce4j.model.dto.ItemDTO;
 
 
 /**
@@ -58,6 +60,13 @@ public class CatalogController extends BaseController  {
 			List<CategoryDTO> categories = getCategoryDSO().findCategoriesByParent(storeId, categoryId);
 			mav.addObject("category", category);
 			mav.addObject("categories", categories);
+			
+			
+			// display product listings
+			ItemDSO itemDSO = (ItemDSO) getApplicationContext().getBean("itemDSO");
+			List<ItemDTO> listings = itemDSO.findAllByCategory(categoryId);
+			mav.addObject("listings", listings);
+			
 		}
 		
 		return mav ;

@@ -15,13 +15,21 @@
  */
 package com.commerce4j.storefront.controllers;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 
 /**
@@ -66,29 +74,144 @@ public class ProfileController extends BaseController {
 		
 		return mav;
 	}
+
+	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView("login");
+		
+		return mav;
+	}
 	
-	
-	public ModelAndView completeRegistration(
+	public void processLogin(
 			HttpServletRequest request, HttpServletResponse response
 	) {
 
+
+		Map<String, Object> responseModel = new HashMap<String, Object>();
+		response.setContentType("application/json");	
+		Gson gson = new GsonBuilder().create();
+
+		String userName = request.getParameter("userName");
+		String userPass = request.getParameter("userPass");
 		
+		List<Message> errors = new ArrayList<Message>();
+		if (StringUtils.isEmpty(userName)) {
+			errors.add(newError("userName", getString("errors.notEmpty"), new Object[] {getString("login.userName")}));
+		}
+		
+		if (StringUtils.isEmpty(userPass)) {
+			errors.add(newError("userPass", getString("errors.notEmpty"), new Object[] {getString("login.userPass")}));
+		}
+		
+		
+		if (errors.isEmpty()) {
+			
+			
+			responseModel.put("responseCode", SUCCESS);
+			responseModel.put("responseMessage", "Login Completo");
+		} else {
+			responseModel.put("responseCode", FAILURE);
+			responseModel.put("responseMessage", "Login Incompleto, favor verificar");
+			responseModel.put("errors", errors);
+		}
+		
+		// serialize output
+		try {
+
+			OutputStreamWriter os = new OutputStreamWriter(response.getOutputStream());
+			String data = gson.toJson(responseModel);
+			os.write(data);
+			os.flush();
+			os.close();
+		} catch (IOException e) {
+			logger.fatal(e);
+		}
+	}
+	
+	public void processRegistration(
+			HttpServletRequest request, HttpServletResponse response
+	) {
+
+
+		Map<String, Object> responseModel = new HashMap<String, Object>();
+		response.setContentType("application/json");	
+		Gson gson = new GsonBuilder().create();
+
 		String userName = request.getParameter("userName");
 		String emailAddress = request.getParameter("emailAddress");
 		String userPass = request.getParameter("userPass");
+		String confirmPassword = request.getParameter("confirmPassword");
 		String firstName = request.getParameter("firstName");
-		Integer countryId = new Integer(request.getParameter("countryId"));
+		String countryId = request.getParameter("countryId");
 		String lastName = request.getParameter("lastName");
+		String acceptTermAndConditions = request.getParameter("acceptTermAndConditions");
 		
-		long userId = getProfileDSO().registerUser(
-				userName, userPass, 
-				emailAddress, firstName, 
-				lastName, countryId
-		);
-		if (logger.isDebugEnabled())
-			logger.debug("REGISTERED UID @ " + userId);
+		List<Message> errors = new ArrayList<Message>();
+		if (StringUtils.isEmpty(userName)) {
+			errors.add(newError("userName", getString("errors.notEmpty"), new Object[] {getString("register.userName")}));
+		}
 		
-		return register(request, response);
+		if (StringUtils.isEmpty(emailAddress)) {
+			errors.add(newError("emailAddress", getString("errors.notEmpty"), new Object[] {getString("register.emailAddress")}));
+		}
+		
+		if (StringUtils.isEmpty(userPass)) {
+			errors.add(newError("userPass", getString("errors.notEmpty"), new Object[] {getString("register.userPass")}));
+		}
+		
+		if (StringUtils.isEmpty(firstName)) {
+			errors.add(newError("firstName", getString("errors.notEmpty"), new Object[] {getString("register.firstName")}));
+		}
+		
+		if (StringUtils.isEmpty(countryId)) {
+			errors.add(newError("countryId", getString("errors.notEmpty"), new Object[] {getString("register.countryId")}));
+		}
+		
+		if (StringUtils.isEmpty(lastName)) {
+			errors.add(newError("lastName", getString("errors.notEmpty"), new Object[] {getString("register.lastName")}));
+		}
+		
+		if (!StringUtils.equalsIgnoreCase(acceptTermAndConditions, "true")) {
+			errors.add(newError("acceptTermAndConditions", getString("errors.acceptTermAndConditions")));
+		}
+		
+		if (StringUtils.isEmpty(confirmPassword)) {
+			errors.add(newError("confirmPassword", getString("errors.notEmpty"), new Object[] {getString("register.confirmPassword")}));
+		}
+		
+		if (!StringUtils.equals(userPass, confirmPassword)) {
+			errors.add(newError("userPass", getString("errors.passwordDoesNotMatch") ));
+		}
+		
+		
+		if (errors.isEmpty()) {
+			long userId = getProfileDSO().registerUser(
+					userName, userPass, 
+					emailAddress, firstName, 
+					lastName, new Integer(countryId)
+			);
+			if (logger.isDebugEnabled())
+				logger.debug("REGISTERED UID @ " + userId);
+			
+			responseModel.put("responseCode", SUCCESS);
+			responseModel.put("responseMessage", "Registro Completo");
+			responseModel.put("userId", userId);
+		} else {
+			responseModel.put("responseCode", FAILURE);
+			responseModel.put("responseMessage", "Registro Incompleto, favor verificar");
+			responseModel.put("errors", errors);
+		}
+		
+		// serialize output
+		try {
+
+			OutputStreamWriter os = new OutputStreamWriter(response.getOutputStream());
+			String data = gson.toJson(responseModel);
+			os.write(data);
+			os.flush();
+			os.close();
+		} catch (IOException e) {
+			logger.fatal(e);
+		}
 	}
 	
 	

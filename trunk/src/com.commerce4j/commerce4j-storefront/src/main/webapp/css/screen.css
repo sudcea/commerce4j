@@ -143,3 +143,34 @@ div.navlinks {
 	color: #000000;
 	text-decoration: underline;
 }
+
+input.highlight {
+	background-color: #ffffcc;
+}
+
+img.highlight  {
+	
+}
+
+div.errors {
+	color: #ff0000;
+	padding: 4px;
+	border: 1px solid #990000;
+	background-color: #ffffcc;
+	font-size: 11px;
+	font-family: verdana, tahoma, arial, helvetica;
+}
+
+.errors ul {
+	margin: 4px;
+	margin-left: 8px;
+	padding-left: 4px;
+	list-style-position: outside;
+}
+
+.errors li {
+	font-size: 11px;
+	font-family: verdana, tahoma, arial, helvetica;
+	margin-left: 2px;
+	
+}

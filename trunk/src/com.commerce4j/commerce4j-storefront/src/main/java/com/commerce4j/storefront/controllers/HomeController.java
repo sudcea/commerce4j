@@ -31,10 +31,7 @@ import com.commerce4j.model.dto.CategoryDTO;
  * @version $Revision$ $Date$
  */
 public class HomeController extends BaseController {
-	
-	
 
-	
 	/* (non-Javadoc)
 	 * @see com.commerce4j.storefront.controllers.BaseController#unspecified(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 */

@@ -1,1 +1,3 @@
-<jsp:forward page="home.action" />
+<%
+response.sendRedirect("home.jspa");
+%>

@@ -21,6 +21,8 @@ import com.commerce4j.model.dto.CountryDTO;
 import com.commerce4j.model.dto.UserDTO;
 
 /**
+ * JDBC Implementation for the {@link ProfileDSO} business object.
+ * 
  * @author carlos.quijano
  * @version $Revision$ $Date$
  */

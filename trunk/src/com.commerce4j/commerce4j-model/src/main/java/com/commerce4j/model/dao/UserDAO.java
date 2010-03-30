@@ -18,20 +18,25 @@ package com.commerce4j.model.dao;
 import com.commerce4j.model.dto.UserDTO;
 
 /**
+ * Data Access Object for the {@link UserDTO} entity.
+ * 
  * @author carlos.quijano
  * @version $Revision$ $Date$
  */
 public interface UserDAO {
 	
 	/**
-	 * @param userId
-	 * @return
+	 * Get a {@link UserDTO} entity object by it's primary key.
+	 * @param userId The {@link UserDTO} primary key.
+	 * @return A {@link UserDTO} entity object or <code>null</code>
 	 */
 	public UserDTO findById(long userId);
 	
 	/**
-	 * @param userDTO
-	 * @return
+	 * Saves a new {@link UserDTO} in the persistence layer.
+	 * 
+	 * @param userDTO The {@link UserDTO} instance to insert.
+	 * @return The {@link UserDTO} persisted instance.
 	 */
 	public UserDTO save(UserDTO userDTO);
 	

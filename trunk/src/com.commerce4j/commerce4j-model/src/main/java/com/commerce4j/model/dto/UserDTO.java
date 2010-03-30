@@ -18,6 +18,8 @@ package com.commerce4j.model.dto;
 import java.util.Date;
 
 /**
+ * User Data Transfer Object.
+ * 
  * @author carlos.quijano
  * @version $Revision$ $Date$
  */

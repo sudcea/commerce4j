@@ -16,6 +16,8 @@
 package com.commerce4j.model.dto;
 
 /**
+ * Store Data Transfer Object.
+ * 
  * @author carlos.quijano
  * @version $Revision$ $Date$
  */
