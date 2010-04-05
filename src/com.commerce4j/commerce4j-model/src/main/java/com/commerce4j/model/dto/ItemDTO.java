@@ -29,15 +29,39 @@ public class ItemDTO extends AbstractBaseDTO {
 	private String itemTitle;
 	private String itemDesc;
 	private Date created;
-	private Integer status;
+	private Integer itemStatus;
 	private Double itemPrice;
 	private String itemSku;
 	
 	private UserDTO user;
 	private StoreDTO store;
 	private TypeDTO type;
+	private CurrencyDTO currency;
+	private StatusDTO status;
 	
 	
+	
+	/**
+	 * JavaBean Setter, Sets value to status.
+	 * @param status The value of status to set.
+	 */
+	public void setStatus(StatusDTO status) {
+		this.status = status;
+	}
+	/**
+	 * JavaBean Getter, Gets the currency current value.
+	 * @return The currency current value.
+	 */
+	public CurrencyDTO getCurrency() {
+		return currency;
+	}
+	/**
+	 * JavaBean Setter, Sets value to currency.
+	 * @param currency The value of currency to set.
+	 */
+	public void setCurrency(CurrencyDTO currency) {
+		this.currency = currency;
+	}
 	/**
 	 * JavaBean Getter, Gets the itemSku current value.
 	 * @return The itemSku current value.
@@ -108,19 +132,27 @@ public class ItemDTO extends AbstractBaseDTO {
 	public void setCreated(Date created) {
 		this.created = created;
 	}
+	
+	/**
+	 * JavaBean Getter, Gets the itemStatus current value.
+	 * @return The itemStatus current value.
+	 */
+	public Integer getItemStatus() {
+		return itemStatus;
+	}
+	/**
+	 * JavaBean Setter, Sets value to itemStatus.
+	 * @param itemStatus The value of itemStatus to set.
+	 */
+	public void setItemStatus(Integer itemStatus) {
+		this.itemStatus = itemStatus;
+	}
 	/**
 	 * JavaBean Getter, Gets the status current value.
 	 * @return The status current value.
 	 */
-	public Integer getStatus() {
+	public StatusDTO getStatus() {
 		return status;
-	}
-	/**
-	 * JavaBean Setter, Sets value to status.
-	 * @param status The value of status to set.
-	 */
-	public void setStatus(Integer status) {
-		this.status = status;
 	}
 	/**
 	 * JavaBean Getter, Gets the itemPrice current value.

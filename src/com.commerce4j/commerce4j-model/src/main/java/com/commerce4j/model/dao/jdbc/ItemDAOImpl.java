@@ -23,7 +23,9 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import com.commerce4j.model.dao.ItemDAO;
+import com.commerce4j.model.dto.CurrencyDTO;
 import com.commerce4j.model.dto.ItemDTO;
+import com.commerce4j.model.dto.StatusDTO;
 import com.commerce4j.model.dto.StoreDTO;
 import com.commerce4j.model.dto.TypeDTO;
 import com.commerce4j.model.dto.UserDTO;
@@ -57,7 +59,7 @@ public class ItemDAOImpl extends JdbcDaoSupport implements ItemDAO {
 				"  it.created, " +
 				"  it.item_title, " +
 				"  it.item_desc, " +
-				"  it.status, " +
+				"  it.item_status, " +
 				"  it.item_price, " +
 				"  tp.type_id, " +
 				"  tp.type_name, " +
@@ -68,16 +70,23 @@ public class ItemDAOImpl extends JdbcDaoSupport implements ItemDAO {
 				"  us.lastname, " +
 				"  us.email_address, " +
 				"  st.store_id, " +
-				"  st.store_name " +
+				"  st.store_name, " +
+				"  su.status_name, " +
+				"  cu.currency_abrev, " +
+				"  cu.currency_symbol " + 
 				" FROM c4j_items it " +
 				" INNER JOIN c4j_stores st on st.store_id = it.store_id " +
 				" INNER JOIN c4j_users us on us.user_id = it.user_id " +
-				" INNER JOIN c4j_items_type tp on tp.type_id = it.type_id ";
-				 
+				" INNER JOIN c4j_items_type tp on tp.type_id = it.type_id " +
+				" INNER JOIN c4j_items_categories ct ON ct.item_id = it.item_id " +
+				" INNER JOIN c4j_currencies cu ON it.currency_id = cu.currency_id " +
+				" INNER JOIN c4j_status su ON su.status_id = it.status_id " +
+				" WHERE ct.category_id = ?";
 
-		
+
+		Integer[] params = {categoryId};
 		@SuppressWarnings("unchecked")
-		List<ItemDTO> l = getJdbcTemplate().query(sql, rowMapper);
+		List<ItemDTO> l = getJdbcTemplate().query(sql, params,rowMapper);
 
 		return l;
 	}
@@ -108,18 +117,28 @@ public class ItemDAOImpl extends JdbcDaoSupport implements ItemDAO {
 			type.setTypeName(rs.getString("type_name"));
 			type.setTypeDesc(rs.getString("type_desc"));
 			
+			CurrencyDTO currency  = new CurrencyDTO();
+			currency.setCurrencySymbol(rs.getString("currency_symbol"));
+			currency.setCurrencyAbrev(rs.getString("currency_abrev"));
+			
+			StatusDTO status = new StatusDTO();
+			status.setStatusName(rs.getString("status_name"));
+			
 			ItemDTO item = new ItemDTO();
 			item.setItemId(rs.getLong("item_id"));
 			item.setItemTitle(rs.getString("item_title"));
 			item.setItemDesc(rs.getString("item_desc"));
 			item.setItemPrice(rs.getDouble("item_price"));
 			item.setCreated(rs.getDate("created"));
-			item.setStatus(rs.getInt("status"));
+			item.setItemStatus(rs.getInt("item_status"));
 			item.setItemSku(rs.getString("item_sku"));
+			
 			
 			item.setStore(store);
 			item.setUser(user);
 			item.setType(type);
+			item.setCurrency(currency);
+			item.setStatus(status);
 
 			return item;
 		}
