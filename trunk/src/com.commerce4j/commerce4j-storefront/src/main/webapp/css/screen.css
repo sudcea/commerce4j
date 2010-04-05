@@ -11,6 +11,10 @@ input, select, textarea {
 	
 }
 
+img {
+	border: 0;
+}
+
 a:link, a:active, a:visited {
 	color: #0000ff;
 	text-decoration: none;

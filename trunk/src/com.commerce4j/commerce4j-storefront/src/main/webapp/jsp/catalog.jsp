@@ -18,11 +18,9 @@
  	<jsp:include page="/jsp/include/header.jsp" flush="true" />
  	
  	<c:choose>
- 		
  		<c:when test="${category ne null}">
  			<h1><c:out value="${category.description}" /></h1>
- 		</c:when>
- 		
+ 		</c:when> 		
  		<c:otherwise>
  			<h1>Explorar Cat&aacute;logo</h1>
  		</c:otherwise>
@@ -35,11 +33,9 @@
  	</td>
  	<td valign="top">
  		<div id="d_body">
- 		
- 			<jsp:include page="include/listings.jsp" >
- 				<jsp:param value="table" name="view"/>
- 			</jsp:include>
- 		
+ 			
+ 			<jsp:include page="include/listings.jsp" flush="true" />
+ 			
  		</div>
  	</td>
  	</tr>
