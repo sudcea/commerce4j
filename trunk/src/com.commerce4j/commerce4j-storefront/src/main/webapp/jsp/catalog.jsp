@@ -36,8 +36,8 @@
  	<td valign="top">
  		<div id="d_body">
  		
- 			<jsp:include page="include/listings.jsp">
- 				<jsp:param value="table" name="table"/>
+ 			<jsp:include page="include/listings.jsp" >
+ 				<jsp:param value="table" name="view"/>
  			</jsp:include>
  		
  		</div>

@@ -19,11 +19,13 @@
  	
  	<table width="100%">
  	<tr>
- 	<td width="225" valign="top">
- 		<jsp:include page="include/categories.jsp" flush="true" />
- 	</td>
  	<td valign="top">
- 		<div id="d_body"></div>
+ 		<div id="d_body">
+ 		
+ 			<h1><fmt:message key="cart.heading" /></h1>
+ 			<fmt:message key="cart.message" />
+ 		
+ 		</div>
  	</td>
  	<td width="15%" valign="top">
  		<jsp:include page="include/featured.jsp" flush="true" />

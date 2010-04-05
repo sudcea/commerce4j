@@ -66,6 +66,11 @@
 		<property name="jdbcTemplate" ref="jdbcTemplate" />
 		<property name="profileDSO" ref="profileDSO" />
 	</bean>
+	
+	<bean id="cartController" class="com.commerce4j.storefront.controllers.CartController">
+		<property name="methodNameResolver" ref="paramResolver" />
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
 
 	<bean id="urlMapping"
 	  class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
@@ -74,6 +79,7 @@
 	      <prop key="/home.*">homeController</prop>
 	      <prop key="/profile.*">profileController</prop>
 	      <prop key="/catalog.*">catalogController</prop>
+	      <prop key="/cart.*">cartController</prop>
 	    </props>
 	  </property>
 	</bean>
