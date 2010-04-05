@@ -18,7 +18,7 @@
 </td>
 <td align="right" width="20%" valign="bottom">
 	<span class="smaller gray">
-	<a href="cart.jspa">Inicio</a> |
+	<a href="home.jspa">Inicio</a> |
 	<a href="cart.jspa">Carrito</a>
 	</span>
 </td>
