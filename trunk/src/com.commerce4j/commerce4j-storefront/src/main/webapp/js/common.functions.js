@@ -37,3 +37,32 @@ function display_form_messages(id, arr, className, input_errors) {
 	$(id).appendChild(ul);
 	new Effect.Appear(id);
 }
+
+
+function add_to_cart(item, quantity, redirect) {
+	if (item == undefined) return false;
+	
+	var params = {
+		item : item, 
+		quantity : quantity
+	};
+	
+	// ajax controller call
+	new Ajax.Request('cart.jspa?aid=add',  {
+		method: 'post',
+		parameters: params,
+		onComplete: function(transport) {
+		 	response = transport.responseText.evalJSON();
+		 	alert(response);
+//			if (response.responseCode === 'success') 
+//				process_registered_user(response.userId); 
+//			else if (response.responseCode === 'failure') 
+//				display_form_messages('d_msgs', response.errors, 'errors', true);
+		},
+		
+		onFailure: function(transport) {
+			alert('Error de Transporte');
+		}
+	});
+	
+}

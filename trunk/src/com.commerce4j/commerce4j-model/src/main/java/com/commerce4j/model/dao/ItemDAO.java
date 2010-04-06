@@ -28,6 +28,8 @@ import com.commerce4j.model.dto.ItemDTO;
  */
 public interface ItemDAO {
 	
+	public ItemDTO findById(Integer itemId);
+	
 	/**
 	 * Get a {@link ItemDTO} entity list by it's category.
 	 * 

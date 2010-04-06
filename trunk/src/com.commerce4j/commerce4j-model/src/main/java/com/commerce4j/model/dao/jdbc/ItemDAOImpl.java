@@ -48,6 +48,44 @@ public class ItemDAOImpl extends JdbcDaoSupport implements ItemDAO {
 		super();
 		rowMapper = new ItemMapper();
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.commerce4j.model.dao.ItemDAO#findById(java.lang.Integer)
+	 */
+	public ItemDTO findById(Integer itemId) {
+		String sql = "SELECT " +
+		"  it.item_id, " +
+		"  it.item_sku, " +
+		"  it.created, " +
+		"  it.item_title, " +
+		"  it.item_desc, " +
+		"  it.item_status, " +
+		"  it.item_price, " +
+		"  tp.type_id, " +
+		"  tp.type_name, " +
+		"  tp.type_desc, " +
+		"  us.user_id, " +
+		"  us.user_name, " +
+		"  us.firstname, " +
+		"  us.lastname, " +
+		"  us.email_address, " +
+		"  st.store_id, " +
+		"  st.store_name, " +
+		"  su.status_name, " +
+		"  cu.currency_abrev, " +
+		"  cu.currency_symbol " + 
+		" FROM c4j_items it " +
+		" INNER JOIN c4j_stores st on st.store_id = it.store_id " +
+		" INNER JOIN c4j_users us on us.user_id = it.user_id " +
+		" INNER JOIN c4j_items_type tp on tp.type_id = it.type_id " +
+		" INNER JOIN c4j_currencies cu ON it.currency_id = cu.currency_id " +
+		" INNER JOIN c4j_status su ON su.status_id = it.status_id " +
+		" WHERE it.item_id = ?";
+
+		Integer[] params = {itemId};
+		return (ItemDTO) getJdbcTemplate().queryForObject(sql, params, rowMapper);
+		
+	}
 
 	/* (non-Javadoc)
 	 * @see com.commerce4j.model.dao.ItemDAO#findAllByCategory(java.lang.Integer)
@@ -144,5 +182,7 @@ public class ItemDAOImpl extends JdbcDaoSupport implements ItemDAO {
 		}
 		
 	}
+
+	
 
 }

@@ -2,9 +2,7 @@
 		
 
 function processRegistration() {
-	
 
-	
 	if (!$('f_registration'))  {
 		alert('Form f_registration not found');
 		return false;

@@ -29,6 +29,12 @@ import com.commerce4j.model.dto.ItemDTO;
 public interface ItemDSO {
 	
 	/**
+	 * @param itemId
+	 * @return
+	 */
+	public ItemDTO findById(Integer itemId);
+	
+	/**
 	 * Find All Items for a particular category.
 	 * 
 	 * @param categoryId The category primary key.

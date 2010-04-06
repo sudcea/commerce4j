@@ -11,6 +11,7 @@
   
     <title></title>
 	<jsp:include page="/jsp/include/javascript.jsp" flush="true" />
+	<script type="text/javascript" src="js/common.functions.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/screen.css" />
  </head>
  <body>

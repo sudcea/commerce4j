@@ -70,6 +70,7 @@
 	<bean id="cartController" class="com.commerce4j.storefront.controllers.CartController">
 		<property name="methodNameResolver" ref="paramResolver" />
 		<property name="jdbcTemplate" ref="jdbcTemplate" />
+		<property name="itemDSO" ref="itemDSO" />
 	</bean>
 
 	<bean id="urlMapping"
