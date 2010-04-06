@@ -24,7 +24,45 @@
  		
  			<h1><fmt:message key="cart.heading" /></h1>
  			<fmt:message key="cart.message" />
- 		
+ 			
+ 			
+ 			<table class="listings" width="100%" cellspacing="0">
+		
+			<tr>
+				<th width="120">Imagen</th>
+				<th>T&iacute;tulo / Descripci&oacute;n</th>
+				<th width="100">Precio</th>
+				<th width="100">Cantidad</th>
+				<th width="100">Sub-Total</th>
+			</tr>
+		
+			<c:set var="count" value="0"/>
+			<c:forEach items='${sessionScope.cart}' var="cart" varStatus="status">
+			<tr>
+				<td valign="top" align="center">
+					<img src="images/img_not_available.png" />
+				</td>
+				<td valign="top">
+					<c:out value="${cart.item.itemTitle}" />
+					<div class="gray smaller">
+						<c:out value="${cart.item.itemDesc}" />
+					</div>
+				</td>
+				<td>
+					<c:out value="${cart.item.currency.currencyAbrev}" />
+					<c:out value="${cart.item.currency.currencySymbol}" />
+					<fmt:formatNumber maxFractionDigits="2" minFractionDigits="2" value="${cart.item.itemPrice}"    />
+				</td>
+				<td><c:out value="${cart.cartQuantity}" /></td>
+				<td>
+					<c:out value="${cart.item.currency.currencyAbrev}" />
+					<c:out value="${cart.item.currency.currencySymbol}" />
+					<fmt:formatNumber maxFractionDigits="2" minFractionDigits="2" value="${cart.cartSubTotal}"    />
+				</td>
+			</tr>
+			</c:forEach>
+			</table>
+ 			
  		</div>
  	</td>
  	<td width="15%" valign="top">

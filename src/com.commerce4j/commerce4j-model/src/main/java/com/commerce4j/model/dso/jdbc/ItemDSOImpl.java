@@ -31,7 +31,12 @@ public class ItemDSOImpl implements ItemDSO {
 	
 	private ItemDAO itemDAO;
 	
-	
+	/* (non-Javadoc)
+	 * @see com.commerce4j.model.dso.ItemDSO#findById(java.lang.Integer)
+	 */
+	public ItemDTO findById(Integer itemId) {
+		return itemDAO.findById(itemId);
+	}
 
 	/* (non-Javadoc)
 	 * @see com.commerce4j.model.dso.ItemDSO#findAllByCategory(java.lang.Integer)
@@ -55,6 +60,8 @@ public class ItemDSOImpl implements ItemDSO {
 	public void setItemDAO(ItemDAO itemDAO) {
 		this.itemDAO = itemDAO;
 	}
+
+	
 	
 	
 

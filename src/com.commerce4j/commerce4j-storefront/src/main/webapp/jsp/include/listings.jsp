@@ -54,7 +54,7 @@ Mostrar como
 				<fmt:formatNumber maxFractionDigits="2" minFractionDigits="2" value="${item.itemPrice}"    />
 			</td>
 			<td align="center">
-				<input type="button" value="Comprar" />
+				<input type="button" value="Comprar" onclick="add_to_cart('${item.itemId}',1, false)" />
 			</td>
 		</tr>
 		<c:if test="${status.last}">
@@ -87,7 +87,7 @@ Mostrar como
 				<c:out value="${item.currency.currencySymbol}" />
 				<fmt:formatNumber maxFractionDigits="2" minFractionDigits="2" value="${item.itemPrice}"    />
 				<br/>
-				<input type="button" value="Comprar" />
+				<input type="button" value="Comprar" onclick="add_to_cart('${item.itemId}',1, false)" />
 			</td>
 		
 		<c:if test="${status.count mod 5 eq 0}"><%="</tr>"%></c:if>
