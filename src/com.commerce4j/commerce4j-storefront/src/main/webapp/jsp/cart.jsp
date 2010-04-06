@@ -17,6 +17,7 @@
  
  	<jsp:include page="include/header.jsp" flush="true" />
  	
+ 	
  	<table width="100%">
  	<tr>
  	<td valign="top">
@@ -25,8 +26,11 @@
  			<h1><fmt:message key="cart.heading" /></h1>
  			<fmt:message key="cart.message" />
  			
- 			
- 			<table class="listings" width="100%" cellspacing="0">
+ 			<div align="right">
+		 		<input type="button" value="Actualizar" />
+		 		<input type="button" value="Comprar" />
+		 	</div><br/>
+ 			<table class="listings" width="100%" cellspacing="0" border="0">
 		
 			<tr>
 				<th width="120">Imagen</th>
@@ -37,6 +41,7 @@
 			</tr>
 		
 			<c:set var="count" value="0"/>
+			<c:set var="total" value="0.00"/>
 			<c:forEach items='${sessionScope.cart}' var="cart" varStatus="status">
 			<tr>
 				<td valign="top" align="center">
@@ -53,14 +58,27 @@
 					<c:out value="${cart.item.currency.currencySymbol}" />
 					<fmt:formatNumber maxFractionDigits="2" minFractionDigits="2" value="${cart.item.itemPrice}"    />
 				</td>
-				<td><c:out value="${cart.cartQuantity}" /></td>
 				<td>
+					<input type="text" value="${cart.cartQuantity}" size="5" />
+				</td>
+				<td align="right">
 					<c:out value="${cart.item.currency.currencyAbrev}" />
 					<c:out value="${cart.item.currency.currencySymbol}" />
 					<fmt:formatNumber maxFractionDigits="2" minFractionDigits="2" value="${cart.cartSubTotal}"    />
 				</td>
 			</tr>
+			<c:set var="total" value="${total + cart.cartSubTotal}"/>
 			</c:forEach>
+			<tr>
+				<td colspan="5"><hr class="separator"/></td>
+			</tr>
+			<tr>
+				<td align="right" colspan="4">Total</td>
+				<td align="right">
+					
+					USD $ <fmt:formatNumber maxFractionDigits="2" minFractionDigits="2" value="${total}" />
+				</td>
+			</tr>
 			</table>
  			
  		</div>

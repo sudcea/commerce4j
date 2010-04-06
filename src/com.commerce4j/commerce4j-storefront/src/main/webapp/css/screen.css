@@ -190,3 +190,8 @@ div.errors {
 	margin-left: 2px;
 	
 }
+
+hr.separator {
+	height: 1px;
+	color: #999;
+}
