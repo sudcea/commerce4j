@@ -30,7 +30,11 @@
  	<table width="100%">
  	<tr>
  	<td width="225" valign="top">
+ 		<div id="d_body">
  		<jsp:include page="/jsp/include/categories.jsp" flush="true" />
+ 		<br/>
+ 		<jsp:include page="/jsp/include/filters.jsp" flush="true" />
+ 		</div>
  	</td>
  	<td valign="top">
  		<div id="d_body">

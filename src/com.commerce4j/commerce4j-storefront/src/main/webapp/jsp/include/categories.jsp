@@ -4,18 +4,24 @@
 
 
 
-	<c:forEach items="${categories}" var="category">
+	<c:if test="${categories ne null}">
+	<h3><strong>Explorar Categor&iacute;as</strong></h3>
+	<table class="block">
+	<tr><td>
 	<div class="categories">
-	<ul>
-		<li><a href="catalog.jspa?aid=browse&c=${category.categoryId}"><c:out value="${category.description}" escapeXml="true"/></a></li>
-	</ul>	
-	</div>
-	</c:forEach>
 	
-	<table width="100%">
-	<tr>
-	<td align="right" ><div class="smaller">[<a href="catalogo.jsp?aid=all">Ver Todas</a>]</div></td>
-	</tr>
+	<ul>
+		<c:forEach items="${categories}" var="category">
+		<li><a href="catalog.jspa?aid=browse&c=${category.categoryId}"><c:out value="${category.description}" escapeXml="true"/></a></li>
+		</c:forEach>	
+	</ul>
+	
+	</div>
+	</td></tr>
 	</table>
+	</c:if>
+	
+	
+	
 
 

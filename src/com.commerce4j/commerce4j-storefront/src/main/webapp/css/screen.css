@@ -6,6 +6,13 @@ h1 {
 	margin-bottom: 2px; 
 }
 
+h3 {
+	color: #cc0000;
+	font-size: 14px;
+	font-family: arial, helvetica, sans-serif;
+	margin-bottom: 2px; 
+}
+
 
 input, select, textarea {
 	
@@ -46,6 +53,8 @@ a:hover {
 .categories ul {
 	list-style: none;
 	margin-left: 4px;
+	margin-top: 0em;
+	padding-top: 0em;
 	padding-left: 0em;
 }
 
@@ -54,9 +63,10 @@ a:hover {
 	font-size: 11px;
 	font-family: verdana, tahoma, arial, helvetica;
 	list-style-type: none;
-	line-height: 0;
-	padding-top: 6px;
-	padding-bottom: 6px;
+	vertical-align: bottom;
+	padding-left: 0em;
+	padding-top: 12px;
+	padding-bottom: 4px;
 	border-bottom: 1px dotted #d3d3d3;
 }
 
@@ -97,13 +107,31 @@ a:hover {
 table.block  {
 	width: 100%;
 }
+
 .block th {
+	margin-bottom: 5px;
 	text-align: right;
 	height: 20px;
 	font-size: 11px;
 	font-weight: bold;
 	font-family: verdana, tahoma, arial, helvetica;
 	border-bottom: 1px solid #d3d3d3;
+}
+
+.block td {
+	padding: 5px;
+	font-size: 11px;
+	font-family: verdana, tahoma, arial, helvetica;
+}
+
+.blocktitle {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	padding: 5px;
+	background-color: #f1f1f1;
+	font-size: 11px;
+	font-weight: bold;
+	font-family: verdana, tahoma, arial, helvetica;
 }
 
 
