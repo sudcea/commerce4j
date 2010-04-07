@@ -41,7 +41,7 @@
 			</tr>
 		
 			<c:set var="count" value="0"/>
-			<c:set var="total" value="0.00"/>
+			<c:set var="total" value="${0}"/>
 			<c:forEach items='${sessionScope.cart}' var="cart" varStatus="status">
 			<tr>
 				<td valign="top" align="center">
@@ -69,9 +69,12 @@
 			</tr>
 			<c:set var="total" value="${total + cart.cartSubTotal}"/>
 			</c:forEach>
+			<c:choose>
+			<c:when test="${total > 0}">
 			<tr>
 				<td colspan="5"><hr class="separator"/></td>
 			</tr>
+			
 			<tr>
 				<td align="right" colspan="4">Total</td>
 				<td align="right">
@@ -79,6 +82,13 @@
 					USD $ <fmt:formatNumber maxFractionDigits="2" minFractionDigits="2" value="${total}" />
 				</td>
 			</tr>
+			</c:when>
+			<c:otherwise>
+			<tr>
+				<td colspan="5">Actualmente no se han agregado art&iacute;culos al carrito de compras</td>
+			</tr>
+			</c:otherwise>
+			</c:choose>
 			</table>
  			
  		</div>

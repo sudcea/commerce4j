@@ -50,10 +50,12 @@ public class CategoryDAOImpl extends JdbcDaoSupport implements CategoryDAO {
 	public CategoryDTO findByCategoryById(Integer categoryId) {
 		String sql = "SELECT " +
 		"cat.category_id,  cat.description, " +
+		"par.category_id as par_category_id,  par.description as par_description, " +
 		"cat.status, cat.tooltip, " +
 		"sto.store_id, sto.store_name, sto.store_desc " +
 		"FROM c4j_categories cat " +
-		"INNER JOIN c4j_stores sto ON sto.store_id = cat.store_id " + 
+		"INNER JOIN c4j_stores sto ON sto.store_id = cat.store_id " +
+		"LEFT JOIN c4j_categories par ON par.category_id = cat.parent_id " +
 		" WHERE  cat.category_id = ? ";
 		
 		Object[] params = {categoryId};
@@ -67,10 +69,12 @@ public class CategoryDAOImpl extends JdbcDaoSupport implements CategoryDAO {
 		
 		String sql = "SELECT " +
 		"cat.category_id,  cat.description, " +
+		"par.category_id as par_category_id,  par.description as par_description, " +
 		"cat.status, cat.tooltip, " +
 		"sto.store_id, sto.store_name, sto.store_desc " +
 		"FROM c4j_categories cat " +
-		"INNER JOIN c4j_stores sto ON sto.store_id = cat.store_id " + 
+		"INNER JOIN c4j_stores sto ON sto.store_id = cat.store_id " +
+		"LEFT JOIN c4j_categories par ON par.category_id = cat.parent_id " +
 		" WHERE  cat.store_id = ? ";
 		
 		Object[] params = null;
@@ -107,12 +111,17 @@ public class CategoryDAOImpl extends JdbcDaoSupport implements CategoryDAO {
 			store.setDescription(rs.getString("sto.store_desc"));
 			store.setStoreId(rs.getInt("store_id"));
 			
+			CategoryDTO parent = new CategoryDTO();
+			parent.setCategoryId(rs.getInt("par_category_id"));
+			parent.setDescription(rs.getString("par_description"));
+			
 			CategoryDTO dto = new CategoryDTO();
 			dto.setCategoryId(rs.getInt("category_id"));
 			dto.setDescription(rs.getString("description"));
 			dto.setStatus(rs.getInt("status"));
 			dto.setTooltip(rs.getString("tooltip"));
 			dto.setStore(store);
+			dto.setParent(parent);
 
 			return dto;
 		}

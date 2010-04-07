@@ -10,9 +10,11 @@
 
 <c:if test="${listings ne null}">
 
-<div class="container">
+
 
 <!-- listings view -->
+<h3><strong>Explorar Art&iacute;culos</strong></h3>
+
 <table>
 <tr>
 <td class="smaller" valign="middle">
@@ -21,6 +23,9 @@ Mostrar como
 <td>
 <a href="${request.requestURI}?aid=${param.aid}&c=${param.c}&view=list"><img src="images/application_view_list.png" alt="" /></a>
 <a href="${request.requestURI}?aid=${param.aid}&c=${param.c}&view=tile"><img src="images/application_view_tile.png" alt="" /></a>
+</td>
+<td class="smaller" valign="middle">
+Ordenar por Precio, Nombre &oacute; Calificaci&oacute;n
 </td>
 </tr>
 </table>
@@ -99,5 +104,5 @@ Mostrar como
 </c:when>
 </c:choose>
 
-</div>
+
 </c:if>
