@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -88,11 +89,7 @@ public class CartController extends BaseController {
 			errors.add(newError("item", getString("errors.notEmpty"), new Object[] {"item"}));
 		
 		// check cart in session
-		if (request.getSession().getAttribute("cart") == null) {
-			request.getSession().setAttribute("cart", new ArrayList<CartDTO>());
-		}
-		@SuppressWarnings("unchecked")
-		List<CartDTO> cartEntries = (List<CartDTO>) request.getSession().getAttribute("cart");
+		List<CartDTO> cartEntries = getCart(request);
 		
 		// create cart entry
 		String cartId = request.getSession().getId();
@@ -126,6 +123,62 @@ public class CartController extends BaseController {
 		} catch (IOException e) {
 			logger.fatal(e);
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void update(HttpServletRequest request, HttpServletResponse response) {
+		
+		Gson gson = new GsonBuilder().create();
+		List<Message> errors = new ArrayList<Message>();
+		Map<String, Object> responseModel = new HashMap<String, Object>();
+		
+		List<CartDTO> cartEntries = getCart(request);
+		Iterator inputSet = request.getParameterMap().keySet().iterator();
+		while (inputSet.hasNext()) {
+			String paramName = (String) inputSet.next();
+			if (StringUtils.contains(paramName, "qty")) {
+				String paramValue = request.getParameter(paramName);
+				String paramId = StringUtils.substring(paramName, 4, paramName.length());
+				if (paramId != null && StringUtils.isNumeric(paramId)) {
+					for (CartDTO cartEntry : cartEntries) {
+						int entryId = cartEntry.getItem().getItemId().intValue();
+						int itemId = new Integer(paramId).intValue();
+						int cartQuantity = new Integer(paramValue).intValue();
+						if (entryId == itemId) {							
+							cartEntry.setCartQuantity(cartQuantity);
+							cartEntry.setCartSubTotal(
+								cartEntry.getItem().getItemPrice() * cartQuantity
+							);
+							break;
+						}
+					}
+				}
+			}
+		}
+		
+		// fill response model
+		if (errors.isEmpty()) {
+			responseModel.put("responseCode", SUCCESS);
+			responseModel.put("responseMessage", "Cart succesfully updated");
+		} else {
+			responseModel.put("responseCode", FAILURE);
+			responseModel.put("responseMessage", "Error, Cart was not updated");
+			responseModel.put("errors", errors);
+		}
+		
+	
+		// serialize output
+		try {
+			response.setContentType("application/json");
+			OutputStreamWriter os = new OutputStreamWriter(response.getOutputStream());
+			String data = gson.toJson(responseModel);
+			os.write(data);
+			os.flush();
+			os.close();
+		} catch (IOException e) {
+			logger.fatal(e);
+		}
+		
 	}
 
 

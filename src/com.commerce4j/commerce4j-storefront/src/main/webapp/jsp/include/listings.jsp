@@ -48,10 +48,8 @@ Ordenar por Precio, Nombre &oacute; Calificaci&oacute;n
 				<img src="images/img_not_available.png" />
 			</td>
 			<td valign="top">
-				<c:out value="${item.itemTitle}" />
-				<div class="gray smaller">
-					<c:out value="${item.itemDesc}" />
-				</div>
+			<a href="catalog.jspa?aid=detail&item=${item.itemId}"><strong>${item.itemTitle}</strong></a>
+				<div class="gray smaller">${item.itemDesc}</div>
 			</td>
 			<td>
 				<c:out value="${item.currency.currencyAbrev}" />
