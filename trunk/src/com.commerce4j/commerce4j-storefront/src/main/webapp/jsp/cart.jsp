@@ -12,6 +12,27 @@
     <title></title>
 	<jsp:include page="include/javascript.jsp" flush="true" />
 	<link rel="stylesheet" type="text/css" href="css/screen.css" />
+	<script type="text/javascript">
+		function update_cart() {
+			// ajax controller call
+			new Ajax.Request('cart.jspa?aid=update',  {
+				method: 'post',
+				parameters: $('frmCart').serialize(),
+				onComplete: function(transport) {
+				 	response = transport.responseText.evalJSON();
+				 	alert(response);
+//					if (response.responseCode === 'success') 
+//						process_registered_user(response.userId); 
+//					else if (response.responseCode === 'failure') 
+//						display_form_messages('d_msgs', response.errors, 'errors', true);
+				},
+				
+				onFailure: function(transport) {
+					alert('Error de Transporte');
+				}
+			});
+		}
+	</script>
  </head>
  <body>
  
@@ -27,9 +48,10 @@
  			<fmt:message key="cart.message" />
  			
  			<div align="right">
-		 		<input type="button" value="Actualizar" />
+		 		<input type="button" value="Actualizar" onclick="update_cart()" />
 		 		<input type="button" value="Comprar" />
 		 	</div><br/>
+		 	<form id="frmCart">
  			<table class="listings" width="100%" cellspacing="0" border="0">
 		
 			<tr>
@@ -59,9 +81,9 @@
 					<fmt:formatNumber maxFractionDigits="2" minFractionDigits="2" value="${cart.item.itemPrice}"    />
 				</td>
 				<td>
-					<input type="text" value="${cart.cartQuantity}" size="5" />
+					<input name="qty_${cart.item.itemId}" type="text" value="${cart.cartQuantity}" size="5" />
 				</td>
-				<td align="right">
+				<td align="right" nowrap="nowrap">
 					<c:out value="${cart.item.currency.currencyAbrev}" />
 					<c:out value="${cart.item.currency.currencySymbol}" />
 					<fmt:formatNumber maxFractionDigits="2" minFractionDigits="2" value="${cart.cartSubTotal}"    />
@@ -77,7 +99,7 @@
 			
 			<tr>
 				<td align="right" colspan="4">Total</td>
-				<td align="right">
+				<td align="right" nowrap="nowrap">
 					
 					USD $ <fmt:formatNumber maxFractionDigits="2" minFractionDigits="2" value="${total}" />
 				</td>
@@ -90,7 +112,7 @@
 			</c:otherwise>
 			</c:choose>
 			</table>
- 			
+ 			</form>
  		</div>
  	</td>
  	<td width="15%" valign="top">

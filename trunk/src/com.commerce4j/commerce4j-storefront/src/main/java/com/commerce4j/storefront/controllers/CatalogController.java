@@ -42,11 +42,21 @@ public class CatalogController extends BaseController  {
 		return all(request,response);
 	}
 	
+	/**
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	public ModelAndView all(HttpServletRequest request, HttpServletResponse response) {
 	
 		return new ModelAndView("catalog");
 	}
 	
+	/**
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	public ModelAndView browse(HttpServletRequest request, HttpServletResponse response) {
 		
 		ModelAndView mav = new ModelAndView("catalog");
@@ -60,12 +70,34 @@ public class CatalogController extends BaseController  {
 			List<CategoryDTO> categories = getCategoryDSO().findCategoriesByParent(storeId, categoryId);
 			mav.addObject("category", category);
 			mav.addObject("categories", categories);
-			
+			if (categories == null || categories.isEmpty()) {
+				mav.addObject("categories", null);	
+			}
 			
 			// display product listings
 			ItemDSO itemDSO = (ItemDSO) getApplicationContext().getBean("itemDSO");
 			List<ItemDTO> listings = itemDSO.findAllByCategory(categoryId);
 			mav.addObject("listings", listings);
+			
+		}
+		
+		return mav ;
+	}
+	
+	public ModelAndView detail(HttpServletRequest request, HttpServletResponse response) {
+		
+		ModelAndView mav = new ModelAndView("detail");
+		
+		// browse categories by parent
+		String sItemId = request.getParameter("item");
+		if (StringUtils.isNotEmpty(sItemId)) {
+			Integer itemId = new Integer(sItemId);
+			
+			
+			// display product listing
+			ItemDSO itemDSO = (ItemDSO) getApplicationContext().getBean("itemDSO");
+			ItemDTO itemDTO = itemDSO.findById(itemId);
+			mav.addObject("item", itemDTO);
 			
 		}
 		

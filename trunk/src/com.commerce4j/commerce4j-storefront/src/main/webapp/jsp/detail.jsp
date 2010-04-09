@@ -18,28 +18,15 @@
  
  	<jsp:include page="/jsp/include/header.jsp" flush="true" />
  	
- 	<c:choose>
- 		<c:when test="${category ne null}">
- 			<h1><c:out value="${category.description}" /></h1>
- 		</c:when> 		
- 		<c:otherwise>
- 			<h1>Explorar Cat&aacute;logo</h1>
- 		</c:otherwise>
- 	</c:choose>
+
+ 	<h1>${item.itemTitle}</h1>
 
  	<table width="100%">
  	<tr>
- 	<td width="225" valign="top">
- 		<div id="d_left">
- 		<jsp:include page="/jsp/include/categories.jsp" flush="true" />
- 		
- 		<jsp:include page="/jsp/include/filters.jsp" flush="true" />
- 		</div>
- 	</td>
  	<td valign="top">
  		<div id="d_body">
  			
- 			<jsp:include page="include/listings.jsp" flush="true" />
+ 			
  			
  		</div>
  	</td>

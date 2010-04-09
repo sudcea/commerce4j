@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <c:if test="${listings ne null}">
-
+<h3><strong>Herramientas</strong></h3>
 <table class="block">
 <tr>
 <th>Opciones de B&uacute;squeda</th>

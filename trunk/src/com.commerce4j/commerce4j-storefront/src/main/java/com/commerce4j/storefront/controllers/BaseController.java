@@ -16,6 +16,8 @@
 package com.commerce4j.storefront.controllers;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +29,7 @@ import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
 import com.commerce4j.model.dso.CategoryDSO;
 import com.commerce4j.model.dso.ProfileDSO;
+import com.commerce4j.model.dto.CartDTO;
 
 
 /**
@@ -103,6 +106,19 @@ public abstract class BaseController extends MultiActionController {
 	
 	protected String getString(String key) {
 		return bundle.getString(key);
+	}
+	
+	/**
+	 * @param request
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	protected List<CartDTO> getCart(HttpServletRequest request) {
+		// check cart in session
+		if (request.getSession().getAttribute("cart") == null) {
+			request.getSession().setAttribute("cart", new ArrayList<CartDTO>());
+		}
+		return (List<CartDTO>) request.getSession().getAttribute("cart");
 	}
 	
 	/**

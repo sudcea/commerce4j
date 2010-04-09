@@ -19,6 +19,7 @@
 	</div>
 	</td></tr>
 	</table>
+	<br/>
 	</c:if>
 	
 	
