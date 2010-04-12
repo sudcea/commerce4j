@@ -19,16 +19,55 @@
  	<jsp:include page="/jsp/include/header.jsp" flush="true" />
  	
 
- 	<h1>${item.itemTitle}</h1>
+ 	
 
  	<table width="100%">
  	<tr>
+ 	<td valign="top" width="200">
+ 		<div id="d_left">
+ 			
+ 			<h3>Im&aacute;genes</h3>
+ 			&nbsp;
+ 			
+ 		</div>
+ 	</td>
  	<td valign="top">
  		<div id="d_body">
  			
+ 			<h3>Item #${item.itemId}</h3>
+ 			<h2>${item.itemTitle}</h2>
+ 			<div>${item.itemDesc}</div>
  			
+ 			<br/>
+ 			<div class="container bglight">
  			
+ 				
+ 			
+	 			<div class="listingPrice">
+		 			<c:out value="${item.currency.currencyAbrev}" />
+					<c:out value="${item.currency.currencySymbol}" />
+					<fmt:formatNumber maxFractionDigits="2" minFractionDigits="2" value="${item.itemPrice}"    />
+	 			</div>
+	 			
+	 			
+	 			<br/>
+	 			
+	 			<span class="smaller gray">Cantidad</span><br/>
+ 				<input type="text" size="5" maxlength="5" />
+ 				<input type="button" value="Comprar" onclick="add_to_cart('${item.itemId}',1, false)" />
+ 			</div>
  		</div>
+ 		
+ 		<br/>
+ 		
+ 		<h3>Descripci&oacute;n y Caracter&iacute;sticas</h3>
+ 		
+ 		
+ 		<h3>Comentarios de Usuarios</h3>
+ 		
+ 		
+ 		
+ 		
  	</td>
  	</tr>
  	</table>

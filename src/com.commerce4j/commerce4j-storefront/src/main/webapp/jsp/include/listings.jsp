@@ -84,7 +84,7 @@ Ordenar por Precio, Nombre &oacute; Calificaci&oacute;n
 			
 				<img src="images/img_not_available.png" />
 				<br/>
-				<c:out value="${item.itemTitle}" />
+				<a href="catalog.jspa?aid=detail&item=${item.itemId}"><strong><c:out value="${item.itemTitle}" /></strong></a>
 				<br/><br/>
 				<c:out value="${item.currency.currencyAbrev}" />
 				<c:out value="${item.currency.currencySymbol}" />
