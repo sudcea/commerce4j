@@ -17,10 +17,18 @@
 	</span>
 </td>
 <td align="right" width="20%" valign="bottom">
-	<span class="smaller gray">
-	<a href="home.jspa">Inicio</a> |
-	<a href="cart.jspa">Carrito</a>
-	</span>
+	
+	
+	<table cellpadding="0" cellspacing="0">
+	<tr>
+	<td class="smaller gray"><a href="home.jspa">Inicio</a></td>
+	<td class="smaller gray">|</td>
+	<td class="smaller gray"><a href="cart.jspa"><img src="images/cart.png" /></a></td>
+	<td class="smaller gray"><a href="cart.jspa">Carrito</a></td>
+	</tr>
+	</table>
+	
+	
 </td>
 
 </tr>
