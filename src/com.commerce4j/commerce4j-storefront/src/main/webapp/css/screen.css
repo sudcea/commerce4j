@@ -1,4 +1,9 @@
 
+body {
+	font-family: arial, helvetica, sans-serif;
+	font-size: small;
+}
+
 h1 {
 	color: #cc0000;
 	font-size: 22px;
@@ -14,10 +19,11 @@ h2 {
 }
 
 h3 {
-	color: #cc0000;
-	font-size: 14px;
+	color: #0066cc;
+	font-size: 16px;
 	font-family: arial, helvetica, sans-serif;
-	margin-bottom: 2px; 
+	margin-top: 4px; 
+	margin-bottom: 4px; 
 }
 
 
@@ -49,8 +55,37 @@ a:hover {
 }
 
 .container {
-	padding: 8px;
+	-moz-border-radius-bottomleft:0.5em;
+	-moz-border-radius-bottomright:0.5em;
+	-moz-border-radius-topleft:0.5em;
+	-moz-border-radius-topright:0.5em;
+	border: 1px solid #d1d1d1;	
+	padding: 10px;
 	
+}
+
+
+.comments {
+	-moz-background-clip:border;
+	-moz-background-inline-policy:continuous;
+	-moz-background-origin:padding;
+	background:transparent url(../images/img_comments.png) no-repeat scroll 0 0;
+	border:0 none;
+	float:left;
+	height:45px;
+	margin:0 10px 0 0;
+	padding-top:10px;
+	width:56px;
+}
+
+.comments a {
+	color:#FFFFFF;
+	display:block;
+	font-size:22px;
+	line-height:22px;
+	margin:0 auto;
+	text-align:center;
+	width:45px;
 }
 
 .bglight {
@@ -111,6 +146,12 @@ a:hover {
 	vertical-align: top;
 }
 
+.listingTitle {
+	font-size: 22px;
+	font-weight: bold;
+	
+}
+
 .listingPrice {
 	color: #cc0000;
 	font-size: 22px;
@@ -167,8 +208,8 @@ div.navlinks {
 
 .navlinks {
 	color: #d3d3d3;
-	font-size: 0.9em;
-	font-weifth: bold;
+	font-size: 14px;
+	font-weigth: bold;
 	font-family: arial, helvetica, sans-serif;
 }
 

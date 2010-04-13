@@ -47,10 +47,20 @@
  			<h1><fmt:message key="cart.heading" /></h1>
  			<fmt:message key="cart.message" />
  			
- 			<div align="right">
-		 		<input type="button" value="Actualizar" onclick="update_cart()" />
-		 		<input type="button" value="Comprar" />
-		 	</div><br/>
+ 			<table width="100%">
+ 			<tr>
+ 			<td width="50%">
+ 				<input type="button" value="Imprimir" />
+ 			</td>
+ 			<td width="50%">
+	 			<div align="right">
+			 		<input type="button" value="Actualizar" onclick="update_cart()" />
+			 		<input type="button" value="Comprar" />
+			 	</div>
+ 			</td>
+ 			</tr>
+ 			</table>
+ 			<br/>
 		 	<form id="frmCart">
  			<table class="listings" width="100%" cellspacing="0" border="0">
 		

@@ -15,12 +15,17 @@
  */
 package com.commerce4j.storefront.controllers;
 
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.lob.DefaultLobHandler;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.commerce4j.model.dso.ItemDSO;
@@ -99,9 +104,56 @@ public class CatalogController extends BaseController  {
 			ItemDTO itemDTO = itemDSO.findById(itemId);
 			mav.addObject("item", itemDTO);
 			
+			
+			// verify images
+			String sql = "SELECT COUNT(*) from c4j_items_images  " +
+			"WHERE item_id = ?";
+			Object[] params = {itemId};
+			int numOfImages = getJdbcTemplate().queryForInt(sql, params);
+			mav.addObject("numOfImages", numOfImages);
+			
 		}
 		
 		return mav ;
+	}
+	
+	public void image(HttpServletRequest request, HttpServletResponse response) 
+	throws IOException {
+		
+		
+		
+		// browse categories by parent
+		String sItemId = request.getParameter("item");
+		String sImageIndex = request.getParameter("image");
+		if (StringUtils.isNotEmpty(sItemId) && StringUtils.isNotEmpty(sImageIndex)) {
+			Integer itemId = new Integer(sItemId);
+			Integer imageIndex = new Integer(sImageIndex);
+			
+			
+			String sql = "SELECT COUNT(*) from c4j_items_images  " +
+			"WHERE item_id = ?";
+			int numOfImages = getJdbcTemplate().queryForInt(sql, new Object[] {itemId});
+			if (numOfImages > 0) {
+				sql = "SELECT image_data from c4j_items_images  " +
+						"WHERE item_id = ? and image_index = ?";
+				byte[] bytes = (byte[]) getJdbcTemplate().queryForObject(
+					sql, new Object[] {itemId, imageIndex}, new RowMapper() {
+					final DefaultLobHandler lobHandler = new DefaultLobHandler();
+					public byte[] mapRow(ResultSet rs, int rowNum)
+					throws SQLException {					
+			            return lobHandler.getBlobAsBytes(rs, "image_data"); 
+					}
+					
+				});
+				response.setContentType("image/jpeg");
+				for (int i = 0; i < bytes.length; i++) {
+			        response.getOutputStream().write(bytes[i]);
+			    }
+			}
+			
+		}
+		
+		
 	}
 	
 
