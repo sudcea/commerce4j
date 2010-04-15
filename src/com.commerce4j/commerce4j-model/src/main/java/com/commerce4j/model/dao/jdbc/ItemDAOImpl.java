@@ -129,6 +129,52 @@ public class ItemDAOImpl extends JdbcDaoSupport implements ItemDAO {
 		return l;
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.commerce4j.model.dao.ItemDAO#findAllByLastAddition(java.lang.Integer)
+	 */
+	public List<ItemDTO> findAllByLastAddition(Integer categoryId, Integer max, Integer first) {
+		
+		first = (first == null || first == 0) ? 1 : first;
+		max = (max == null || max == 0) ? 5 : max;
+		
+		String sql = "SELECT " +
+		"  it.item_id, " +
+		"  it.item_sku, " +
+		"  it.created, " +
+		"  it.item_title, " +
+		"  it.item_desc, " +
+		"  it.item_status, " +
+		"  it.item_price, " +
+		"  tp.type_id, " +
+		"  tp.type_name, " +
+		"  tp.type_desc, " +
+		"  us.user_id, " +
+		"  us.user_name, " +
+		"  us.firstname, " +
+		"  us.lastname, " +
+		"  us.email_address, " +
+		"  st.store_id, " +
+		"  st.store_name, " +
+		"  su.status_name, " +
+		"  cu.currency_abrev, " +
+		"  cu.currency_symbol " + 
+		" FROM c4j_items it " +
+		" INNER JOIN c4j_stores st on st.store_id = it.store_id " +
+		" INNER JOIN c4j_users us on us.user_id = it.user_id " +
+		" INNER JOIN c4j_items_type tp on tp.type_id = it.type_id " +
+		" INNER JOIN c4j_items_categories ct ON ct.item_id = it.item_id " +
+		" INNER JOIN c4j_currencies cu ON it.currency_id = cu.currency_id " +
+		" INNER JOIN c4j_status su ON su.status_id = it.status_id " +
+		" ORDER BY it.created DESC " +
+		" LIMIT ?,?";
+
+		Object[] params = {first, max};
+		@SuppressWarnings("unchecked")
+		List<ItemDTO> l = getJdbcTemplate().query(sql, params, rowMapper);
+		
+		return l;
+	}
+	
 	/*
 	 * Entity Row Mapper.
 	 */
@@ -182,6 +228,8 @@ public class ItemDAOImpl extends JdbcDaoSupport implements ItemDAO {
 		}
 		
 	}
+
+	
 
 	
 

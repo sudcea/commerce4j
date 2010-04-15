@@ -44,6 +44,14 @@ public class ItemDSOImpl implements ItemDSO {
 	public List<ItemDTO> findAllByCategory(Integer categoryId) {
 		return itemDAO.findAllByCategory(categoryId);
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.commerce4j.model.dso.ItemDSO#findAllByLastAddition(java.lang.Integer)
+	 */
+	public List<ItemDTO> findAllByLastAddition(Integer categoryId, Integer max, Integer first) {
+		// TODO Auto-generated method stub
+		return itemDAO.findAllByLastAddition(categoryId, max, first);
+	}
 
 	/**
 	 * JavaBean Getter, Gets the itemDAO current value.
@@ -60,6 +68,8 @@ public class ItemDSOImpl implements ItemDSO {
 	public void setItemDAO(ItemDAO itemDAO) {
 		this.itemDAO = itemDAO;
 	}
+
+	
 
 	
 	

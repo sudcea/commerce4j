@@ -12,9 +12,17 @@
     <title></title>
 	<jsp:include page="/jsp/include/javascript.jsp" flush="true" />
 	<script type="text/javascript" src="js/common.functions.js"></script>
+	<script type="text/javascript" src="js/livepipe.js"></script>
+	<script type="text/javascript" src="js/rating.js"></script>
+	<script type="text/javascript">
+		function afterLoad() {
+		 var rating = new Control.Rating('rating',{value: 2,multiple:true});
+		}
+		 
+	</script>
 	<link rel="stylesheet" type="text/css" href="css/screen.css" />
  </head>
- <body>
+ <body onload="afterLoad()">
  
  	<jsp:include page="/jsp/include/header.jsp" flush="true" />
 
@@ -31,8 +39,10 @@
 	 			<div class="image" align="center">
 	 				<img src="catalog.jspa?aid=image&item=${item.itemId}&image=1" alt="" />
 	 			</div>
-	 			<div class="bglight"  style="padding: 4px">
-	 				<span class="smaller gray">Zoom</span>
+	 			<div class="bglight"  style="padding: 4px" align="right">
+	 				<img src="images/resultset_previous.png" alt="" />
+	 				<img src="images/resultset_next.png" alt="" />
+	 				<img src="images/zoom.png" alt="" />
 	 			</div>
 	 		</c:when>
 	 		<c:otherwise>
@@ -54,8 +64,30 @@
  			<div class="container">
 	 			<h3>Art&iacute;culo #${item.itemId}</h3>
 	 			<div class="listingTitle">${item.itemTitle}</div>
-	 			<div>Condici&oacute;n : ${item.status.statusName}</div>
-	 			<div>Descripci&oacute;n : ${item.itemDesc}</div>
+	 			<table>
+	 			<tr>
+	 				<td align="right">Condici&oacute;n : </td>
+	 				<td>${item.status.statusName}</td>
+	 			</tr>
+	 			<tr>
+	 				<td align="right">Calificaci&oacute;n : </td>
+	 				<td>
+		 				<span id="rating" class="rating_container">  
+						     <a href="#" class="rating_on"></a>  
+						     <a href="#" class="rating_on"></a>  
+						     <a href="#" class="rating_off"></a>  
+						     <a href="#" class="rating_off"></a>  
+						     <a href="#" class="rating_off"></a>  
+						</span>
+					</td>
+	 			</tr>
+	 			<tr>
+	 				<td align="right">Descripci&oacute;n : </td>
+	 				<td>${item.itemDesc}</td>
+	 			</tr>
+	 			</table>
+	 			 
+	 			
  				
  				<br/>
  				

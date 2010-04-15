@@ -16,9 +16,12 @@
 package com.commerce4j.storefront.controllers;
 
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,6 +34,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.commerce4j.model.dso.ItemDSO;
 import com.commerce4j.model.dto.CategoryDTO;
 import com.commerce4j.model.dto.ItemDTO;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 
 /**
@@ -116,6 +121,42 @@ public class CatalogController extends BaseController  {
 		
 		return mav ;
 	}
+	
+	
+	public void lastAddedItems(
+			HttpServletRequest request, HttpServletResponse response
+	) {
+
+
+		Map<String, Object> responseModel = new HashMap<String, Object>();
+		response.setContentType("application/json");	
+		Gson gson = new GsonBuilder().create();
+		
+		String sFirst = request.getParameter("first");
+		String sMax = request.getParameter("max");
+		
+		ItemDSO itemDSO = (ItemDSO) getApplicationContext().getBean("itemDSO");
+		List<ItemDTO> lastItems = itemDSO.findAllByLastAddition(null, new Integer(sMax), new Integer(sFirst));
+		
+
+		responseModel.put("responseCode", SUCCESS);
+		responseModel.put("responseMessage", "Login Completo");
+		responseModel.put("listings", lastItems);
+		
+		// serialize output
+		try {
+
+			OutputStreamWriter os = new OutputStreamWriter(response.getOutputStream());
+			String data = gson.toJson(responseModel);
+			os.write(data);
+			os.flush();
+			os.close();
+		} catch (IOException e) {
+			logger.fatal(e);
+		}
+	}
+	
+		
 	
 	public void image(HttpServletRequest request, HttpServletResponse response) 
 	throws IOException {

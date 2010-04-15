@@ -48,6 +48,8 @@ public class HomeController extends BaseController {
 		if (categories != null && !categories.isEmpty())
 			model.put("categories", categories);
 		
+		
+		
 		return new ModelAndView("home", model);
 	}
 	
