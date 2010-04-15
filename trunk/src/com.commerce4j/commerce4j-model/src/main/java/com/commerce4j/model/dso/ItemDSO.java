@@ -42,4 +42,13 @@ public interface ItemDSO {
 	 */
 	public List<ItemDTO> findAllByCategory(Integer categoryId);
 	
+	
+	/**
+	 * Find All Last Added Items.
+	 * 
+	 * @param categoryId The category primary key.
+	 * @return The requested Item list or <code>null</code>. 
+	 */
+	public List<ItemDTO> findAllByLastAddition(Integer categoryId, Integer max, Integer first);
+	
 }
