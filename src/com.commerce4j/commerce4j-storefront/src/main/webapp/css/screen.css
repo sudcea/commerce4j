@@ -159,6 +159,13 @@ a:hover {
 	
 }
 
+.listingPriceMedium {
+	color: #cc0000;
+	font-size: 14px;
+	font-weight: bold;
+	
+}
+
 table.block  {
 	width: 100%;
 }
