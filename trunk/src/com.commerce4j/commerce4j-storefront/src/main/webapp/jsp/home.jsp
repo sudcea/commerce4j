@@ -12,91 +12,14 @@
     <title></title>
 	<jsp:include page="include/javascript.jsp" flush="true" />
 	<link rel="stylesheet" type="text/css" href="css/screen.css" />
-	<script type="text/javascript" src="js/livepipe.js"></script>
-	<script type="text/javascript" src="js/scrollbar.js"></script>
+	<script type="text/javascript" src="js/common.functions.js"></script>
 	<script type="text/javascript">
 
-		
-		var offset = 1;
-		var max = 3; 
-	
-		function afterLoad() {
-
+		document.observe('dom:loaded', function()  {
+			var lastIA = new C4JBlocks.LastAddedItems('last_added', 0, 3, 10);
+			lastIA.start();			
 			
-			new PeriodicalExecuter(function() {
-				last_added_items('last_added', offset, max);
-				offset += max;
-			}, 3);
-			
-		}
-		
-		function last_added_items(id ,first, max) {
-			container = $(id);
-			if (container) {
-				// ajax controller call
-				new Ajax.Request('catalog.jspa?aid=lastAddedItems',  {
-					method: 'post',
-					parameters : {first : first, max : max},
-					onComplete: function(transport) {
-					 	response = transport.responseText.evalJSON();
-						if (response.responseCode === 'success') {
-							
-							listings = response.listings;
-							table = new Element('table',{width: '100%', style : 'display:none;'});
-
-							
-							if ($A(listings).size() === 0) {
-								offset = 0 ;
-								return;
-							} else {
-								container.update('');
-							}
-							$A(listings).each(function(e) {
-								
-								tr = new Element('tr');
-								
-								// imagen
-								td = new Element('td', {width: 100});
-								img = new Element('img', {src : 'images/img_not_available.png'});
-								td.insert(img);
-								tr.insert(td);
-
-								// item description
-								td = new Element('td', {valign: 'top'});
-								a = new Element('a', {
-									href:'catalog.jspa?aid=detail&item='+e.itemId
-								}).update(e.itemTitle);
-								
-								b = new Element('strong');
-								b.insert(a);
-								td.insert(b);
-								td.insert(new Element('img', {
-									src : 'images/new_transparent.gif'}
-								));
-								
-								desc = new Element('div').update(e.itemDesc);
-								desc.addClassName('gray smaller');
-								td.insert(desc);
-								tr.insert(td);
-
-								// add row to table
-								table.insert(tr);
-							}); 
-							Element.insert(container, table);
-							new Effect.Appear(table);	
-							
-						}
-						
-					},
-					
-					onFailure: function(transport) {
-						alert('Error de Transporte');
-					}
-				});
-			}
-		}
-
-		document.observe('dom:loaded', afterLoad);
+		});
 	</script>
  </head>
  <body>
@@ -119,7 +42,7 @@
  			</tr>
  			<tr>
  			<td colspan="2" valign="bottom">
- 				<div id="last_added" class="container" ></div>
+ 				<div id="last_added" class="container" style="height: 300px;" ></div>
  			</td>
  			</tr>
  			</table>
