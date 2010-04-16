@@ -38,7 +38,13 @@ public interface ItemDAO {
 	 */
 	public List<ItemDTO> findAllByCategory(Integer categoryId);
 	
-	
+
+	/**
+	 * @param categoryId
+	 * @param max
+	 * @param first
+	 * @return
+	 */
 	public List<ItemDTO> findAllByLastAddition(Integer categoryId, Integer max, Integer first);
 	
 }

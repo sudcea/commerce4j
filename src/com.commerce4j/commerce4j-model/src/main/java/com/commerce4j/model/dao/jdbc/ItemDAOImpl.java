@@ -162,7 +162,6 @@ public class ItemDAOImpl extends JdbcDaoSupport implements ItemDAO {
 		" INNER JOIN c4j_stores st on st.store_id = it.store_id " +
 		" INNER JOIN c4j_users us on us.user_id = it.user_id " +
 		" INNER JOIN c4j_items_type tp on tp.type_id = it.type_id " +
-		" INNER JOIN c4j_items_categories ct ON ct.item_id = it.item_id " +
 		" INNER JOIN c4j_currencies cu ON it.currency_id = cu.currency_id " +
 		" INNER JOIN c4j_status su ON su.status_id = it.status_id " +
 		" ORDER BY it.created DESC " +
@@ -174,6 +173,8 @@ public class ItemDAOImpl extends JdbcDaoSupport implements ItemDAO {
 		
 		return l;
 	}
+	
+
 	
 	/*
 	 * Entity Row Mapper.
