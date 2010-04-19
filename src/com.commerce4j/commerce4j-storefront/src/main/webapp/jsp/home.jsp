@@ -16,9 +16,10 @@
 	<script type="text/javascript">
 
 		document.observe('dom:loaded', function()  {
-			var lastIA = new C4JBlocks.LastAddedItems('last_added', 0, 3, 10);
-			lastIA.start();			
-			
+			var block_last_added = new C4JBlocks.LastAddedItems(
+				'catalog.jspa?aid=lastAddedItems','last_added', {
+				max: 3
+			}).start();		
 		});
 	</script>
  </head>
@@ -34,18 +35,7 @@
  	<td valign="top">
  		<div id="d_body">
 			
-			<table width="100%" cellpadding="0" cellspacing="0">
-			<tr>
-			<td width="80%"> 			
- 				<h3>&Uacute;ltimos Art&iacute;culos</h3>
- 			</td>
- 			</tr>
- 			<tr>
- 			<td colspan="2" valign="bottom">
- 				<div id="last_added" class="container" style="height: 300px;" ></div>
- 			</td>
- 			</tr>
- 			</table>
+			<jsp:include page="include/lastadded.jsp" flush="true" />
  			
  			
  		</div>

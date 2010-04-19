@@ -64,13 +64,13 @@
  			<div class="container">
 	 			<h3>Art&iacute;culo #${item.itemId}</h3>
 	 			<div class="listingTitle">${item.itemTitle}</div>
-	 			<table>
+	 			<table width="100%">
 	 			<tr>
-	 				<td align="right">Condici&oacute;n : </td>
+	 				<td align="right" valign="top" width="125">Condici&oacute;n : </td>
 	 				<td>${item.status.statusName}</td>
 	 			</tr>
 	 			<tr>
-	 				<td align="right">Calificaci&oacute;n : </td>
+	 				<td align="right" valign="top" >Calificaci&oacute;n : </td>
 	 				<td>
 		 				<span id="rating" class="rating_container">  
 						     <a href="#" class="rating_on"></a>  
@@ -82,7 +82,7 @@
 					</td>
 	 			</tr>
 	 			<tr>
-	 				<td align="right">Descripci&oacute;n : </td>
+	 				<td align="right" valign="top" >Descripci&oacute;n : </td>
 	 				<td>${item.itemDesc}</td>
 	 			</tr>
 	 			</table>

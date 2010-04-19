@@ -1,7 +1,7 @@
 
 		
 
-function processRegistration() {
+function register_user() {
 
 	if (!$('f_registration'))  {
 		alert('Form f_registration not found');

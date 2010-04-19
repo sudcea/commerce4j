@@ -146,9 +146,10 @@ public class CatalogController extends BaseController  {
 		// serialize output
 		try {
 
-			OutputStreamWriter os = new OutputStreamWriter(response.getOutputStream());
+			OutputStreamWriter os = new OutputStreamWriter(response.getOutputStream(), "UTF8");
 			String data = gson.toJson(responseModel);
 			os.write(data);
+			
 			os.flush();
 			os.close();
 		} catch (IOException e) {
