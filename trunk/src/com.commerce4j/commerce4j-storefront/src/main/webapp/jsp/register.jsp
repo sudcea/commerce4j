@@ -31,7 +31,7 @@
  	
  	<%--{{{ FORM : REGISTRATION FORM --%>
  	
- 	<form id="f_registration" onsubmit="processRegistration();return(false);">
+ 	<form id="f_registration" onsubmit="register_user();return(false);">
  	
 	 	<div class="container bglight" style="width: 400px">
 	 		<div id="d_msgs" style="display:none;"></div>		

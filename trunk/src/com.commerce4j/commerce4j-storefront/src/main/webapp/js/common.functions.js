@@ -17,11 +17,17 @@ C4JBlocks.LastAddedItems = Class.create({
 	 * @max The max number of records to be shown.
 	 * @duration The transition duration, in seconds.
 	 */
-	initialize : function(container, offset, max, duration) {
-		this.offset = offset;
-		this.max = max;
-		this.duration = duration;
+	initialize : function(src, container, config) {
+		if (config == undefined) {
+			config = {max : 5, duracion: 10, offset : 0};
+		}
+	
+		this.src = src;
 		this.container = container;
+		this.max = (config.max) ? config.max : 5;
+		this.duration = (config.duration) ? config.duration : 10;
+		this.offset = (config.offset) ? config.offset : 0;
+		
 	},
 	
 	/**
@@ -54,28 +60,38 @@ C4JBlocks.LastAddedItems = Class.create({
 		if (container) {
 			// ajax controller call
 			
-			new Ajax.Request('catalog.jspa?aid=lastAddedItems',  {
+			new Ajax.Request(this.src,  {
 				method: 'post',
 				parameters : {first : first, max : max},
 				onComplete: function(transport) {
-				 	response = transport.responseText.evalJSON();
+				 	response = transport.responseText.evalJSON(true);
 					if (response.responseCode === 'success') {
 
+						// parse listings source
 						listings = response.listings;
 						
-						table = new Element('table',{id: 'last_added_items_table', width: '100%', style : 'display:none;'});
-
+						// start over listings, if empty
 						if ($A(listings).size() === 0) {
 							this.offset = 1;
 							this.display(this.container, this.offset, this.max);
 							return;
 						}	
 						
+						// create table
+						table = new Element('table',{
+							id: 'last_added_items_table', 
+							width: '100%', 
+							style : 'display:none;'
+						});
+
+						
+						// iterate listings
 						$A(listings).each(function(e) {
 							
+							// table row
 							tr = new Element('tr');
 							
-							// imagen
+							// item image
 							td = new Element('td', {width: 100});
 							img = new Element('img', {src : 'images/img_not_available.png'});
 							td.insert(img);
@@ -87,6 +103,8 @@ C4JBlocks.LastAddedItems = Class.create({
 								href:'catalog.jspa?aid=detail&item='+e.itemId
 							}).update(e.itemTitle);
 							td.insert(new Element('strong').insert(a));
+							
+							// new item icon
 							td.insert(new Element('img', {
 								src : 'images/new_transparent.gif'}
 							));
@@ -94,24 +112,47 @@ C4JBlocks.LastAddedItems = Class.create({
 							// item description
 							desc = new Element('div').update(e.itemDesc);
 							desc.addClassName('gray smaller');
+							if (window.console) console.debug(e.itemDesc);
 							td.insert(desc);
 							
 							
 							// item price
-							price = new Element('div', {style : 'margin-top: 10px'}).update(
-								e.currency.currencyAbrev + ' ' + e.currency.currencySymbol + 
-								e.itemPrice
-							);
+							priceText = 
+								e.currency.currencyAbrev + ' ' + 
+								e.currency.currencySymbol + format_currency(e.itemPrice);
+							price = new Element('div', { style : 'margin-top: 10px'
+							}).update(priceText);
 							price.addClassName('listingPriceMedium');
 							td.insert(price);
+
+							// buttons
+							button = new Element('input', {
+								type : 'button',
+								value : 'Ver Detalle',
+								style: 'margin-right: 2px; font-family: verdana; font-size: 11px'
+							}).observe('click', function(event) {
+								window.location.href='catalog.jspa?aid=detail&item='+e.itemId;
+							});
+							td.insert(button);
+							button = new Element('input', {
+								type : 'button',
+								value : 'Comprar',
+								style: 'margin-right: 2px; font-family: verdana; font-size: 11px'
+							}).observe('click', function(event) {
+								add_to_cart(e.itemId,1, false);
+							});
+							td.insert(button);
 							tr.insert(td);
 							
 
 							// add row to table
-							
 							table.insert(tr);
 						}); 
+						
+						// append table to container
 						container.insert(table);
+						
+						// show table
 						table.appear();	
 						
 					}
@@ -131,6 +172,22 @@ function highlight(id, ok) {
 	if ($(id) && ($(id).type === 'text' || $(id).type === 'password' || $(id).type === 'select')) {
 		$(id).addClassName('highlight');
 	}
+}
+
+function format_currency(num) {
+	num = num.toString().replace(/\$|\,/g,'');
+	if(isNaN(num))
+	num = "0";
+	sign = (num == (num = Math.abs(num)));
+	num = Math.floor(num*100+0.50000000001);
+	cents = num%100;
+	num = Math.floor(num/100).toString();
+	if(cents<10)
+	cents = "0" + cents;
+	for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
+	num = num.substring(0,num.length-(4*i+3))+','+
+	num.substring(num.length-(4*i+3));
+	return (((sign)?'':'-') + num + '.' + cents);
 }
 
 function display_form_messages(id, arr, className, input_errors) {
@@ -193,4 +250,13 @@ function add_to_cart(item, quantity, redirect) {
 		}
 	});
 	
+}
+
+
+function show_category_bubble(caller) {
+	if (!$('category_bubble')) return;
+	new Effect.BlindDown('category_bubble',{duration: 0.3});
+	Event.observe(window,'click', function () {
+		$('category_bubble').hide({duration: 0.5});
+	});
 }

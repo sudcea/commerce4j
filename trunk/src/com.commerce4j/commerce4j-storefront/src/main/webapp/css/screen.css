@@ -1,4 +1,4 @@
-
+/** HTML CLASSES ***************************************************/
 body {
 	font-family: arial, helvetica, sans-serif;
 	font-size: small;
@@ -26,7 +26,15 @@ h3 {
 	margin-bottom: 4px; 
 }
 
+h4 {
+	color: #999;
+	font-size: 13px;
+	font-family: arial, helvetica, sans-serif;
+	margin-top: 4px; 
+	margin-bottom: 4px; 
+}
 
+/** FORM CLASSES ***************************************************/
 input, select, textarea {
 	
 }
@@ -35,6 +43,8 @@ img {
 	border: 0;
 }
 
+
+/** LINK CLASSES ***************************************************/
 a:link, a:active, a:visited {
 	color: #0033cc;
 	text-decoration: none;
@@ -45,6 +55,7 @@ a:hover {
 	text-decoration: underline;
 }
 
+/** TEXT CLASSES ***************************************************/
 .smaller {
 	font-size: 11px;
 	font-family: verdana, tahoma, arial, helvetica;
@@ -54,6 +65,8 @@ a:hover {
 	color: #666;
 }
 
+
+/** CONTAINER CLASSES **********************************************/
 .container {
 	-moz-border-radius-bottomleft:0.5em;
 	-moz-border-radius-bottomright:0.5em;
@@ -64,12 +77,12 @@ a:hover {
 	
 }
 
-
+/** USER COMMENT CLASSES *******************************************/
 .comments {
 	-moz-background-clip:border;
 	-moz-background-inline-policy:continuous;
 	-moz-background-origin:padding;
-	background:transparent url(../images/img_comments.png) no-repeat scroll 0 0;
+	background: transparent url(../images/img_comments.png) no-repeat scroll 0 0;
 	border:0 none;
 	float:left;
 	height:45px;
@@ -88,10 +101,13 @@ a:hover {
 	width:45px;
 }
 
+/** BACKGROUND COLOR CLASSES ***************************************/
 .bglight {
 	background-color: #f1f1f1;
 }
 
+
+/** CATEGORIES CLASSES *********************************************/
 .categories ul {
 	list-style: none;
 	margin-left: 4px;
@@ -112,9 +128,7 @@ a:hover {
 	border-bottom: 1px dotted #d3d3d3;
 }
 
-.categories a:link, 
-.categories a:active,
-.categories a:visited {
+.categories a:link, .categories a:active, .categories a:visited {
 	color: #666;
 	text-decoration: none;
 }
@@ -125,6 +139,7 @@ a:hover {
 }
 
 
+/** LISTINGS CLASSES ***********************************************/
 .listings table {
 	width: 100%;
 	border-spacing: 0px;
@@ -166,6 +181,7 @@ a:hover {
 	
 }
 
+/** BLOCK CLASSES **************************************************/
 table.block  {
 	width: 100%;
 }
@@ -197,6 +213,7 @@ table.block  {
 }
 
 
+/** NAVIGATION BAR CLASSES *****************************************/
 div.navsearch {
 	margin-top: 4px;
 	margin-left: 2px;
@@ -212,7 +229,6 @@ div.navlinks {
 	font-weight: bold;
 }
 
-
 .navlinks {
 	color: #d3d3d3;
 	font-size: 14px;
@@ -220,9 +236,7 @@ div.navlinks {
 	font-family: arial, helvetica, sans-serif;
 }
 
-.navlinks a:link, 
-.navlinks a:active, 
-.navlinks a:visited {
+.navlinks a:link, .navlinks a:active, .navlinks a:visited {
 	color: #000;
 	text-decoration: none;
 }
@@ -232,6 +246,7 @@ div.navlinks {
 	text-decoration: underline;
 }
 
+/** SUB LINK CLASSES ***********************************************/
 .sublinks {
 	color: #666;
 	font-size: 11px;
@@ -250,6 +265,7 @@ div.navlinks {
 	text-decoration: underline;
 }
 
+/** HIGHLIGHT CLASSES **********************************************/
 input.highlight {
 	background-color: #ffffcc;
 }
@@ -258,6 +274,7 @@ img.highlight  {
 	
 }
 
+/** ERRORS CLASSES *************************************************/
 div.errors {
 	color: #ff0000;
 	padding: 4px;
@@ -281,12 +298,14 @@ div.errors {
 	
 }
 
+/** SEPARATOR CLASSES **********************************************/
 hr.separator {
 	height: 1px;
 	color: #999;
 }
 
 
+/** RATING CLASSES *************************************************/
 .rating_container {  
      
 } 
@@ -315,7 +334,7 @@ hr.separator {
 .rating_container a.rating_selected {       
 }  
 
-
+/** SCROLLS CLASSES ************************************************/
  #scrollbar_container {  
      position:relative;  
  } 
@@ -343,3 +362,17 @@ hr.separator {
      overflow:hidden; 
      height:250px;  
 } 
+
+
+/** CATEGORY BUBLE CLASSES *****************************************/
+div.bubble {
+	background-color:#fff;
+	border: 1px solid #d3d3d3;
+	padding: 10px;
+	width: 600px;
+	height: 400px;
+	position: absolute;
+	z-index: 1;
+	top: 75px;
+	left: 75px;
+}
