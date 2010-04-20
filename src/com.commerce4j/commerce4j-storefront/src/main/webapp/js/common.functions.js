@@ -254,9 +254,62 @@ function add_to_cart(item, quantity, redirect) {
 
 
 function show_category_bubble(caller) {
-	if (!$('category_bubble')) return;
-	new Effect.BlindDown('category_bubble',{duration: 0.3});
+	container = $('category_bubble');
+	if (!container) return;
+	new Effect.BlindDown(container,{duration: 0.3});
 	Event.observe(window,'click', function () {
-		$('category_bubble').hide({duration: 0.5});
+		container.hide({duration: 0.5});
+		container.update('');
 	});
+	
+	// ajax controller call
+	new Ajax.Request('catalog.jspa?aid=allCategories',  {
+		method: 'post',
+		onComplete: function(transport) {
+		 	response = transport.responseText.evalJSON();
+		 	if (response.responseCode === 'success') {
+
+		 		table = new Element('table',{ width: '100%'});
+		 		
+				// parse categories source
+				categories = response.categories;
+				tr = new Element('tr');
+				td = new Element('td',{valign: 'top'});
+				td.insert(new Element('h3').update('Categorias'));
+				div = new Element('div',{
+					style: 'overflow:auto;width:100%;height:300px'
+				});
+				$A(categories).each(function(e) {
+					li = new Element('li');
+					li.update(e.description);
+					div.insert(li);					
+				});
+				td.insert(div);
+				tr.insert(td);
+				
+				// featured stores and brands cell
+				td = new Element('td', {valign: 'top', style: 'width: 150px'});
+				td.insert(new Element('h3').update('Especiales'));
+				
+				ul = new Element('ul');
+				ul.insert(new Element('li').update('Top 10').addClassName('top_ten'));
+				ul.insert(new Element('li').update('Ofertas de Hoy').addClassName('today_deals'));
+				td.insert(ul);
+				tr.insert(td);
+				
+				
+				
+				// add row to table
+				table.insert(tr);
+				container.insert(table);
+		 	}
+		 	
+		 	
+		},
+		
+		onFailure: function(transport) {
+			alert('Error de Transporte');
+		}
+	});
+	
 }
