@@ -364,15 +364,26 @@ hr.separator {
 } 
 
 
-/** CATEGORY BUBLE CLASSES *****************************************/
+/** CATEGORY BUBBLE CLASSES ****************************************/
 div.bubble {
 	background-color:#fff;
 	border: 1px solid #d3d3d3;
 	padding: 10px;
-	width: 600px;
-	height: 400px;
+	width: 460px;
+	height: 320x;
 	position: absolute;
 	z-index: 1;
 	top: 75px;
 	left: 75px;
+}
+.bubble li {
+	color: #666;
+	list-style-type: none;	
+}
+
+li.today_deals {
+	list-style-image: url("../images/date.png");
+}
+li.top_ten {
+	list-style-image: url("../images/award_star_gold_1.png");
 }

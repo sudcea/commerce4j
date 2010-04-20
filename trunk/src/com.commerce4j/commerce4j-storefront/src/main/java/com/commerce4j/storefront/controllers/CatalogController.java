@@ -20,6 +20,7 @@ import java.io.OutputStreamWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -122,6 +123,44 @@ public class CatalogController extends BaseController  {
 		return mav ;
 	}
 	
+	public void allCategories(
+			HttpServletRequest request, HttpServletResponse response		
+	) {
+		Map<String, Object> responseModel = new HashMap<String, Object>();
+		response.setContentType("application/json");	
+		Gson gson = new GsonBuilder().create();
+		
+		Integer storeId = 1;
+		List<CategoryDTO> categories = new LinkedList<CategoryDTO>();
+		List<CategoryDTO> roots = getCategoryDSO().findRootCategories(storeId);
+		for (CategoryDTO root : roots) {
+			categories.add(root);
+			List<CategoryDTO> children = getCategoryDSO().findCategoriesByParent(storeId, root.getCategoryId());
+			if (children != null && !children.isEmpty()) {
+				for (CategoryDTO child : children) {
+					categories.add(child);
+				}
+			}
+		}
+		
+		// add data to model
+		responseModel.put("responseCode", SUCCESS);
+		responseModel.put("responseMessage", "Login Completo");
+		responseModel.put("categories", categories);
+		
+		// serialize output
+		try {
+
+			OutputStreamWriter os = new OutputStreamWriter(response.getOutputStream(), "UTF8");
+			String data = gson.toJson(responseModel);
+			os.write(data);
+			
+			os.flush();
+			os.close();
+		} catch (IOException e) {
+			logger.fatal(e);
+		}
+	}
 	
 	public void lastAddedItems(
 			HttpServletRequest request, HttpServletResponse response
