@@ -281,23 +281,33 @@ function show_category_bubble(caller) {
 				});
 				$A(categories).each(function(e) {
 					li = new Element('li');
-					li.update(e.description);
+					li.update(new Element(
+						'a',{href:'catalog.jspa?aid=browse&c='+e.categoryId
+					}).update(e.description));
 					div.insert(li);					
 				});
 				td.insert(div);
 				tr.insert(td);
 				
 				// featured stores and brands cell
-				td = new Element('td', {valign: 'top', style: 'width: 150px'});
+				td = new Element('td', {valign: 'top', style: 'width: 170px'});
 				td.insert(new Element('h3').update('Especiales'));
 				
 				ul = new Element('ul');
 				ul.insert(new Element('li').update('Top 10').addClassName('top_ten'));
 				ul.insert(new Element('li').update('Ofertas de Hoy').addClassName('today_deals'));
 				td.insert(ul);
+				
+				// brands and stores
+				
+				td.insert(new Element('div',{id : 'featured_brands'}));
 				tr.insert(td);
 				
-				
+				// update featured brands
+				new Ajax.Updater('featured_brands', 'catalog.jspa?aid=brands&mode=icons', {
+				  
+				});
+
 				
 				// add row to table
 				table.insert(tr);
