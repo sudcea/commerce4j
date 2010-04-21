@@ -123,6 +123,12 @@ public class CatalogController extends BaseController  {
 		return mav ;
 	}
 	
+	public ModelAndView brands(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView("include/brands");
+		
+		return mav ;
+	}
+	
 	public void allCategories(
 			HttpServletRequest request, HttpServletResponse response		
 	) {
@@ -162,10 +168,10 @@ public class CatalogController extends BaseController  {
 		}
 	}
 	
+	
 	public void lastAddedItems(
 			HttpServletRequest request, HttpServletResponse response
 	) {
-
 
 		Map<String, Object> responseModel = new HashMap<String, Object>();
 		response.setContentType("application/json");	
@@ -196,13 +202,11 @@ public class CatalogController extends BaseController  {
 		}
 	}
 	
-		
+	
 	
 	public void image(HttpServletRequest request, HttpServletResponse response) 
 	throws IOException {
-		
-		
-		
+
 		// browse categories by parent
 		String sItemId = request.getParameter("item");
 		String sImageIndex = request.getParameter("image");
@@ -219,6 +223,41 @@ public class CatalogController extends BaseController  {
 						"WHERE item_id = ? and image_index = ?";
 				byte[] bytes = (byte[]) getJdbcTemplate().queryForObject(
 					sql, new Object[] {itemId, imageIndex}, new RowMapper() {
+					final DefaultLobHandler lobHandler = new DefaultLobHandler();
+					public byte[] mapRow(ResultSet rs, int rowNum)
+					throws SQLException {					
+			            return lobHandler.getBlobAsBytes(rs, "image_data"); 
+					}
+					
+				});
+				response.setContentType("image/jpeg");
+				for (int i = 0; i < bytes.length; i++) {
+			        response.getOutputStream().write(bytes[i]);
+			    }
+			}
+			
+		}
+		
+		
+	}
+	
+	public void brandImage(HttpServletRequest request, HttpServletResponse response) 
+	throws IOException {
+
+		// browse categories by parent
+		String sBrandId = request.getParameter("brand");
+		if (StringUtils.isNotEmpty(sBrandId)) {
+			Integer brandId = new Integer(sBrandId);
+			
+			
+			String sql = "SELECT COUNT(*) FROM c4j_brands c  " +
+			"WHERE c.brand_id = ?";
+			int numOfImages = getJdbcTemplate().queryForInt(sql, new Object[] {brandId});
+			if (numOfImages > 0) {
+				sql = "SELECT brand_image as image_data from c4j_brands c " +
+						"WHERE  c.brand_id = ?";
+				byte[] bytes = (byte[]) getJdbcTemplate().queryForObject(
+					sql, new Object[] {sBrandId}, new RowMapper() {
 					final DefaultLobHandler lobHandler = new DefaultLobHandler();
 					public byte[] mapRow(ResultSet rs, int rowNum)
 					throws SQLException {					
