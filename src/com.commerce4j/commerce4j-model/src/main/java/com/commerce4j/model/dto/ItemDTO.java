@@ -38,9 +38,24 @@ public class ItemDTO extends AbstractBaseDTO {
 	private TypeDTO type;
 	private CurrencyDTO currency;
 	private StatusDTO status;
+	private BrandDTO brand;
 	
 	
 	
+	/**
+	 * JavaBean Getter, Gets the brand current value.
+	 * @return The brand current value.
+	 */
+	public BrandDTO getBrand() {
+		return brand;
+	}
+	/**
+	 * JavaBean Setter, Sets value to brand.
+	 * @param brand The value of brand to set.
+	 */
+	public void setBrand(BrandDTO brand) {
+		this.brand = brand;
+	}
 	/**
 	 * JavaBean Setter, Sets value to status.
 	 * @param status The value of status to set.

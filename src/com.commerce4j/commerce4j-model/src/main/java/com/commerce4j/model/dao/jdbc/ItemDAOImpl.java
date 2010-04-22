@@ -23,6 +23,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import com.commerce4j.model.dao.ItemDAO;
+import com.commerce4j.model.dto.BrandDTO;
 import com.commerce4j.model.dto.CurrencyDTO;
 import com.commerce4j.model.dto.ItemDTO;
 import com.commerce4j.model.dto.StatusDTO;
@@ -73,13 +74,17 @@ public class ItemDAOImpl extends JdbcDaoSupport implements ItemDAO {
 		"  st.store_name, " +
 		"  su.status_name, " +
 		"  cu.currency_abrev, " +
-		"  cu.currency_symbol " + 
+		"  cu.currency_symbol, " +
+		"  br.brand_id, " +
+		"  br.brand_name, " +
+		"  br.featured " +
 		" FROM c4j_items it " +
 		" INNER JOIN c4j_stores st on st.store_id = it.store_id " +
 		" INNER JOIN c4j_users us on us.user_id = it.user_id " +
 		" INNER JOIN c4j_items_type tp on tp.type_id = it.type_id " +
 		" INNER JOIN c4j_currencies cu ON it.currency_id = cu.currency_id " +
 		" INNER JOIN c4j_status su ON su.status_id = it.status_id " +
+		" LEFT JOIN c4j_brands br ON br.brand_id = it.brand_id " +
 		" WHERE it.item_id = ?";
 
 		Integer[] params = {itemId};
@@ -111,7 +116,10 @@ public class ItemDAOImpl extends JdbcDaoSupport implements ItemDAO {
 				"  st.store_name, " +
 				"  su.status_name, " +
 				"  cu.currency_abrev, " +
-				"  cu.currency_symbol " + 
+				"  cu.currency_symbol, " +
+				"  br.brand_id, " +
+				"  br.brand_name, " +
+				"  br.featured " +
 				" FROM c4j_items it " +
 				" INNER JOIN c4j_stores st on st.store_id = it.store_id " +
 				" INNER JOIN c4j_users us on us.user_id = it.user_id " +
@@ -119,6 +127,7 @@ public class ItemDAOImpl extends JdbcDaoSupport implements ItemDAO {
 				" INNER JOIN c4j_items_categories ct ON ct.item_id = it.item_id " +
 				" INNER JOIN c4j_currencies cu ON it.currency_id = cu.currency_id " +
 				" INNER JOIN c4j_status su ON su.status_id = it.status_id " +
+				" LEFT JOIN c4j_brands br ON br.brand_id = it.brand_id " +
 				" WHERE ct.category_id = ?";
 
 
@@ -157,13 +166,17 @@ public class ItemDAOImpl extends JdbcDaoSupport implements ItemDAO {
 		"  st.store_name, " +
 		"  su.status_name, " +
 		"  cu.currency_abrev, " +
-		"  cu.currency_symbol " + 
+		"  cu.currency_symbol, " +
+		"  br.brand_id, " +
+		"  br.brand_name, " +
+		"  br.featured " +
 		" FROM c4j_items it " +
 		" INNER JOIN c4j_stores st on st.store_id = it.store_id " +
 		" INNER JOIN c4j_users us on us.user_id = it.user_id " +
 		" INNER JOIN c4j_items_type tp on tp.type_id = it.type_id " +
 		" INNER JOIN c4j_currencies cu ON it.currency_id = cu.currency_id " +
 		" INNER JOIN c4j_status su ON su.status_id = it.status_id " +
+		" LEFT JOIN c4j_brands br ON br.brand_id = it.brand_id " +
 		" ORDER BY it.created DESC " +
 		" LIMIT ?,?";
 
@@ -209,6 +222,11 @@ public class ItemDAOImpl extends JdbcDaoSupport implements ItemDAO {
 			StatusDTO status = new StatusDTO();
 			status.setStatusName(rs.getString("status_name"));
 			
+			BrandDTO brand = new BrandDTO();
+			brand.setBrandId(rs.getInt("brand_id"));
+			brand.setBrandName(rs.getString("brand_name"));
+			brand.setFeatured(rs.getInt("featured"));
+			
 			ItemDTO item = new ItemDTO();
 			item.setItemId(rs.getLong("item_id"));
 			item.setItemTitle(rs.getString("item_title"));
@@ -219,6 +237,7 @@ public class ItemDAOImpl extends JdbcDaoSupport implements ItemDAO {
 			item.setItemSku(rs.getString("item_sku"));
 			
 			
+			item.setBrand(brand);
 			item.setStore(store);
 			item.setUser(user);
 			item.setType(type);

@@ -251,13 +251,13 @@ public class CatalogController extends BaseController  {
 			
 			
 			String sql = "SELECT COUNT(*) FROM c4j_brands c  " +
-			"WHERE c.brand_id = ?";
-			int numOfImages = getJdbcTemplate().queryForInt(sql, new Object[] {brandId});
+			"WHERE c.brand_id = ? and c.featured = ?";
+			int numOfImages = getJdbcTemplate().queryForInt(sql, new Object[] {brandId,1});
 			if (numOfImages > 0) {
 				sql = "SELECT brand_image as image_data from c4j_brands c " +
-						"WHERE  c.brand_id = ?";
+						"WHERE  c.brand_id = ? and c.featured = ?";
 				byte[] bytes = (byte[]) getJdbcTemplate().queryForObject(
-					sql, new Object[] {sBrandId}, new RowMapper() {
+					sql, new Object[] {sBrandId,1}, new RowMapper() {
 					final DefaultLobHandler lobHandler = new DefaultLobHandler();
 					public byte[] mapRow(ResultSet rs, int rowNum)
 					throws SQLException {					
