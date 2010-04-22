@@ -61,14 +61,34 @@
  		<div id="d_body">
  			
  			
- 			<div class="container">
-	 			<h3>Art&iacute;culo #${item.itemId}</h3>
+ 			<div class="container" style="position: relative">
+ 			
+ 				<c:if test="${item.brand ne null}">
+ 					<div style="position: absolute; right: 5px; top: 5px">
+	 				<img src="catalog.jspa?aid=brandImage&brand=${item.brand.brandId}" />
+	 				</div>
+	 			</c:if>
+	 			
+	 			<h3>
+	 			Art&iacute;culo #${item.itemId}
+	 			</h3>
+	 			
 	 			<div class="listingTitle">${item.itemTitle}</div>
+	 			
 	 			<table width="100%">
+	 			<c:if test="${item.brand ne null}">
+	 			<tr>
+	 				<td align="right" valign="top" >Marca : </td>
+	 				<td>
+	 					${item.brand.brandName}
+	 				</td>
+	 			</tr>
+	 			</c:if>
 	 			<tr>
 	 				<td align="right" valign="top" width="125">Condici&oacute;n : </td>
 	 				<td>${item.status.statusName}</td>
 	 			</tr>
+	 			
 	 			<tr>
 	 				<td align="right" valign="top" >Calificaci&oacute;n : </td>
 	 				<td>
@@ -114,6 +134,7 @@
  			
  			<div class="container ">
 	 			<h3>Descripci&oacute;n y Caracter&iacute;sticas</h3>
+	 			
 	 		</div>
 	 		
 	 		<br/><br/>
