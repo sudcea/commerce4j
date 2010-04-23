@@ -300,21 +300,33 @@ function show_category_bubble(caller) {
 				
 				// brands and stores
 				
-				td.insert(new Element('div',{id : 'featured_brands'}));
+				div = new Element('div',{id : 'featured_brands'});
+				td.insert(div);
 				tr.insert(td);
 				
 				// update featured brands
-				new Ajax.Updater('featured_brands', 'catalog.jspa?aid=brands&mode=icons', {
-				  
+				new Ajax.Request('catalog.jspa?aid=featuredBrands', {
+					method: 'post',
+					onComplete: function(transport) {
+						response = transport.responseText.evalJSON();
+						if (response.responseCode === 'success') {
+							brands = response.brands;
+							div.insert(new Element('h3').update('Recomendados'));
+							$A(brands).each(function(e) {
+								img = new Element('img',{
+									src:'catalog.jspa?aid=brandImage&brand='+e.brandId,
+									style : 'align: middle'
+								});
+								$('featured_brands').insert(img);					
+							});
+						}
+					}
 				});
 
-				
 				// add row to table
 				table.insert(tr);
 				container.insert(table);
 		 	}
-		 	
-		 	
 		},
 		
 		onFailure: function(transport) {
