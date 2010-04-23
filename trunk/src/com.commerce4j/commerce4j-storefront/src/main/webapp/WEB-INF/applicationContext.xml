@@ -27,6 +27,10 @@
 		<property name="jdbcTemplate" ref="jdbcTemplate" />
 	</bean>
 	
+	<bean id="brandDAO" class="com.commerce4j.model.dao.jdbc.BrandDAOImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+	
 	<bean id="itemDAO" class="com.commerce4j.model.dao.jdbc.ItemDAOImpl">
 		<property name="jdbcTemplate" ref="jdbcTemplate" />
 	</bean>

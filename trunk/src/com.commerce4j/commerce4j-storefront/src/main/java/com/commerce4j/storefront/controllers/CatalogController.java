@@ -32,7 +32,9 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.lob.DefaultLobHandler;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.commerce4j.model.dao.BrandDAO;
 import com.commerce4j.model.dso.ItemDSO;
+import com.commerce4j.model.dto.BrandDTO;
 import com.commerce4j.model.dto.CategoryDTO;
 import com.commerce4j.model.dto.ItemDTO;
 import com.google.gson.Gson;
@@ -123,11 +125,6 @@ public class CatalogController extends BaseController  {
 		return mav ;
 	}
 	
-	public ModelAndView brands(HttpServletRequest request, HttpServletResponse response) {
-		ModelAndView mav = new ModelAndView("include/brands");
-		
-		return mav ;
-	}
 	
 	public void allCategories(
 			HttpServletRequest request, HttpServletResponse response		
@@ -201,6 +198,37 @@ public class CatalogController extends BaseController  {
 			logger.fatal(e);
 		}
 	}
+	
+	
+	public void featuredBrands(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Object> responseModel = new HashMap<String, Object>();
+		response.setContentType("application/json");	
+		Gson gson = new GsonBuilder().create();
+		
+
+		
+		BrandDAO brandDAO = (BrandDAO) getApplicationContext().getBean("brandDAO");
+		List<BrandDTO> brands = brandDAO.findAllFeatured();
+		
+
+		responseModel.put("responseCode", SUCCESS);
+		responseModel.put("responseMessage", "Login Completo");
+		responseModel.put("brands", brands);
+		
+		// serialize output
+		try {
+
+			OutputStreamWriter os = new OutputStreamWriter(response.getOutputStream(), "UTF8");
+			String data = gson.toJson(responseModel);
+			os.write(data);
+			
+			os.flush();
+			os.close();
+		} catch (IOException e) {
+			logger.fatal(e);
+		}
+	}
+	
 	
 	
 	

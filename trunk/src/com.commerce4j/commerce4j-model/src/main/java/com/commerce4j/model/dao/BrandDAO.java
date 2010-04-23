@@ -28,4 +28,6 @@ public interface BrandDAO {
 	public BrandDTO findById(Integer brandId);
 	
 	public List<BrandDTO> findAll();
+	
+	public List<BrandDTO> findAllFeatured();
 }
