@@ -66,13 +66,17 @@ public class BrandDAOImpl extends JdbcDaoSupport implements BrandDAO {
 	 * @see com.commerce4j.model.dao.BrandDAO#findById(java.lang.Integer)
 	 */
 	public BrandDTO findById(Integer brandId) {
-		return null;
+		
+		String sql = "SELECT brand_id, brand_name, featured " +
+		"FROM c4j_brands WHERE featured = ?";
+		
+		return (BrandDTO) getJdbcTemplate().queryForObject(sql, new Object[] {1}, rowMapper);
 	}
 	
-	/*
-	 * 
+	/**
+	 * Brand Row Mapper.
 	 */
-	class BrandRowMapper implements RowMapper {
+	private class BrandRowMapper implements RowMapper {
 
 		/* (non-Javadoc)
 		 * @see org.springframework.jdbc.core.RowMapper#mapRow(java.sql.ResultSet, int)

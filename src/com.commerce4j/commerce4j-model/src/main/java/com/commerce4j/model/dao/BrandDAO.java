@@ -25,9 +25,25 @@ import com.commerce4j.model.dto.BrandDTO;
  */
 public interface BrandDAO {
 
+	/**
+	 * Find brand by it's primary key.
+	 * 
+	 * @param brandId The brand primary key.
+	 * @return The brand DTO or null.
+	 */
 	public BrandDTO findById(Integer brandId);
 	
+	/**
+	 * Find all brands.
+	 * 
+	 * @return A brand List object.
+	 */
 	public List<BrandDTO> findAll();
 	
+	/**
+	 * Find all featured brands.
+	 * 
+	 * @return All featured brands List object.
+	 */
 	public List<BrandDTO> findAllFeatured();
 }

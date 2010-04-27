@@ -135,16 +135,7 @@ public class CatalogController extends BaseController  {
 		
 		Integer storeId = 1;
 		List<CategoryDTO> categories = new LinkedList<CategoryDTO>();
-		List<CategoryDTO> roots = getCategoryDSO().findRootCategories(storeId);
-		for (CategoryDTO root : roots) {
-			categories.add(root);
-			List<CategoryDTO> children = getCategoryDSO().findCategoriesByParent(storeId, root.getCategoryId());
-			if (children != null && !children.isEmpty()) {
-				for (CategoryDTO child : children) {
-					categories.add(child);
-				}
-			}
-		}
+		getCategoryDSO().fetchChildrenByParent(categories, storeId, null);
 		
 		// add data to model
 		responseModel.put("responseCode", SUCCESS);
