@@ -51,6 +51,19 @@ public class CategoryDSOImpl implements CategoryDSO {
 	public CategoryDTO findCategoryById(Integer categoryId) {
 		return categoryDAO.findByCategoryById(categoryId);
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.commerce4j.model.dso.CategoryDSO#fetchChildsByParent(java.util.List, java.lang.Integer, java.lang.Integer)
+	 */
+	public void fetchChildrenByParent(List<CategoryDTO> l, Integer storeId, Integer parentId) {
+		List<CategoryDTO> children = findCategoriesByParent(storeId, parentId);
+		if (children != null && !children.isEmpty())
+		for (CategoryDTO child : children) {
+			l.add(child);
+			fetchChildrenByParent(l, storeId, child.getCategoryId());			
+		}
+	}
+
 
 	/**
 	 * JavaBean Getter, Gets the categoryDAO current value.
@@ -68,6 +81,8 @@ public class CategoryDSOImpl implements CategoryDSO {
 		this.categoryDAO = categoryDAO;
 	}
 
+	
+	
 	
 	
 	

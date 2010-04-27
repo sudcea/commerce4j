@@ -45,4 +45,7 @@ public interface CategoryDAO {
 	 */
 	public List<CategoryDTO> findCategoryByParent(Integer storeId, Integer parentId);
 	
+	
+	
+	
 }

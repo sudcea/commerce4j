@@ -51,4 +51,15 @@ public interface CategoryDSO {
 	 */
 	public List<CategoryDTO> findCategoriesByParent(Integer storeId, Integer categoryId);
 	
+	
+	/**
+	 * Find All {@link CategoryDTO} child entity list by store and 
+	 * parent category.
+	 *  
+	 * @param storeId The store primary key.
+	 * @param parentId The parent category primary key.
+	 * @return A {@link CategoryDTO} child entity list or <code>null</code>.
+	 */
+	public void fetchChildrenByParent(List<CategoryDTO> l, Integer storeId, Integer parentId);
+	
 }

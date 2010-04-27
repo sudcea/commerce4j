@@ -96,6 +96,8 @@ public class CategoryDAOImpl extends JdbcDaoSupport implements CategoryDAO {
 		return l;
 	}
 	
+	
+	
 	/*
 	 * Entity Row Mapper 
 	 */
@@ -127,6 +129,8 @@ public class CategoryDAOImpl extends JdbcDaoSupport implements CategoryDAO {
 		}
 		
 	}
+
+	
 
 	
 	

@@ -30,7 +30,7 @@ public class CategoryDTO extends AbstractBaseDTO {
 	private Integer status;
 	private StoreDTO store;
 	
-	
+	private Integer level;
 	
 	/**
 	 * JavaBean Getter, Gets the store current value.
@@ -115,6 +115,20 @@ public class CategoryDTO extends AbstractBaseDTO {
 	 */
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+	/**
+	 * JavaBean Getter, Gets the level current value.
+	 * @return The level current value.
+	 */
+	public Integer getLevel() {
+		return level;
+	}
+	/**
+	 * JavaBean Setter, Sets value to level.
+	 * @param level The value of level to set.
+	 */
+	public void setLevel(Integer level) {
+		this.level = level;
 	}
 	
 	
