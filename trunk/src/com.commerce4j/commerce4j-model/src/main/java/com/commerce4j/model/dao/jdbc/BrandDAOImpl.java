@@ -26,6 +26,8 @@ import com.commerce4j.model.dao.BrandDAO;
 import com.commerce4j.model.dto.BrandDTO;
 
 /**
+ * Spring/JDBC Implementation for the {@link BrandDAO} interface.
+ * 
  * @author carlos.quijano
  * @version $Revision$ $Date$
  */

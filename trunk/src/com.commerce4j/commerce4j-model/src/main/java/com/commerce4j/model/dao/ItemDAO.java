@@ -28,6 +28,12 @@ import com.commerce4j.model.dto.ItemDTO;
  */
 public interface ItemDAO {
 	
+	/**
+	 * Get a {@link ItemDTO} entity object by it's primary key.
+	 *
+	 * @param itemId The item primary key.
+	 * @return The item or null if not found.
+	 */
 	public ItemDTO findById(Integer itemId);
 	
 	/**
@@ -40,10 +46,13 @@ public interface ItemDAO {
 	
 
 	/**
-	 * @param categoryId
-	 * @param max
-	 * @param first
-	 * @return
+	 * Find all items sorted by creation date for a particular
+	 * category.
+	 * 
+	 * @param categoryId The category id.
+	 * @param max The max numbers of records to return.
+	 * @param first The first (offset) record to start with.
+	 * @return A {@link ItemDTO} entity list or <code>null</code>.
 	 */
 	public List<ItemDTO> findAllByLastAddition(Integer categoryId, Integer max, Integer first);
 	
