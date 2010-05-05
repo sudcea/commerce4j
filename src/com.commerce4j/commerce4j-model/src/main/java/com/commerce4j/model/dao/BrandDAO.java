@@ -20,13 +20,15 @@ import java.util.List;
 import com.commerce4j.model.dto.BrandDTO;
 
 /**
+ * Data Access Object for the {@link BrandDTO} entity.
+ * 
  * @author carlos.quijano
  * @version $Revision$ $Date$
  */
 public interface BrandDAO {
 
 	/**
-	 * Find brand by it's primary key.
+	 * Get a {@link BrandDTO} entity object by it's primary key.
 	 * 
 	 * @param brandId The brand primary key.
 	 * @return The brand DTO or null.

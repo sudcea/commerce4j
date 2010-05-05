@@ -9,7 +9,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
  <head>
   
-    <title></title>
+    <title><fmt:message key="home.title"  /></title>
 	<jsp:include page="include/javascript.jsp" flush="true" />
 	<link rel="stylesheet" type="text/css" href="css/screen.css" />
 	<script type="text/javascript" src="js/common.functions.js"></script>
@@ -34,6 +34,23 @@
  	</td>
  	<td valign="top">
  		<div id="d_body">
+			<table width="100%">
+			<tr>
+			<td valign="top">
+				<div id="carrousel">
+				<img src="images/carrousel-banner-1.jpg" />
+				</div>
+			</td>
+			<td valign="top">
+				
+			</td>
+			</tr>
+			</table>
+			
+			<div class="container bglightyellow">
+				<img src="images/error.png" />
+				<fmt:message key="home.message"  />
+			</div>
 			
 			<jsp:include page="include/lastadded.jsp" flush="true" />
  			

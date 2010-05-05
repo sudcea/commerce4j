@@ -27,6 +27,7 @@ public interface UserDAO {
 	
 	/**
 	 * Get a {@link UserDTO} entity object by it's primary key.
+	 * 
 	 * @param userId The {@link UserDTO} primary key.
 	 * @return A {@link UserDTO} entity object or <code>null</code>
 	 */
