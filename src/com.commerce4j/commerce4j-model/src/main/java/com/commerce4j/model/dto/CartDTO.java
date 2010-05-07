@@ -22,6 +22,7 @@ import java.util.Date;
  * @version $Revision$ $Date$
  */
 public class CartDTO {
+	
 	private String cartId;
 	private ItemDTO item;
 	private Integer cartQuantity;
@@ -31,7 +32,7 @@ public class CartDTO {
 	
 	
 	/**
-	 * Constructor, Creates a new type instance of CartDTO.
+	 * Constructor, Creates a new type instance of {@link CartDTO}.
 	 * @param item
 	 * @param cartQuantity
 	 * @param cartSubTotal
@@ -115,8 +116,5 @@ public class CartDTO {
 	public void setDateAdded(Date dateAdded) {
 		this.dateAdded = dateAdded;
 	}
-	
-	
-	
 	
 }

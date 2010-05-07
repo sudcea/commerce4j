@@ -30,6 +30,9 @@ public class ProfileDSOImpl implements ProfileDSO {
 
 	private UserDAO userDAO;
 	
+	/* (non-Javadoc)
+	 * @see com.commerce4j.model.dso.ProfileDSO#registerUser(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Integer)
+	 */
 	public Long registerUser(
 			String userName, String userPass,
 			String emailAddress, String firstName, String lastName,
