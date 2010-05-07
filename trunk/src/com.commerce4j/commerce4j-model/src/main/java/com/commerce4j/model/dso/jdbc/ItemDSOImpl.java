@@ -49,7 +49,6 @@ public class ItemDSOImpl implements ItemDSO {
 	 * @see com.commerce4j.model.dso.ItemDSO#findAllByLastAddition(java.lang.Integer)
 	 */
 	public List<ItemDTO> findAllByLastAddition(Integer categoryId, Integer max, Integer first) {
-		// TODO Auto-generated method stub
 		return itemDAO.findAllByLastAddition(categoryId, max, first);
 	}
 
