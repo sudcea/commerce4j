@@ -66,6 +66,9 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
 		return (UserDTO) getJdbcTemplate().queryForObject(sql, params, userRowMapper);
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.commerce4j.model.dao.UserDAO#countByUserName(java.lang.String)
+	 */
 	public Integer countByUserName(String userName) {
 		
 		String sql = "SELECT COUNT(*) FROM c4j_users WHERE user_name = ?";
@@ -73,6 +76,9 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.commerce4j.model.dao.UserDAO#countByEmail(java.lang.String)
+	 */
 	public Integer countByEmail(String eMail) {
 		
 		String sql = "SELECT COUNT(*) FROM c4j_users WHERE email_address = ?";

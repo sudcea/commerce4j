@@ -41,8 +41,19 @@ public interface UserDAO {
 	 */
 	public UserDTO save(UserDTO userDTO);
 	
+	/**
+	 * Count number of users by username.
+	 * 
+	 * @param userName The userName to count for.
+	 * @return The number of users by user name.
+	 */
 	public Integer countByUserName(String userName);
 	
+	/**
+	 * Count number of users by email.
+	 * @param eMail The eMail to count for. 
+	 * @return The number of users by email address.
+	 */
 	public Integer countByEmail(String eMail);
 	
 }
