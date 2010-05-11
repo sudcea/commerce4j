@@ -87,6 +87,19 @@
 				</tr>
 				<%--}}} EMAIL ADDRESS --%>
 				
+				
+				<%--{{{ PHONE NUMBER --%>
+				<tr>
+					<td><label for="cellPhone"><fmt:message key="register.cellPhone" /></label></td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<input type="text" name="cellPhone" id="cellPhone" size="20"/>
+					</td>
+				</tr>
+				
+				
 				<%--}}} GROUP : PERSONAL INFORMACION --%>
 				
 				<tr><td colspan="2">&nbsp;</td></tr>

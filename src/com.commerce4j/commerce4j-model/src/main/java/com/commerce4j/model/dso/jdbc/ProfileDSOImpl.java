@@ -36,7 +36,7 @@ public class ProfileDSOImpl implements ProfileDSO {
 	public Long registerUser(
 			String userName, String userPass,
 			String emailAddress, String firstName, String lastName,
-			Integer countryId
+			String cellPhone, Integer countryId
 	) {
 		
 		CountryDTO country = new CountryDTO();
@@ -55,6 +55,14 @@ public class ProfileDSOImpl implements ProfileDSO {
 		
 		
 		return userDTO.getUserId();
+	}
+	
+	public boolean isUserValid(String userName) {
+		return (userDAO.countByUserName(userName) == 0) ? true : false;
+	}
+	
+	public boolean isEmailValid(String eMail) {
+		return (userDAO.countByEmail(eMail) == 0) ? true : false;
 	}
 
 	/**

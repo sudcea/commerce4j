@@ -191,7 +191,10 @@ function format_currency(num) {
 }
 
 function display_form_messages(id, arr, className, input_errors) {
-
+	
+	
+	$(id).update('');
+	
 	d_title = document.createElement('strong');
 	Element.insert(d_title,'Por favor verifique lo siguiente');
 	
