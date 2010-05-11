@@ -33,6 +33,7 @@ public interface ProfileDSO {
 	 * @param emailAddress The user email address, must be valid!.
 	 * @param firstName The user firstname.
 	 * @param lastName The user lastname.
+	 * @param cellPhone The user cell phone number.
 	 * @param countryId The user country primary key.
 	 * @return The generated user primary key.
 	 */
@@ -42,7 +43,12 @@ public interface ProfileDSO {
 			String emailAddress,
 			String firstName,
 			String lastName,
+			String cellPhone,
 			Integer countryId
 	);
+	
+	public boolean isUserValid(String userName);
+	
+	public boolean isEmailValid(String eMail);
 	
 }

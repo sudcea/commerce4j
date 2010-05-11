@@ -143,6 +143,7 @@ public class ProfileController extends BaseController {
 		String firstName = request.getParameter("firstName");
 		String countryId = request.getParameter("countryId");
 		String lastName = request.getParameter("lastName");
+		String cellPhone = request.getParameter("cellPhone");
 		String acceptTermAndConditions = request.getParameter("acceptTermAndConditions");
 		
 		List<Message> errors = new ArrayList<Message>();
@@ -160,6 +161,10 @@ public class ProfileController extends BaseController {
 		
 		if (StringUtils.isEmpty(firstName)) {
 			errors.add(newError("firstName", getString("errors.notEmpty"), new Object[] {getString("register.firstName")}));
+		}
+		
+		if (StringUtils.isEmpty(cellPhone)) {
+			errors.add(newError("cellPhone", getString("errors.notEmpty"), new Object[] {getString("register.cellPhone")}));
 		}
 		
 		if (StringUtils.isEmpty(countryId)) {
@@ -183,18 +188,33 @@ public class ProfileController extends BaseController {
 		}
 		
 		
+		// validate user name
+		if (!getProfileDSO().isUserValid(userName)) {
+			errors.add(newError("userName", getString("errors.userAlreadyExists"), new Object[] {userName}));	
+		}
+		
+		// validate emailAddress
+		if (!getProfileDSO().isEmailValid(emailAddress)) {
+			errors.add(newError("emailAddress", getString("errors.emailAlreadyExists"), new Object[] {emailAddress}));	
+		}
+		
+		
+		
 		if (errors.isEmpty()) {
+			
 			long userId = getProfileDSO().registerUser(
 					userName, userPass, 
-					emailAddress, firstName, 
-					lastName, new Integer(countryId)
+					emailAddress, firstName,  
+					lastName, cellPhone, new Integer(countryId)
 			);
+			
 			if (logger.isDebugEnabled())
 				logger.debug("REGISTERED UID @ " + userId);
 			
 			responseModel.put("responseCode", SUCCESS);
 			responseModel.put("responseMessage", "Registro Completo");
 			responseModel.put("userId", userId);
+			
 		} else {
 			responseModel.put("responseCode", FAILURE);
 			responseModel.put("responseMessage", "Registro Incompleto, favor verificar");

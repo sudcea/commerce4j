@@ -34,6 +34,7 @@ public class UserDTO {
 	private CountryDTO country;
 	private Date creationDate;
 	private Integer active;
+	private String cellPhone;
 	
 	/**
 	 * Constructor, Creates a new type instance of UserDTO.
@@ -184,6 +185,20 @@ public class UserDTO {
 	 */
 	public void setActive(Integer active) {
 		this.active = active;
+	}
+
+	/**
+	 * @return the cellPhone
+	 */
+	public String getCellPhone() {
+		return cellPhone;
+	}
+
+	/**
+	 * @param cellPhone the cellPhone to set
+	 */
+	public void setCellPhone(String cellPhone) {
+		this.cellPhone = cellPhone;
 	}
 	
 	

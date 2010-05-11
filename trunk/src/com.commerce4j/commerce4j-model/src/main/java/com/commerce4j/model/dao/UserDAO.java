@@ -41,4 +41,8 @@ public interface UserDAO {
 	 */
 	public UserDTO save(UserDTO userDTO);
 	
+	public Integer countByUserName(String userName);
+	
+	public Integer countByEmail(String eMail);
+	
 }

@@ -65,6 +65,20 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
 		Long[] params = {userId};
 		return (UserDTO) getJdbcTemplate().queryForObject(sql, params, userRowMapper);
 	}
+	
+	public Integer countByUserName(String userName) {
+		
+		String sql = "SELECT COUNT(*) FROM c4j_users WHERE user_name = ?";
+		return getJdbcTemplate().queryForInt(sql, new Object[] {userName});
+		
+	}
+	
+	public Integer countByEmail(String eMail) {
+		
+		String sql = "SELECT COUNT(*) FROM c4j_users WHERE email_address = ?";
+		return getJdbcTemplate().queryForInt(sql, new Object[] {eMail});
+		
+	}
 
 	/* (non-Javadoc)
 	 * @see com.commerce4j.model.dao.UserDAO#save(com.commerce4j.model.dto.UserDTO)
@@ -73,8 +87,8 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
 
 		String sql = "INSERT INTO c4j_users   " +
 		"(user_name, user_pass, email_address,firstname," +
-		"lastname,country_id,creation_date,active)  " +
-		"values (?,?,?,?,?,?,?,?)";
+		"lastname,cellphone,country_id,creation_date,active)  " +
+		"values (?,?,?,?,?,?,?,?,?)";
 		
 		// build the SQL Update parameters
 		Object params[] = {
@@ -83,6 +97,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
 				userDTO.getEmailAddress(),
 				userDTO.getFirstName(),
 				userDTO.getLastName(),
+				userDTO.getCellPhone(),
 				userDTO.getCountry().getCountryId(),
 				new Date(),
 				userDTO.getActive()
@@ -94,6 +109,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
 		SqlUpdate su = new SqlUpdate();
 		su.setDataSource(getDataSource());
 		su.setSql(sql);
+		su.declareParameter(new SqlParameter(Types.VARCHAR));
 		su.declareParameter(new SqlParameter(Types.VARCHAR));
 		su.declareParameter(new SqlParameter(Types.VARCHAR));
 		su.declareParameter(new SqlParameter(Types.VARCHAR));

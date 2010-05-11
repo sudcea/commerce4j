@@ -36,6 +36,5 @@ function register_user() {
 }
 
 function process_registered_users(user_id) {
-	alert('Usuario Registrado Exitosamente ' +  response.userId);
-	window.location.href='home.jspa';
+	window.location.href='home.jspa?welcome_user';
 }
