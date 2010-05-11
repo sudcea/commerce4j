@@ -39,9 +39,11 @@ public class ProfileDSOImpl implements ProfileDSO {
 			String cellPhone, Integer countryId
 	) {
 		
+		// get country
 		CountryDTO country = new CountryDTO();
 		country.setCountryId(countryId);
 		
+		// create user
 		UserDTO userDTO = new UserDTO();
 		userDTO.setUserName(userName);
 		userDTO.setUserPass(userPass);
@@ -51,16 +53,22 @@ public class ProfileDSOImpl implements ProfileDSO {
 		userDTO.setActive(1);
 		userDTO.setCountry(country);
 		
+		// persist user
 		userDTO = userDAO.save(userDTO);
-		
 		
 		return userDTO.getUserId();
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.commerce4j.model.dso.ProfileDSO#isUserValid(java.lang.String)
+	 */
 	public boolean isUserValid(String userName) {
 		return (userDAO.countByUserName(userName) == 0) ? true : false;
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.commerce4j.model.dso.ProfileDSO#isEmailValid(java.lang.String)
+	 */
 	public boolean isEmailValid(String eMail) {
 		return (userDAO.countByEmail(eMail) == 0) ? true : false;
 	}
