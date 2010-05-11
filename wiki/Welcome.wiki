@@ -3,3 +3,22 @@
 = Welcome to Commerce4J =
 
 Welcome to Commerce4J a Java Based eCommerce Application and Online Catalog Management System that provides a basic set of functionality that meets the common needs of online businesses. Inspired by simplicity, Commerce4J is able to be modified, meaning that it can be customized to meet the specific needs of any business. 
+
+= Feature List =
+
+Store Front
+
+  * Catalog Browsing and Item Search
+  * User Profile (Login, registration)
+  * Shopping Cart (Database based)
+  * Express Checkout (Paypal Integration)
+  * Google Tools Integration (Adwords, Adsense, Analytics)
+
+Technology
+
+  * ANSI SQL Data Access Objects
+  * Java Web Application WAR (colesterol & sugar free)
+  * Model/View/Controller
+  * Spring Framework Based IoC
+  * JSP, JSTL, Javascript/Ajax Based Default Views
+  
