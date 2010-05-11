@@ -1,0 +1,5 @@
+#Welcome landing page.
+
+= Welcome to Commerce4J =
+
+Welcome to Commerce4J a Java Based eCommerce Application and Online Catalog Management System that provides a basic set of functionality that meets the common needs of online businesses. Inspired by simplicity, Commerce4J is able to be modified, meaning that it can be customized to meet the specific needs of any business. 
