@@ -238,17 +238,9 @@ public class CatalogController extends BaseController  {
 			"WHERE item_id = ?";
 			int numOfImages = getJdbcTemplate().queryForInt(sql, new Object[] {itemId});
 			if (numOfImages > 0) {
-				sql = "SELECT image_data from c4j_items_images  " +
-						"WHERE item_id = ? and image_index = ?";
-				byte[] bytes = (byte[]) getJdbcTemplate().queryForObject(
-					sql, new Object[] {itemId, imageIndex}, new RowMapper() {
-					final DefaultLobHandler lobHandler = new DefaultLobHandler();
-					public byte[] mapRow(ResultSet rs, int rowNum)
-					throws SQLException {					
-			            return lobHandler.getBlobAsBytes(rs, "image_data"); 
-					}
-					
-				});
+				byte[] bytes = getItemImage(itemId, imageIndex);
+
+				// retrieve from cache and finally write bytes to response
 				response.setContentType("image/jpeg");
 				for (int i = 0; i < bytes.length; i++) {
 			        response.getOutputStream().write(bytes[i]);
@@ -262,7 +254,7 @@ public class CatalogController extends BaseController  {
 	
 	public void brandImage(HttpServletRequest request, HttpServletResponse response) 
 	throws IOException {
-
+		
 		// browse categories by parent
 		String sBrandId = request.getParameter("brand");
 		if (StringUtils.isNotEmpty(sBrandId)) {
@@ -293,6 +285,32 @@ public class CatalogController extends BaseController  {
 		}
 		
 		
+	}
+	
+	
+	protected byte[] getItemImage(Integer itemId, Integer imageIndex) {
+		byte[] bytes = null;
+		// verify file  
+		
+		if (true) {
+		
+			// if not found, grab it from database
+			String sql = "SELECT image_data from c4j_items_images  " +
+					"WHERE item_id = ? and image_index = ?";
+			bytes = (byte[]) getJdbcTemplate().queryForObject(
+				sql, new Object[] {itemId, imageIndex}, new RowMapper() {
+				final DefaultLobHandler lobHandler = new DefaultLobHandler();
+				public byte[] mapRow(ResultSet rs, int rowNum)
+				throws SQLException {					
+		            return lobHandler.getBlobAsBytes(rs, "image_data"); 
+				}
+				
+			});
+			// write bytes in file output stream
+			
+			// cache image bytes
+		}
+		return bytes;
 	}
 	
 
