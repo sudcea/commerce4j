@@ -39,6 +39,7 @@
  	<td valign="top">
  		<div id="d_body">
  			
+ 			
  			<jsp:include page="include/listings.jsp" flush="true" />
  			
  		</div>

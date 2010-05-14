@@ -15,6 +15,10 @@
  */
 package com.commerce4j.storefront.controllers;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.sql.ResultSet;
@@ -130,7 +134,7 @@ public class CatalogController extends BaseController  {
 			HttpServletRequest request, HttpServletResponse response		
 	) {
 		Map<String, Object> responseModel = new HashMap<String, Object>();
-		response.setContentType("application/json");	
+		response.setContentType(JSON_HEADER);	
 		Gson gson = new GsonBuilder().create();
 		
 		Integer storeId = 1;
@@ -162,7 +166,7 @@ public class CatalogController extends BaseController  {
 	) {
 
 		Map<String, Object> responseModel = new HashMap<String, Object>();
-		response.setContentType("application/json");	
+		response.setContentType(JSON_HEADER);	
 		Gson gson = new GsonBuilder().create();
 		
 		String sFirst = request.getParameter("first");
@@ -193,7 +197,7 @@ public class CatalogController extends BaseController  {
 	
 	public void featuredBrands(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> responseModel = new HashMap<String, Object>();
-		response.setContentType("application/json");	
+		response.setContentType(JSON_HEADER);	
 		Gson gson = new GsonBuilder().create();
 		
 
@@ -233,19 +237,14 @@ public class CatalogController extends BaseController  {
 			Integer itemId = new Integer(sItemId);
 			Integer imageIndex = new Integer(sImageIndex);
 			
-			
-			String sql = "SELECT COUNT(*) from c4j_items_images  " +
-			"WHERE item_id = ?";
-			int numOfImages = getJdbcTemplate().queryForInt(sql, new Object[] {itemId});
-			if (numOfImages > 0) {
-				byte[] bytes = getItemImage(itemId, imageIndex);
+			byte[] bytes = getItemImage(itemId, imageIndex);
 
-				// retrieve from cache and finally write bytes to response
-				response.setContentType("image/jpeg");
-				for (int i = 0; i < bytes.length; i++) {
-			        response.getOutputStream().write(bytes[i]);
-			    }
-			}
+			// retrieve from cache and finally write bytes to response
+			response.setContentType("image/jpeg");
+			for (int i = 0; i < bytes.length; i++) {
+		        response.getOutputStream().write(bytes[i]);
+		    }
+			
 			
 		}
 		
@@ -290,12 +289,32 @@ public class CatalogController extends BaseController  {
 	
 	protected byte[] getItemImage(Integer itemId, Integer imageIndex) {
 		byte[] bytes = null;
-		// verify file  
 		
-		if (true) {
+		// verify image existence  
+		String sql = "SELECT COUNT(*) from c4j_items_images  " +
+		"WHERE item_id = ? and image_index = ?";
+		int numOfImages = getJdbcTemplate().queryForInt(
+				sql, new Object[] {itemId, imageIndex}
+		);
+		if (numOfImages == 0) {
+			String path = "/images/img_not_available.png";
+			File f = new File(getServletContext().getRealPath(path));
+			if (f.exists()) {
+				try {
+					bytes = new byte[(int) f.length()];
+					FileInputStream fs = new FileInputStream(f);
+					fs.read(bytes);
+					fs.close();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		} else {
 		
 			// if not found, grab it from database
-			String sql = "SELECT image_data from c4j_items_images  " +
+			sql = "SELECT image_data from c4j_items_images  " +
 					"WHERE item_id = ? and image_index = ?";
 			bytes = (byte[]) getJdbcTemplate().queryForObject(
 				sql, new Object[] {itemId, imageIndex}, new RowMapper() {

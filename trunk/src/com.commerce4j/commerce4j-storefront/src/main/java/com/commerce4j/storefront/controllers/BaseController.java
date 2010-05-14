@@ -42,7 +42,10 @@ public abstract class BaseController extends MultiActionController {
 	
 	static final String SUCCESS = "success";
 	static final String FAILURE = "failure";
+	static final String JSON_HEADER =  "application/json";
+	
 	static final ResourceBundle bundle = ResourceBundle.getBundle("i18n");
+	
 	
 	private JdbcTemplate jdbcTemplate;
 	private CategoryDSO categoryDSO;

@@ -72,7 +72,7 @@ C4JBlocks.LastAddedItems = Class.create({
 						
 						// start over listings, if empty
 						if ($A(listings).size() === 0) {
-							this.offset = 1;
+							this.offset = 0;
 							this.display(this.container, this.offset, this.max);
 							return;
 						}	
@@ -92,8 +92,8 @@ C4JBlocks.LastAddedItems = Class.create({
 							tr = new Element('tr');
 							
 							// item image
-							td = new Element('td', {width: 100});
-							img = new Element('img', {src : 'images/img_not_available.png'});
+							td = new Element('td', {width: 100, align: 'center'});
+							img = new Element('img', {src : 'catalog.jspa?aid=image&image=0&item='+e.itemId});
 							td.insert(img);
 							tr.insert(td);
 

@@ -5,7 +5,7 @@
 
 <table width="100%">
 <tr>
-<td><img src="http://code.google.com/p/commerce4j/logo?logo_id=1269574971" alt="" /></td>
+<td><img src="images/img_logo_header.png" alt="" /></td>
 <td valign="bottom" width="80%">
 	<span class="smaller gray">
 		Bienvenido!!!, 
