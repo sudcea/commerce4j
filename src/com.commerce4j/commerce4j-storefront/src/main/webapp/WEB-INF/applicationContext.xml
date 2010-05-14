@@ -54,6 +54,12 @@
 	<bean id="itemDSO" class="com.commerce4j.model.dso.jdbc.ItemDSOImpl">
 		<property name="itemDAO" ref="itemDAO" />
 	</bean>
+	
+	
+	<bean id="tagDAO" class="com.commerce4j.model.dao.jdbc.TagDAOImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+	
 
 	<bean id="paramResolver" class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
 	  <property name="paramName" value="aid"/>
