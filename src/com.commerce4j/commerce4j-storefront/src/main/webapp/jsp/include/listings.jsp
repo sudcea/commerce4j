@@ -45,7 +45,7 @@ Ordenar por Precio, Nombre &oacute; Calificaci&oacute;n
 		<c:forEach items='${listings}'  var="item" varStatus="status">
 		<tr>
 			<td valign="top" align="center">
-				<img src="images/img_not_available.png" />
+				<img src="catalog.jspa?aid=image&item=${item.itemId}&image=0" />
 			</td>
 			<td valign="top">
 			<a href="catalog.jspa?aid=detail&item=${item.itemId}"><strong>${item.itemTitle}</strong></a>
@@ -73,6 +73,7 @@ Ordenar por Precio, Nombre &oacute; Calificaci&oacute;n
 	</table>
 </c:when>
 
+
 <c:when test="${view eq 'tile'}">
 
 	<table class="listings" width="100%" cellspacing="0" border="0">
@@ -82,7 +83,7 @@ Ordenar por Precio, Nombre &oacute; Calificaci&oacute;n
 		
 			<td width="25%" valign="top" align="center">
 			
-				<img src="images/img_not_available.png" />
+				<img src="catalog.jspa?aid=image&item=${item.itemId}&image=0" />
 				<br/>
 				<a href="catalog.jspa?aid=detail&item=${item.itemId}"><strong><c:out value="${item.itemTitle}" /></strong></a>
 				<br/><br/>

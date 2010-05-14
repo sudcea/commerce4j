@@ -143,8 +143,8 @@ public class ItemDAOImpl extends JdbcDaoSupport implements ItemDAO {
 	 */
 	public List<ItemDTO> findAllByLastAddition(Integer categoryId, Integer max, Integer first) {
 		
-		first = (first == null || first == 0) ? 1 : first;
-		max = (max == null || max == 0) ? 5 : max;
+		first = (first == null || first == 0) ? 0 : first;
+		max = (max == null || max == 0) ? 4 : max;
 		
 		String sql = "SELECT " +
 		"  it.item_id, " +
