@@ -13,12 +13,13 @@ Store Front
   * Shopping Cart (Database based)
   * Express Checkout (Paypal Integration)
   * Google Tools Integration (Adwords, Adsense, Analytics)
+  * i18n Internacionalization
 
 Technology
 
   * ANSI SQL Data Access Objects
-  * Java Web Application WAR (colesterol & sugar free)
-  * Model/View/Controller
-  * Spring Framework Based IoC
+  * Java Web Application WAR (Colesterol & Sugar free)
+  * Model/View/Controller Patterns & Practices
+  * Spring Framework Based IoC 
   * JSP, JSTL, Javascript/Ajax Based Default Views
   
