@@ -105,6 +105,14 @@
 	 				<td align="right" valign="top" >Descripci&oacute;n : </td>
 	 				<td>${item.itemDesc}</td>
 	 			</tr>
+	 			<tr>
+	 				<td align="right" valign="top" width="125">Etiquetas : </td>
+	 				<td>
+	 					<c:forEach items="${tags}" var="tag">
+	 						<span class="tag">${tag.tag}</span>
+	 					</c:forEach>
+	 				</td>
+	 			</tr>
 	 			</table>
 	 			 
 	 			

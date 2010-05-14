@@ -56,4 +56,6 @@ public interface ItemDAO {
 	 */
 	public List<ItemDTO> findAllByLastAddition(Integer categoryId, Integer max, Integer first);
 	
+
+	
 }

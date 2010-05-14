@@ -187,8 +187,6 @@ public class ItemDAOImpl extends JdbcDaoSupport implements ItemDAO {
 		return l;
 	}
 	
-
-	
 	/*
 	 * Entity Row Mapper.
 	 */

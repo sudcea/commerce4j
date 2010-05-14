@@ -15,7 +15,6 @@
  */
 package com.commerce4j.storefront.controllers;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -37,10 +36,12 @@ import org.springframework.jdbc.support.lob.DefaultLobHandler;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.commerce4j.model.dao.BrandDAO;
+import com.commerce4j.model.dao.TagDAO;
 import com.commerce4j.model.dso.ItemDSO;
 import com.commerce4j.model.dto.BrandDTO;
 import com.commerce4j.model.dto.CategoryDTO;
 import com.commerce4j.model.dto.ItemDTO;
+import com.commerce4j.model.dto.TagDTO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -111,25 +112,27 @@ public class CatalogController extends BaseController  {
 			Integer itemId = new Integer(sItemId);
 			
 			
-			// display product listing
+			// add item to mav
 			ItemDSO itemDSO = (ItemDSO) getApplicationContext().getBean("itemDSO");
 			ItemDTO itemDTO = itemDSO.findById(itemId);
 			mav.addObject("item", itemDTO);
 			
+			// add tags to mav
+			TagDAO tagDAO = (TagDAO) getApplicationContext().getBean("tagDAO");
+			List<TagDTO> tags = tagDAO.findAllTagsByItem(itemId);
+			mav.addObject("tags", tags);
 			
-			// verify images
-			String sql = "SELECT COUNT(*) from c4j_items_images  " +
-			"WHERE item_id = ?";
-			Object[] params = {itemId};
-			int numOfImages = getJdbcTemplate().queryForInt(sql, params);
-			mav.addObject("numOfImages", numOfImages);
+			
 			
 		}
 		
 		return mav ;
 	}
-	
-	
+		
+	/**
+	 * @param request
+	 * @param response
+	 */
 	public void allCategories(
 			HttpServletRequest request, HttpServletResponse response		
 	) {
@@ -160,7 +163,10 @@ public class CatalogController extends BaseController  {
 		}
 	}
 	
-	
+	/**
+	 * @param request
+	 * @param response
+	 */
 	public void lastAddedItems(
 			HttpServletRequest request, HttpServletResponse response
 	) {
@@ -194,7 +200,10 @@ public class CatalogController extends BaseController  {
 		}
 	}
 	
-	
+	/**
+	 * @param request
+	 * @param response
+	 */
 	public void featuredBrands(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> responseModel = new HashMap<String, Object>();
 		response.setContentType(JSON_HEADER);	
@@ -224,9 +233,11 @@ public class CatalogController extends BaseController  {
 		}
 	}
 	
-	
-	
-	
+	/**
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
 	public void image(HttpServletRequest request, HttpServletResponse response) 
 	throws IOException {
 
@@ -251,6 +262,11 @@ public class CatalogController extends BaseController  {
 		
 	}
 	
+	/**
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
 	public void brandImage(HttpServletRequest request, HttpServletResponse response) 
 	throws IOException {
 		
@@ -286,7 +302,11 @@ public class CatalogController extends BaseController  {
 		
 	}
 	
-	
+	/**
+	 * @param itemId
+	 * @param imageIndex
+	 * @return
+	 */
 	protected byte[] getItemImage(Integer itemId, Integer imageIndex) {
 		byte[] bytes = null;
 		
