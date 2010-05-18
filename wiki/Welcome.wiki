@@ -11,6 +11,7 @@ Store Front
   * Catalog Browsing, Simple and Advanced Search
   * User Profile (Login, Registration)
   * Shopping Cart (Database based)
+  * Discounts and Coupons, Loyalty program.
   * Express Checkout (Paypal Integration)
   * Google Tools Integration (Adwords, Adsense, Analytics)
   * i18n Internacionalization
