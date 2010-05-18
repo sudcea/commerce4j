@@ -16,7 +16,7 @@
 package com.commerce4j.storefront.utils;
 
 /**
- * Send mailer utility.
+ * Send mail utility.
  * 
  * @author carlos.quijano
  * @version $Revision$ $Date$

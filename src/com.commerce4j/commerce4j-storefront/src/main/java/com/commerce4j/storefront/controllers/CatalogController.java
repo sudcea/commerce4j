@@ -137,7 +137,7 @@ public class CatalogController extends BaseController  {
 			HttpServletRequest request, HttpServletResponse response		
 	) {
 		Map<String, Object> responseModel = new HashMap<String, Object>();
-		response.setContentType(JSON_HEADER);	
+		response.setContentType(HTTP_HEADER_JSON);	
 		Gson gson = new GsonBuilder().create();
 		
 		Integer storeId = 1;
@@ -172,7 +172,7 @@ public class CatalogController extends BaseController  {
 	) {
 
 		Map<String, Object> responseModel = new HashMap<String, Object>();
-		response.setContentType(JSON_HEADER);	
+		response.setContentType(HTTP_HEADER_JSON);	
 		Gson gson = new GsonBuilder().create();
 		
 		String sFirst = request.getParameter("first");
@@ -206,7 +206,7 @@ public class CatalogController extends BaseController  {
 	 */
 	public void featuredBrands(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> responseModel = new HashMap<String, Object>();
-		response.setContentType(JSON_HEADER);	
+		response.setContentType(HTTP_HEADER_JSON);	
 		Gson gson = new GsonBuilder().create();
 		
 

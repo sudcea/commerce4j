@@ -39,7 +39,6 @@ import com.google.gson.GsonBuilder;
 public class ProfileController extends BaseController {
 
 	
-	
 	/* (non-Javadoc)
 	 * @see com.commerce4j.storefront.controllers.BaseController#unspecified(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 */

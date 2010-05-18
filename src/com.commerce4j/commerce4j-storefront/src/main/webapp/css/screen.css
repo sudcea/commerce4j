@@ -102,6 +102,11 @@ a:hover {
 }
 
 /** BACKGROUND COLOR CLASSES ***************************************/
+
+.bgwhite {
+	background-color: #f1f1f1;
+}
+
 .bglight {
 	background-color: #f1f1f1;
 }
