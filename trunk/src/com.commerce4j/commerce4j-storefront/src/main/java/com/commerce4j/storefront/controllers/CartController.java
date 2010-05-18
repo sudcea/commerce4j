@@ -29,7 +29,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.commerce4j.model.dso.ItemDSO;
 import com.commerce4j.model.dto.CartDTO;
 import com.commerce4j.model.dto.ItemDTO;
 import com.google.gson.Gson;
@@ -41,16 +40,13 @@ import com.google.gson.GsonBuilder;
  */
 public class CartController extends BaseController {
 
-	private ItemDSO itemDSO;
-	
 	/* (non-Javadoc)
 	 * @see com.commerce4j.storefront.controllers.BaseController#unspecified(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 */
 	public ModelAndView unspecified(HttpServletRequest request, HttpServletResponse response) {
 		return cart(request,response);
 	}
-	
-	
+
 	/**
 	 * @param request
 	 * @param response
@@ -84,7 +80,7 @@ public class CartController extends BaseController {
 		}
 		
 		// find item
-		ItemDTO itemDTO = itemDSO.findById(new Integer(item));
+		ItemDTO itemDTO = getItemDSO().findById(new Integer(item));
 		if (item == null)
 			errors.add(newError("item", getString("errors.notEmpty"), new Object[] {"item"}));
 		
@@ -182,22 +178,7 @@ public class CartController extends BaseController {
 	}
 
 
-	/**
-	 * JavaBean Getter, Gets the itemDSO current value.
-	 * @return The itemDSO current value.
-	 */
-	public ItemDSO getItemDSO() {
-		return itemDSO;
-	}
 
-
-	/**
-	 * JavaBean Setter, Sets value to itemDSO.
-	 * @param itemDSO The value of itemDSO to set.
-	 */
-	public void setItemDSO(ItemDSO itemDSO) {
-		this.itemDSO = itemDSO;
-	}
 	
 	
 	

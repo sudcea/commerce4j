@@ -7,11 +7,13 @@
 	<display-name>commerce4j-storefront</display-name>
 	<description>Commerce4J Store Front Web Application</description>
 
+	<!-- CONTEXT-PARAM: Localization Context -->
 	<context-param>
 		<param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
 		<param-value>i18n</param-value>
 	</context-param>
 
+	<!-- SERVLET: Spring MVC Servlet -->
 	<servlet>
         <servlet-name>Spring MVC</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -22,6 +24,7 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     
+    <!-- SERVLET-MAPPINT: Spring MVC Servlet Mapping -->
     <servlet-mapping>
         <servlet-name>Spring MVC</servlet-name>
         <url-pattern>*.jspa</url-pattern>

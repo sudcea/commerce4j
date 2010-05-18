@@ -27,6 +27,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.commerce4j.model.dto.CategoryDTO;
 
 /**
+ * Home Page MultiAction Controller.
+ * 
  * @author carlos.quijano
  * @version $Revision$ $Date$
  */
@@ -38,28 +40,31 @@ public class HomeController extends BaseController {
 	public ModelAndView unspecified(HttpServletRequest request, HttpServletResponse response) {
 		return home(request,response);
 	}
-	
-	
+		
+	/**
+	 * Home Action, this is the default action.
+	 * 
+	 * @param request The {@link HttpServletRequest} object for this action.
+	 * @param response The {@link HttpServletResponse} object for this action.
+	 * @return The {@link ModelAndView} instance for this action.
+	 */
 	public ModelAndView home(HttpServletRequest request, HttpServletResponse response) {
 		
-		Map<String, Object> model = new HashMap<String, Object>();
-		List<CategoryDTO> categories = getCategoryDSO().findRootCategories(1);
+		// declare locales
+		Map<String, Object> model;
+		List<CategoryDTO> categories;
 		
-		if (categories != null && !categories.isEmpty())
+		// init locals
+		model = new HashMap<String, Object>();
+		categories = getCategoryDSO().findRootCategories(1);
+		
+		// find the store categories 
+		if (categories != null && !categories.isEmpty()) {
 			model.put("categories", categories);
-		
-		
-		
+		}
+
+		// return mav
 		return new ModelAndView("home", model);
 	}
-	
-	
 
-
-
-	
-	
-	
-	
-	
 }

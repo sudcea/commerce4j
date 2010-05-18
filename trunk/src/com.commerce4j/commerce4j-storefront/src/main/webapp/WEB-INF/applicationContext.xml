@@ -11,13 +11,12 @@
                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
                http://www.springmodules.org/schema/ehcache http://www.springmodules.org/schema/cache/springmodules-ehcache.xsd">
 
-
+	<!--** JEE BEANS *******************************************************-->
 	<ehcache:config configLocation="classpath:ehcache.xml" />
 
 	<ehcache:proxy id="imageCache" refId="catalogController">
 		<ehcache:caching methodName="getItemImage*" cacheName="imageCache" />
 	</ehcache:proxy>
- 
  
 	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName" value="java:/comp/env/jdbc/commerce4j" />
@@ -26,7 +25,8 @@
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
-	
+
+	<!--** DAO BEANS *******************************************************-->
 	<bean id="categoryDAO" class="com.commerce4j.model.dao.jdbc.CategoryDAOImpl">
 		<property name="jdbcTemplate" ref="jdbcTemplate" />
 	</bean>
@@ -60,35 +60,36 @@
 		<property name="jdbcTemplate" ref="jdbcTemplate" />
 	</bean>
 	
-
-	<bean id="paramResolver" class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
-	  <property name="paramName" value="aid"/>
-	  <property name="defaultMethodName" value="unspecified" />
+	<!--** WEB BEANS *******************************************************-->
+	<bean id="paramResolver"
+		class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+		<property name="paramName" value="aid" />
+		<property name="defaultMethodName" value="unspecified" />
 	</bean>
 
-	<bean id="homeController" class="com.commerce4j.storefront.controllers.HomeController">
-		<property name="methodNameResolver" ref="paramResolver" />
-		<property name="jdbcTemplate" ref="jdbcTemplate" />
-		<property name="categoryDSO" ref="categoryDSO" />
-	</bean>
-	
-	<bean id="catalogController" class="com.commerce4j.storefront.controllers.CatalogController">
+	<bean id="baseController" class="com.commerce4j.storefront.controllers.BaseController"
+		abstract="true">
 		<property name="methodNameResolver" ref="paramResolver" />
 		<property name="jdbcTemplate" ref="jdbcTemplate" />
 		<property name="profileDSO" ref="profileDSO" />
 		<property name="categoryDSO" ref="categoryDSO" />
-	</bean>
-	
-	<bean id="profileController" class="com.commerce4j.storefront.controllers.ProfileController">
-		<property name="methodNameResolver" ref="paramResolver" />
-		<property name="jdbcTemplate" ref="jdbcTemplate" />
-		<property name="profileDSO" ref="profileDSO" />
-	</bean>
-	
-	<bean id="cartController" class="com.commerce4j.storefront.controllers.CartController">
-		<property name="methodNameResolver" ref="paramResolver" />
-		<property name="jdbcTemplate" ref="jdbcTemplate" />
 		<property name="itemDSO" ref="itemDSO" />
+	</bean>
+
+	<bean id="homeController" parent="baseController"
+		class="com.commerce4j.storefront.controllers.HomeController">
+	</bean>
+
+	<bean id="catalogController" parent="baseController"
+		class="com.commerce4j.storefront.controllers.CatalogController">
+	</bean>
+
+	<bean id="profileController" parent="baseController"
+		class="com.commerce4j.storefront.controllers.ProfileController">
+	</bean>
+
+	<bean id="cartController" parent="baseController"
+		class="com.commerce4j.storefront.controllers.CartController">
 	</bean>
 
 	<bean id="urlMapping"
