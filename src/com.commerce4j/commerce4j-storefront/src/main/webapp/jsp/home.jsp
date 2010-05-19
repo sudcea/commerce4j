@@ -16,8 +16,9 @@
 	<script type="text/javascript">
 
 		document.observe('dom:loaded', function()  {
+			var uri = 'syndication.jspa?aid=findLastAddedItems';
 			var block_last_added = new C4JBlocks.LastAddedItems(
-				'catalog.jspa?aid=lastAddedItems','last_added', {
+				uri,'last_added', {
 				max: 3
 			}).start();		
 		});

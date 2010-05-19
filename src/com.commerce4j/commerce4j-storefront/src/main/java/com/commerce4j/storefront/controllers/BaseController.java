@@ -60,7 +60,9 @@ public abstract class BaseController extends MultiActionController {
 	 * Web Application Resource Bundle instance.
 	 */
 	public static final ResourceBundle bundle = ResourceBundle.getBundle("i18n");
-
+	
+	
+	
 	private JdbcTemplate jdbcTemplate;
 	private CategoryDSO categoryDSO;
 	private ProfileDSO profileDSO;
@@ -93,6 +95,16 @@ public abstract class BaseController extends MultiActionController {
 	 */
 	protected String getString(String key) {
 		return bundle.getString(key);
+	}
+	
+	/**
+	 * Get a Bean from the Application Context.
+	 * 
+	 * @param id The bean identifier.
+	 * @return The requested bean object.
+	 */
+	protected Object getBean(String id) {
+		return getWebApplicationContext().getBean(id);
 	}
 	
 	/**

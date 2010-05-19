@@ -30,7 +30,7 @@
         <level value="INFO"/>
     </logger>
     
-    <logger name="org.springmodules">
+    <logger name="org.springmodules.cache.provider.ehcache">
         <level value="DEBUG"/>
     </logger>
     

@@ -23,7 +23,6 @@ import java.io.OutputStreamWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +35,7 @@ import org.springframework.jdbc.support.lob.DefaultLobHandler;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.commerce4j.model.dao.BrandDAO;
+import com.commerce4j.model.dao.ItemImageDAO;
 import com.commerce4j.model.dao.TagDAO;
 import com.commerce4j.model.dso.ItemDSO;
 import com.commerce4j.model.dto.BrandDTO;
@@ -128,77 +128,7 @@ public class CatalogController extends BaseController  {
 		
 		return mav ;
 	}
-		
-	/**
-	 * @param request
-	 * @param response
-	 */
-	public void allCategories(
-			HttpServletRequest request, HttpServletResponse response		
-	) {
-		Map<String, Object> responseModel = new HashMap<String, Object>();
-		response.setContentType(HTTP_HEADER_JSON);	
-		Gson gson = new GsonBuilder().create();
-		
-		Integer storeId = 1;
-		List<CategoryDTO> categories = new LinkedList<CategoryDTO>();
-		getCategoryDSO().fetchChildrenByParent(categories, storeId, null);
-		
-		// add data to model
-		responseModel.put("responseCode", SUCCESS);
-		responseModel.put("responseMessage", "Login Completo");
-		responseModel.put("categories", categories);
-		
-		// serialize output
-		try {
 
-			OutputStreamWriter os = new OutputStreamWriter(response.getOutputStream(), "UTF8");
-			String data = gson.toJson(responseModel);
-			os.write(data);
-			
-			os.flush();
-			os.close();
-		} catch (IOException e) {
-			logger.fatal(e);
-		}
-	}
-	
-	/**
-	 * @param request
-	 * @param response
-	 */
-	public void lastAddedItems(
-			HttpServletRequest request, HttpServletResponse response
-	) {
-
-		Map<String, Object> responseModel = new HashMap<String, Object>();
-		response.setContentType(HTTP_HEADER_JSON);	
-		Gson gson = new GsonBuilder().create();
-		
-		String sFirst = request.getParameter("first");
-		String sMax = request.getParameter("max");
-		
-		ItemDSO itemDSO = (ItemDSO) getApplicationContext().getBean("itemDSO");
-		List<ItemDTO> lastItems = itemDSO.findAllByLastAddition(null, new Integer(sMax), new Integer(sFirst));
-		
-
-		responseModel.put("responseCode", SUCCESS);
-		responseModel.put("responseMessage", "Login Completo");
-		responseModel.put("listings", lastItems);
-		
-		// serialize output
-		try {
-
-			OutputStreamWriter os = new OutputStreamWriter(response.getOutputStream(), "UTF8");
-			String data = gson.toJson(responseModel);
-			os.write(data);
-			
-			os.flush();
-			os.close();
-		} catch (IOException e) {
-			logger.fatal(e);
-		}
-	}
 	
 	/**
 	 * @param request
@@ -248,7 +178,14 @@ public class CatalogController extends BaseController  {
 			Integer itemId = new Integer(sItemId);
 			Integer imageIndex = new Integer(sImageIndex);
 			
-			byte[] bytes = getItemImage(itemId, imageIndex);
+			// verify image existence  
+			ItemImageDAO itemImageDAO = (ItemImageDAO) getBean("itemImageDAO");
+			
+			// get image from db if exists or not available
+			byte[] bytes = (
+					itemImageDAO.exists(itemId, imageIndex)) ? 
+					itemImageDAO.findImageAsBytes(itemId, imageIndex) : 
+					getNotAvailableImage();
 
 			// retrieve from cache and finally write bytes to response
 			response.setContentType("image/jpeg");
@@ -301,53 +238,30 @@ public class CatalogController extends BaseController  {
 		
 		
 	}
+
 	
 	/**
-	 * @param itemId
-	 * @param imageIndex
 	 * @return
 	 */
-	protected byte[] getItemImage(Integer itemId, Integer imageIndex) {
+	protected byte[] getNotAvailableImage() {
 		byte[] bytes = null;
-		
-		// verify image existence  
-		String sql = "SELECT COUNT(*) from c4j_items_images  " +
-		"WHERE item_id = ? and image_index = ?";
-		int numOfImages = getJdbcTemplate().queryForInt(
-				sql, new Object[] {itemId, imageIndex}
-		);
-		if (numOfImages == 0) {
-			String path = "/images/img_not_available.png";
-			File f = new File(getServletContext().getRealPath(path));
-			if (f.exists()) {
-				try {
-					bytes = new byte[(int) f.length()];
-					FileInputStream fs = new FileInputStream(f);
-					fs.read(bytes);
-					fs.close();
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+		String path = "/images/img_not_available.png";
+		File f = new File(getServletContext().getRealPath(path));
+		if (f.exists()) {
+			try {
+				bytes = new byte[(int) f.length()];
+				FileInputStream fs = new FileInputStream(f);
+				fs.read(bytes);
+				fs.close();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+				if (logger.isErrorEnabled())
+					logger.error(e);
+			} catch (IOException e) {
+				e.printStackTrace();
+				if (logger.isErrorEnabled())
+					logger.error(e);
 			}
-		} else {
-		
-			// if not found, grab it from database
-			sql = "SELECT image_data from c4j_items_images  " +
-					"WHERE item_id = ? and image_index = ?";
-			bytes = (byte[]) getJdbcTemplate().queryForObject(
-				sql, new Object[] {itemId, imageIndex}, new RowMapper() {
-				final DefaultLobHandler lobHandler = new DefaultLobHandler();
-				public byte[] mapRow(ResultSet rs, int rowNum)
-				throws SQLException {					
-		            return lobHandler.getBlobAsBytes(rs, "image_data"); 
-				}
-				
-			});
-			// write bytes in file output stream
-			
-			// cache image bytes
 		}
 		return bytes;
 	}
