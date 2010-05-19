@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xmlns:jee="http://www.springframework.org/schema/jee"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:ehcache="http://www.springmodules.org/schema/ehcache"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
@@ -11,56 +13,72 @@
                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
                http://www.springmodules.org/schema/ehcache http://www.springmodules.org/schema/cache/springmodules-ehcache.xsd">
 
-	<!--** JEE BEANS *******************************************************-->
+	<!--
+	JEE BEANS
+	-->
 	<ehcache:config configLocation="classpath:ehcache.xml" />
 
-	<ehcache:proxy id="imageCache" refId="catalogController">
-		<ehcache:caching methodName="getItemImage*" cacheName="imageCache" />
+	<ehcache:proxy id="imageCache" refId="itemImageDAO">
+		<ehcache:caching methodName="find*" cacheName="imageCache" />
+		<ehcache:flushing cacheNames="imageCache" methodName="find*" when="after"/>
 	</ehcache:proxy>
- 
+	
+	<ehcache:proxy id="itemsCache" refId="itemDSO">
+		<ehcache:caching methodName="find*" cacheName="itemsCache" />
+		<ehcache:flushing cacheNames="itemsCache" methodName="find*" when="after"/>
+	</ehcache:proxy>
+
 	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName" value="java:/comp/env/jdbc/commerce4j" />
 	</bean>
-	
+
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-	<!--** DAO BEANS *******************************************************-->
+	<!--
+	DAO BEANS
+	-->
 	<bean id="categoryDAO" class="com.commerce4j.model.dao.jdbc.CategoryDAOImpl">
 		<property name="jdbcTemplate" ref="jdbcTemplate" />
 	</bean>
-	
+
 	<bean id="userDAO" class="com.commerce4j.model.dao.jdbc.UserDAOImpl">
 		<property name="jdbcTemplate" ref="jdbcTemplate" />
 	</bean>
-	
+
 	<bean id="brandDAO" class="com.commerce4j.model.dao.jdbc.BrandDAOImpl">
 		<property name="jdbcTemplate" ref="jdbcTemplate" />
 	</bean>
-	
+
 	<bean id="itemDAO" class="com.commerce4j.model.dao.jdbc.ItemDAOImpl">
 		<property name="jdbcTemplate" ref="jdbcTemplate" />
 	</bean>
 	
+	<bean id="itemImageDAO" class="com.commerce4j.model.dao.jdbc.ItemImageDAOImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+
 	<bean id="categoryDSO" class="com.commerce4j.model.dso.jdbc.CategoryDSOImpl">
 		<property name="categoryDAO" ref="categoryDAO" />
 	</bean>
-	
+
 	<bean id="profileDSO" class="com.commerce4j.model.dso.jdbc.ProfileDSOImpl">
 		<property name="userDAO" ref="userDAO" />
 	</bean>
-	
+
 	<bean id="itemDSO" class="com.commerce4j.model.dso.jdbc.ItemDSOImpl">
 		<property name="itemDAO" ref="itemDAO" />
 	</bean>
 	
-	
+
 	<bean id="tagDAO" class="com.commerce4j.model.dao.jdbc.TagDAOImpl">
 		<property name="jdbcTemplate" ref="jdbcTemplate" />
 	</bean>
-	
-	<!--** WEB BEANS *******************************************************-->
+
+	<!--
+	WEB BEANS
+	-->
 	<bean id="paramResolver"
 		class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
 		<property name="paramName" value="aid" />
@@ -92,22 +110,40 @@
 		class="com.commerce4j.storefront.controllers.CartController">
 	</bean>
 
-	<bean id="urlMapping"
-	  class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-	  <property name="mappings">
-	    <props>
-	      <prop key="/home.*">homeController</prop>
-	      <prop key="/profile.*">profileController</prop>
-	      <prop key="/catalog.*">catalogController</prop>
-	      <prop key="/cart.*">cartController</prop>
-	    </props>
-	  </property>
+	<bean name="syndicationController" parent="baseController"
+		class="com.commerce4j.storefront.controllers.SyndicationController">
 	</bean>
 
-	<bean id="viewResolver"	class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<bean name="jsonView" class="org.springframework.web.servlet.view.json.JsonView">
+		<property name="jsonWriter" ref="jsonWriter" />
+	</bean>
+
+	<bean name="jsonWriter"
+		class="org.springframework.web.servlet.view.json.writer.xstream.XStreamJsonStringWriter">
+		<property name="convertAllMapValues" value="true" />
+	</bean>
+
+	<bean id="urlMapping"
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<prop key="/home.*">homeController</prop>
+				<prop key="/profile.*">profileController</prop>
+				<prop key="/catalog.*">catalogController</prop>
+				<prop key="/cart.*">cartController</prop>
+				<prop key="/syndication.*">syndicationController</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="jspViewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
 		<property name="prefix" value="/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
+
+	<bean name="xmlViewResolver" class="org.springframework.web.servlet.view.XmlViewResolver" />
+
 
 </beans>

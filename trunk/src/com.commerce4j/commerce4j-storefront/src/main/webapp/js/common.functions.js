@@ -266,7 +266,7 @@ function show_category_bubble(caller) {
 	});
 	
 	// ajax controller call
-	new Ajax.Request('catalog.jspa?aid=allCategories',  {
+	new Ajax.Request('syndication.jspa?aid=findAllCategoriesRecursively',  {
 		method: 'post',
 		onComplete: function(transport) {
 		 	response = transport.responseText.evalJSON();
