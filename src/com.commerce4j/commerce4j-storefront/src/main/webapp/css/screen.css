@@ -411,3 +411,28 @@ li.top_ten {
 	margin-right: 5px;
 	
 }
+
+
+.tagcloud { 
+	font-family:arial,Verdana,sans-serif; 
+	text-align:center; display:block; 
+}
+ 
+.tag1{ font-size:x-small; color:#999; }
+.tag2{ font-size:small; color:#666; }
+.tag3{ font-size:medium; color:#333; }
+.tag4{ font-size:large; color:#000; }
+.tag5{ font-size:x-large; color:#000; }
+
+ 
+.tagcloud a { 
+	padding: 2px;
+	text-decoration:none; 
+}
+
+.tagcloud a:hover { 
+	padding: 2px;
+	text-decoration:none; 
+	color: #000000; 
+	background-color: #d1d1d1;
+}

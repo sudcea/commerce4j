@@ -4,5 +4,7 @@
 
 <table class="block">
 <tr><th><fmt:message key="featured.link"  /></th></tr>
-<tr><td></td></tr>
+<tr><td>
+<div id="d_featured"  style="height: 450px;"></div>
+</td></tr>
 </table>

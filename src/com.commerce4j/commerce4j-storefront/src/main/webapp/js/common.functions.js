@@ -4,10 +4,68 @@ if(typeof(Prototype) == "undefined")
 if(typeof(C4JBlocks) == 'undefined') 
 	C4JBlocks = {};
 
+
 /**
- * Last Added Items Block.
+ * Item Rotator Block.
  */
-C4JBlocks.LastAddedItems = Class.create({
+C4JBlocks.TagCloud = Class.create({
+	
+	/**
+	 * Block constructor, initializer.
+	 * 
+	 */
+	initialize : function(src, container) {
+		this.src = src;
+		this.container = container;
+	},
+	
+	display : function() {
+		
+		if ($(this.container)) {
+			// ajax controller call			
+			new Ajax.Request(this.src,  {
+				method: 'post',
+				onComplete: function(transport) {
+				 	response = transport.responseText.evalJSON(true);
+					if (response.responseCode === 'success') {
+						// parse listings source
+						tags = $A(response.tags);
+						this.draw(this.container, tags);
+					}
+				}.bind(this),
+				
+				onFailure: function(transport) {
+					alert('Error de Transporte');
+					this.executer.stop();
+				}.bind(this)
+			});
+		}
+	},
+	
+	/**
+	 * Print the DOM to writer.
+	 * 
+	 * @param listings The tags array.
+	 */
+	draw : function(id, tags) {
+		var container = $(id);
+		// iterate listings
+		tags.each(function(e) {
+			
+			a = new Element('a')
+			.addClassName('tag'+e.counter)
+			.update(e.tag.tag+'\n');
+			
+			container.insert(a);
+		});
+		
+	}
+});
+
+/**
+ * Item Rotator Block.
+ */
+C4JBlocks.ItemRotator = Class.create({
 	
 	/**
 	 * Block constructor, initializer.
@@ -19,7 +77,7 @@ C4JBlocks.LastAddedItems = Class.create({
 	 */
 	initialize : function(src, container, config) {
 		if (config == undefined) {
-			config = {max : 5, duracion: 10, offset : 0};
+			config = {max : 5, duration: 10, offset : 0, orientation: 'h'};
 		}
 	
 		this.src = src;
@@ -27,7 +85,7 @@ C4JBlocks.LastAddedItems = Class.create({
 		this.max = (config.max) ? config.max : 5;
 		this.duration = (config.duration) ? config.duration : 10;
 		this.offset = (config.offset) ? config.offset : 0;
-		
+		this.orientation = (config.orientation) ? config.orientation : 'h';
 	},
 	
 	/**
@@ -66,97 +124,17 @@ C4JBlocks.LastAddedItems = Class.create({
 				onComplete: function(transport) {
 				 	response = transport.responseText.evalJSON(true);
 					if (response.responseCode === 'success') {
-
 						// parse listings source
-						listings = response.listings;
+						listings = $A(response.listings);
 						
 						// start over listings, if empty
-						if ($A(listings).size() === 0) {
+						if (listings.size() === 0) {
 							this.offset = 0;
 							this.display(this.container, this.offset, this.max);
 							return;
 						}	
-						
-						// create table
-						table = new Element('table',{
-							id: 'last_added_items_table', 
-							width: '100%', 
-							style : 'display:none;'
-						});
-
-						
-						// iterate listings
-						$A(listings).each(function(e) {
-							
-							// table row
-							tr = new Element('tr');
-							
-							// item image
-							td = new Element('td', {width: 100, align: 'center'});
-							img = new Element('img', {src : 'catalog.jspa?aid=image&image=0&item='+e.itemId});
-							td.insert(img);
-							tr.insert(td);
-
-							// item title
-							td = new Element('td', {valign: 'top'});
-							a = new Element('a', {
-								href:'catalog.jspa?aid=detail&item='+e.itemId
-							}).update(e.itemTitle);
-							td.insert(new Element('strong').insert(a));
-							
-							// new item icon
-							td.insert(new Element('img', {
-								src : 'images/new_transparent.gif'}
-							));
-							
-							// item description
-							desc = new Element('div').update(e.itemDesc);
-							desc.addClassName('gray smaller');
-							if (window.console) console.debug(e.itemDesc);
-							td.insert(desc);
-							
-							
-							// item price
-							priceText = 
-								e.currency.currencyAbrev + ' ' + 
-								e.currency.currencySymbol + format_currency(e.itemPrice);
-							price = new Element('div', { style : 'margin-top: 10px'
-							}).update(priceText);
-							price.addClassName('listingPriceMedium');
-							td.insert(price);
-
-							// buttons
-							button = new Element('input', {
-								type : 'button',
-								value : 'Ver Detalle',
-								style: 'margin-right: 2px; font-family: verdana; font-size: 11px'
-							}).observe('click', function(event) {
-								window.location.href='catalog.jspa?aid=detail&item='+e.itemId;
-							});
-							td.insert(button);
-							button = new Element('input', {
-								type : 'button',
-								value : 'Comprar',
-								style: 'margin-right: 2px; font-family: verdana; font-size: 11px'
-							}).observe('click', function(event) {
-								add_to_cart(e.itemId,1, false);
-							});
-							td.insert(button);
-							tr.insert(td);
-							
-
-							// add row to table
-							table.insert(tr);
-						}); 
-						
-						// append table to container
-						container.insert(table);
-						
-						// show table
-						table.appear();	
-						
+						this.draw(id, listings, this.orientation);
 					}
-					
 				}.bind(this),
 				
 				onFailure: function(transport) {
@@ -165,6 +143,112 @@ C4JBlocks.LastAddedItems = Class.create({
 				}.bind(this)
 			});
 		}
+	},
+	
+	
+	/**
+	 * Print the DOM to writer.
+	 * 
+	 * @param listings The listings array.
+	 */
+	draw : function(id, listings, orientation) {
+		var container = $(id);
+
+		// create table
+		table = new Element('table',{
+			id: 'last_added_items_table', 
+			width: '100%', 
+			style : 'display:none;'
+		});
+
+		
+		// iterate listings
+		listings.each(function(e) {
+			if (orientation == 'h') {
+			
+				// table row
+				tr = new Element('tr');
+				
+				// item image
+				td = new Element('td', {width: 100, align: 'center'});
+				img = new Element('img', {src : 'catalog.jspa?aid=image&image=0&item='+e.itemId});
+				td.insert(img);
+				tr.insert(td);
+	
+				// item title
+				td = new Element('td', {valign: 'top'});
+				a = new Element('a', { href:'catalog.jspa?aid=detail&item='+e.itemId
+				}).update(e.itemTitle);
+				td.insert(new Element('strong').insert(a));
+				
+				// new item icon
+				td.insert(new Element('img', { src : 'images/new_transparent.gif'} ));
+				
+				// item description
+				desc = new Element('div').update(e.itemDesc);
+				desc.addClassName('gray smaller');
+				if (window.console) console.debug(e.itemDesc);
+				td.insert(desc);
+				
+				
+				// item price
+				priceText = 
+					e.currency.currencyAbrev + ' ' + 
+					e.currency.currencySymbol + format_currency(e.itemPrice);
+				price = new Element('div', { style : 'margin-top: 10px'
+				}).update(priceText);
+				price.addClassName('listingPriceMedium');
+				td.insert(price);
+	
+				// buttons
+				button = new Element('input', {
+					type : 'button',
+					value : 'Ver Detalle',
+					style: 'margin-right: 2px; font-family: verdana; font-size: 11px'
+				}).observe('click', function(event) {
+					window.location.href='catalog.jspa?aid=detail&item='+e.itemId;
+				});
+				td.insert(button);
+				button = new Element('input', {
+					type : 'button',
+					value : 'Comprar',
+					style: 'margin-right: 2px; font-family: verdana; font-size: 11px'
+				}).observe('click', function(event) {
+					add_to_cart(e.itemId,1, false);
+				});
+				td.insert(button);
+				tr.insert(td);
+				
+	
+				// add row to table
+				table.insert(tr);
+			
+			} else if (orientation == 'v') {
+				// table row
+				tr = new Element('tr');
+				
+				// item image
+				td = new Element('td', {align: 'center'});
+				img = new Element('img', {src : 'catalog.jspa?aid=image&image=0&item='+e.itemId});
+				td.insert(img);
+				td.insert(new Element('br'));
+	
+				// item title
+				a = new Element('a', { href:'catalog.jspa?aid=detail&item='+e.itemId
+				}).update(e.itemTitle);
+				td.insert(new Element('strong').insert(a));
+				
+				// add row to table
+				tr.insert(td);
+				table.insert(tr);
+			}
+		}); 
+		
+		// append table to container
+		container.insert(table);
+		
+		// show table
+		table.appear();	
 	}
 });
 
@@ -308,7 +392,7 @@ function show_category_bubble(caller) {
 				tr.insert(td);
 				
 				// update featured brands
-				new Ajax.Request('catalog.jspa?aid=featuredBrands', {
+				new Ajax.Request('syndication.jspa?aid=findFeaturedBrands', {
 					method: 'post',
 					onComplete: function(transport) {
 						response = transport.responseText.evalJSON();

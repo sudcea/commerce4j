@@ -20,8 +20,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,8 +28,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.support.lob.DefaultLobHandler;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.commerce4j.model.dao.BrandDAO;
@@ -207,28 +203,19 @@ public class CatalogController extends BaseController  {
 	public void brandImage(HttpServletRequest request, HttpServletResponse response) 
 	throws IOException {
 		
+		// get brand dao
+		BrandDAO brandDAO = (BrandDAO) getBean("brandDAO");
+		
 		// browse categories by parent
 		String sBrandId = request.getParameter("brand");
 		if (StringUtils.isNotEmpty(sBrandId)) {
 			Integer brandId = new Integer(sBrandId);
-			
-			
-			String sql = "SELECT COUNT(*) FROM c4j_brands c  " +
-			"WHERE c.brand_id = ? and c.featured = ?";
-			int numOfImages = getJdbcTemplate().queryForInt(sql, new Object[] {brandId,1});
-			if (numOfImages > 0) {
-				sql = "SELECT brand_image as image_data from c4j_brands c " +
-						"WHERE  c.brand_id = ? and c.featured = ?";
-				byte[] bytes = (byte[]) getJdbcTemplate().queryForObject(
-					sql, new Object[] {sBrandId,1}, new RowMapper() {
-					final DefaultLobHandler lobHandler = new DefaultLobHandler();
-					public byte[] mapRow(ResultSet rs, int rowNum)
-					throws SQLException {					
-			            return lobHandler.getBlobAsBytes(rs, "image_data"); 
-					}
-					
-				});
-				response.setContentType("image/jpeg");
+			BrandDTO brandDTO = brandDAO.findById(brandId);
+			if (brandDTO != null) {
+				// get image from db if exists or not available
+				byte[] bytes = brandDAO.findImageAsBytes(brandId);
+
+				// retrieve from cache and finally write bytes to response
 				for (int i = 0; i < bytes.length; i++) {
 			        response.getOutputStream().write(bytes[i]);
 			    }

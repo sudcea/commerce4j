@@ -33,8 +33,6 @@
  			<h3>Im&aacute;genes</h3>
  			
  			
- 			<c:choose>
- 			<c:when test="${numOfImages > 0}">
  			
 	 			<div class="image" align="center">
 	 				<img src="catalog.jspa?aid=image&item=${item.itemId}&image=1" alt="" />
@@ -44,16 +42,7 @@
 	 				<img src="images/resultset_next.png" alt="" />
 	 				<img src="images/zoom.png" alt="" />
 	 			</div>
-	 		</c:when>
-	 		<c:otherwise>
-	 			
-	 			<div style="width: 192px;height:192px;padding: 10px" class="bglight" align="center">
-	 				<strong class="gray">Imagen No Disponible</strong>
-	 			</div>
-	 			
-	 		</c:otherwise>	
- 			
- 			</c:choose>
+	 		
  			
  		</div>
  	</td>

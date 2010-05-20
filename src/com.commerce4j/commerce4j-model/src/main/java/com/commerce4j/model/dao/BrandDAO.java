@@ -48,4 +48,13 @@ public interface BrandDAO {
 	 * @return All featured brands List object.
 	 */
 	public List<BrandDTO> findAllFeatured();
+	
+	
+	/**
+	 * Get the brand image bytes array, by it's key.
+	 * 
+	 * @param brandId The brand unique key.
+	 * @return The brand image byte array.
+	 */
+	public byte[] findImageAsBytes(Integer brandId);
 }

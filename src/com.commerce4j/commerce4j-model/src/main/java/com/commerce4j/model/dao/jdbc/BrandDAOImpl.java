@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.jdbc.support.lob.DefaultLobHandler;
 
 import com.commerce4j.model.dao.BrandDAO;
 import com.commerce4j.model.dto.BrandDTO;
@@ -70,9 +71,9 @@ public class BrandDAOImpl extends JdbcDaoSupport implements BrandDAO {
 	public BrandDTO findById(Integer brandId) {
 		
 		String sql = "SELECT brand_id, brand_name, featured " +
-		"FROM c4j_brands WHERE featured = ?";
+		"FROM c4j_brands WHERE brand_id = ?";
 		
-		return (BrandDTO) getJdbcTemplate().queryForObject(sql, new Object[] {1}, rowMapper);
+		return (BrandDTO) getJdbcTemplate().queryForObject(sql, new Object[] {brandId}, rowMapper);
 	}
 	
 	/**
@@ -91,6 +92,26 @@ public class BrandDAOImpl extends JdbcDaoSupport implements BrandDAO {
 			return dto;
 		}
 		
+	}
+
+	/* (non-Javadoc)
+	 * @see com.commerce4j.model.dao.BrandDAO#findImageAsBytes(java.lang.Integer)
+	 */
+	public byte[] findImageAsBytes(Integer brandId) {
+		// if  found, grab it from database
+		String sql = "SELECT brand_image as image_data from c4j_brands c " +
+		"WHERE  c.brand_id = ?";
+		byte[] bytes = (byte[]) getJdbcTemplate().queryForObject(
+			sql, new Object[] {brandId}, new RowMapper() {
+			final DefaultLobHandler lobHandler = new DefaultLobHandler();
+			public byte[] mapRow(ResultSet rs, int rowNum)
+			throws SQLException {					
+	            return lobHandler.getBlobAsBytes(rs, "image_data"); 
+			}
+			
+		});
+		
+		return bytes;
 	}
 
 }
