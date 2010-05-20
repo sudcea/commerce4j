@@ -48,4 +48,18 @@ public interface CatalogSyndication<M> {
 	 */
 	public M findLastAddedItems(HttpServletRequest request, HttpServletResponse response);
 	
+	/**
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public M findFeaturedBrands(HttpServletRequest request, HttpServletResponse response);
+	
+	/**
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public M countAllTagsByName(HttpServletRequest request, HttpServletResponse response);
+	
 }

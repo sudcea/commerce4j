@@ -17,10 +17,20 @@
 
 		document.observe('dom:loaded', function()  {
 			var uri = 'syndication.jspa?aid=findLastAddedItems';
-			var block_last_added = new C4JBlocks.LastAddedItems(
-				uri,'last_added', {
-				max: 3
-			}).start();		
+			var block_last_added = new C4JBlocks.ItemRotator(
+				uri,'d_lastadded', {
+				max: 3, duration: 10
+			}).start();	
+
+			var block_featured = new C4JBlocks.ItemRotator(
+				uri,'d_featured', {
+				max: 3, orientation: 'v',duration: 25
+			}).start();	
+
+			uri = 'syndication.jspa?aid=countAllTagsByName';
+			var block_tagcloud = new C4JBlocks.TagCloud(
+				uri,'d_tagcloud'
+			).display();		
 		});
 	</script>
  </head>
@@ -32,6 +42,7 @@
  	<tr>
  	<td width="225" valign="top">
  		<jsp:include page="include/categories.jsp" flush="true" />
+ 		<jsp:include page="include/tagcloud.jsp" flush="true" />
  	</td>
  	<td valign="top">
  		<div id="d_body">

@@ -23,9 +23,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.ModelAndView;
 
+import com.commerce4j.model.dao.BrandDAO;
+import com.commerce4j.model.dao.TagDAO;
 import com.commerce4j.model.dso.ItemDSO;
+import com.commerce4j.model.dto.BrandDTO;
 import com.commerce4j.model.dto.CategoryDTO;
 import com.commerce4j.model.dto.ItemDTO;
+import com.commerce4j.model.dto.TagCountDTO;
 import com.commerce4j.storefront.web.CatalogSyndication;
 import com.commerce4j.storefront.web.StoreSyndication;
 
@@ -97,6 +101,43 @@ implements StoreSyndication<ModelAndView>, CatalogSyndication<ModelAndView>{
 		
 		return mav;
 	}
+
+	/* (non-Javadoc)
+	 * @see com.commerce4j.storefront.web.CatalogSyndication#findFeaturedBrands(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
+	public ModelAndView findFeaturedBrands(HttpServletRequest request, HttpServletResponse response) {
+		
+		ModelAndView mav = new ModelAndView("jsonView");
+		
+		BrandDAO brandDAO = (BrandDAO) getApplicationContext().getBean("brandDAO");
+		List<BrandDTO> brands = brandDAO.findAllFeatured();
+		
+
+		mav.addObject("responseCode", SUCCESS);
+		mav.addObject("responseMessage", "Login Completo");
+		mav.addObject("brands", brands);
+		
+		return mav;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.commerce4j.storefront.web.CatalogSyndication#countAllTagsByName(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
+	public ModelAndView countAllTagsByName(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView("jsonView");
+		
+		TagDAO tagDAO = (TagDAO) getApplicationContext().getBean("tagDAO");
+		List<TagCountDTO> tags = tagDAO.countAllTagsByName();
+		
+
+		mav.addObject("responseCode", SUCCESS);
+		mav.addObject("responseMessage", "Login Completo");
+		mav.addObject("tags", tags);
+		
+		return mav;
+	}
+	
+	
 	
 
 }

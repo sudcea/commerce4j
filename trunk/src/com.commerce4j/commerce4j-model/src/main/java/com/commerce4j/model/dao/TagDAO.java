@@ -17,6 +17,7 @@ package com.commerce4j.model.dao;
 
 import java.util.List;
 
+import com.commerce4j.model.dto.TagCountDTO;
 import com.commerce4j.model.dto.TagDTO;
 
 /**
@@ -32,4 +33,9 @@ public interface TagDAO {
 	 * @return A {@link TagDTO} entity list or <code>null</code> if empty. 
 	 */
 	public List<TagDTO> findAllTagsByItem(Integer itemId);
+	
+	/**
+	 * @return
+	 */
+	public List<TagCountDTO> countAllTagsByName();
 }

@@ -15,20 +15,31 @@
  */
 package com.commerce4j.model.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.support.lob.DefaultLobHandler;
-
 /**
+ *  Data Access Object for item image management.
+ * 
  * @author carlos.quijano
  * @version $Revision$ $Date$
  */
 public interface ItemImageDAO {
 	
+	/**
+	 * Check if the item image exists, by it's key.
+	 * 
+	 * @param itemId The Item unique key.
+	 * @param imageIndex The Image index.
+	 * @return <code>true</code> if exists, <code>false</code> otherwise.
+	 */
 	public boolean exists(Integer itemId, Integer imageIndex);
 	
+	/**
+	 * Get the image bytes array, by it's key.
+	 * 
+	 * 
+	 * @param itemId he Item unique key.
+	 * @param imageIndex The Image index.
+	 * @return The item image byte array.
+	 */
 	public byte[] findImageAsBytes(Integer itemId, Integer imageIndex);
 	
 }

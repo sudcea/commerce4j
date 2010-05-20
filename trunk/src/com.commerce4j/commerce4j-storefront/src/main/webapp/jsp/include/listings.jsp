@@ -51,7 +51,7 @@ Ordenar por Precio, Nombre &oacute; Calificaci&oacute;n
 			<a href="catalog.jspa?aid=detail&item=${item.itemId}"><strong>${item.itemTitle}</strong></a>
 				<div class="gray smaller">${item.itemDesc}</div>
 			</td>
-			<td class="listingPriceMedium">
+			<td class="listingPriceMedium" nowrap="nowrap" align="right">
 				<c:out value="${item.currency.currencyAbrev}" />
 				<c:out value="${item.currency.currencySymbol}" />
 				<fmt:formatNumber maxFractionDigits="2" minFractionDigits="2" value="${item.itemPrice}"    />

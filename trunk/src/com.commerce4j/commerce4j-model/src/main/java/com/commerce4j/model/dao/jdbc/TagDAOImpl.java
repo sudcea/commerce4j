@@ -23,6 +23,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import com.commerce4j.model.dao.TagDAO;
+import com.commerce4j.model.dto.TagCountDTO;
 import com.commerce4j.model.dto.TagDTO;
 
 /**
@@ -56,6 +57,16 @@ public class TagDAOImpl extends JdbcDaoSupport implements TagDAO {
 		return getJdbcTemplate().query(sql, params, rowMapper);
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.commerce4j.model.dao.TagDAO#countAllTagsByName()
+	 */
+	@SuppressWarnings("unchecked")
+	public List<TagCountDTO> countAllTagsByName() {
+		String sql = "SELECT tag, count(*) counter FROM c4j_items_tags c " +
+					"GROUP BY tag ";
+		return getJdbcTemplate().query(sql, new TagCountMapper());
+	}
+	
 	class TagMapper implements RowMapper {
 
 		/* (non-Javadoc)
@@ -68,4 +79,24 @@ public class TagDAOImpl extends JdbcDaoSupport implements TagDAO {
 		}
 		
 	}
+	
+	class TagCountMapper implements RowMapper {
+
+		/* (non-Javadoc)
+		 * @see org.springframework.jdbc.core.RowMapper#mapRow(java.sql.ResultSet, int)
+		 */
+		public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+			
+			
+			TagDTO tag = new TagDTO();
+			tag.setTag(rs.getString("tag"));
+			
+			TagCountDTO dto = new TagCountDTO(tag, rs.getInt("counter"));
+			
+			return dto;
+		}
+		
+	}
+
+	
 }
