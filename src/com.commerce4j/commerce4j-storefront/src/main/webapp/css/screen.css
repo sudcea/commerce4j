@@ -412,10 +412,11 @@ li.top_ten {
 	
 }
 
-
+/** TAG CLOUD *******************************************************/
 .tagcloud { 
 	font-family:arial,Verdana,sans-serif; 
-	text-align:center; display:block; 
+	text-align:center; 
+	display:block;  
 }
  
 .tag1{ font-size:x-small; color:#999; }
@@ -431,8 +432,7 @@ li.top_ten {
 }
 
 .tagcloud a:hover { 
-	padding: 2px;
-	text-decoration:none; 
 	color: #000000; 
-	background-color: #d1d1d1;
+	background-color: #ffffcc;
+	text-decoration: none;
 }
