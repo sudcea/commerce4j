@@ -52,11 +52,13 @@ C4JBlocks.TagCloud = Class.create({
 		// iterate listings
 		tags.each(function(e) {
 			
-			a = new Element('a')
+			a = new Element('a', {
+				href : 'catalog.jspa?aid=browse&tag='+e.tag.tag
+			})
 			.addClassName('tag'+e.counter)
-			.update(e.tag.tag+'\n');
-			
+			.update(e.tag.tag);
 			container.insert(a);
+			container.insert(' ');
 		});
 		
 	}
