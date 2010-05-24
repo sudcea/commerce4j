@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.commerce4j.storefront.utils.EmailValidator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -146,12 +147,39 @@ public class ProfileController extends BaseController {
 		String acceptTermAndConditions = request.getParameter("acceptTermAndConditions");
 		
 		List<Message> errors = new ArrayList<Message>();
-		if (StringUtils.isEmpty(userName)) {
-			errors.add(newError("userName", getString("errors.notEmpty"), new Object[] {getString("register.userName")}));
+		
+		
+		// validate countryId
+		if (StringUtils.isBlank(countryId)) {
+			errors.add(newError("countryId", getString("errors.notEmpty"), new Object[] {getString("register.countryId")}));
 		}
 		
+		
+		// validate user 
+		if (StringUtils.isEmpty(userName)) {
+			errors.add(newError("userName", getString("errors.notEmpty"), new Object[] {getString("register.userName")}));
+		} else {
+			// validate user name existence
+			if (!getProfileDSO().isUserValid(userName)) {
+				errors.add(newError("userName", getString("errors.userAlreadyExists"), new Object[] {userName}));	
+			}
+		}
+		
+		// validate email address
 		if (StringUtils.isEmpty(emailAddress)) {
 			errors.add(newError("emailAddress", getString("errors.notEmpty"), new Object[] {getString("register.emailAddress")}));
+		} else {
+			
+			// validate emailAddress format
+			if (!EmailValidator.validate(emailAddress)) {
+				errors.add(newError("emailAddress", getString("errors.emailInvalidFormat"), new Object[] {emailAddress}));
+			} else {
+				// validate emailAddress existence
+				if (!getProfileDSO().isEmailValid(emailAddress)) {
+					errors.add(newError("emailAddress", getString("errors.emailAlreadyExists"), new Object[] {emailAddress}));	
+				}	
+			}	
+			
 		}
 		
 		if (StringUtils.isEmpty(userPass)) {
@@ -185,18 +213,6 @@ public class ProfileController extends BaseController {
 		if (!StringUtils.equals(userPass, confirmPassword)) {
 			errors.add(newError("userPass", getString("errors.passwordDoesNotMatch") ));
 		}
-		
-		
-		// validate user name
-		if (!getProfileDSO().isUserValid(userName)) {
-			errors.add(newError("userName", getString("errors.userAlreadyExists"), new Object[] {userName}));	
-		}
-		
-		// validate emailAddress
-		if (!getProfileDSO().isEmailValid(emailAddress)) {
-			errors.add(newError("emailAddress", getString("errors.emailAlreadyExists"), new Object[] {emailAddress}));	
-		}
-		
 		
 		
 		if (errors.isEmpty()) {

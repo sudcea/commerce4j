@@ -46,6 +46,11 @@
  	</td>
  	<td valign="top">
  		<div id="d_body">
+ 		
+ 			
+ 			<jsp:include page="include/welcome.jsp" flush="true" />
+ 			
+			
 			<table width="100%">
 			<tr>
 			<td valign="top">
@@ -58,6 +63,8 @@
 			</td>
 			</tr>
 			</table>
+			
+			
 			
 			<div class="container bglightyellow">
 				<img src="images/error.png" />

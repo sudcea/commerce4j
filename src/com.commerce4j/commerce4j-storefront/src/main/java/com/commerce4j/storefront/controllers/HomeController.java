@@ -22,9 +22,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.commerce4j.model.dao.UserDAO;
 import com.commerce4j.model.dto.CategoryDTO;
+import com.commerce4j.model.dto.UserDTO;
 
 /**
  * Home Page MultiAction Controller.
@@ -65,6 +68,31 @@ public class HomeController extends BaseController {
 
 		// return mav
 		return new ModelAndView("home", model);
+	}
+	
+	/**
+	 * Welcome Action, welcomes new users to the store
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public ModelAndView welcome(HttpServletRequest request, HttpServletResponse response) {
+		
+		// declare locales
+		ModelAndView mav = home(request, response);
+		
+		// init locals
+		String uid = request.getParameter("uid");
+		if (StringUtils.isNotEmpty(uid) && StringUtils.isNumeric(uid)) {
+			Integer userId = new Integer(uid);
+			UserDAO userDAO = (UserDAO) getBean("userDAO");
+			UserDTO userDTO = userDAO.findById(userId);
+			mav.addObject("user", userDTO);
+		}
+
+		// return mav
+		return mav;
 	}
 
 }

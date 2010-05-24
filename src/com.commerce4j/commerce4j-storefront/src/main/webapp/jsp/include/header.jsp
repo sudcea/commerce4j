@@ -42,14 +42,17 @@
 	<a href="javascript:void(0)" onclick="show_category_bubble(this)"><fmt:message key="storefront.catalog.link" /></a> |
 	<a href="help.jspa"><fmt:message key="storefront.help.link" /></a>
 </td>
+<td align="right">
+<div class="navsearch">
+<input type="text" size="50" /><input type="button" value="Buscar" />
+</div>
+</td>
 </tr>
 </table>
 	
 </div> 
 
-<div class="navsearch">
-<input type="text" size="50" /><input type="button" value="Buscar" />
-</div>
+
 
 <div id="category_bubble" class="bubble" style="display:none">
 <h4>Cat&aacute;logo y Categor&iacute;as</h4>

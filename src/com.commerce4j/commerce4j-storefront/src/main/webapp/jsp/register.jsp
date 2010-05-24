@@ -63,8 +63,9 @@
 				<tr>
 					<td>
 						<select name="countryId" id="countryId">
+							<option value="">- Seleccione un Pa&iacute;s -</option>
 							<c:forEach items="${countries}" var="country">
-							<option value="${country.country_id}">${country.country_name}</option>
+								<option value="${country.country_id}">${country.country_name}</option>
 							</c:forEach>
 						</select>
 					</td>
@@ -81,7 +82,7 @@
 					<td colspan="2">
 						<input type="text" name="emailAddress" id="emailAddress" size="40"/>
 						<div class="smaller gray">
-						<fmt:message key="register.emailInfo" />
+							<fmt:message key="register.emailInfo" />
 						</div>
 					</td>
 				</tr>
@@ -142,18 +143,31 @@
 				
 				<tr>
 					<td colspan="2">
-						<input type="checkbox" name="acceptTermAndConditions" id="acceptTermAndConditions" value="true"/>
+						<table>
+						<tr>
+						<td valign="top"><input type="checkbox" name="acceptTermAndConditions" id="acceptTermAndConditions" value="true"/></td>
+						<td valign="top">
 						<label for="acceptTermAndConditions">
 							<fmt:message key="register.acceptTermAndConditions"/>
 						</label>
+						</td>
+						</tr>
+						</table>
+						
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2">
-						<input type="checkbox" name="acceptMailConditions" />
+						<table>
+						<tr>
+						<td valign="top"><input type="checkbox" name="acceptMailConditions" id="acceptMailConditions" /></td>
+						<td valign="top">
 						<label for="acceptMailConditions">
 							<fmt:message key="register.acceptMailConditions" />
 						</label>
+						</td>
+						</tr>
+						</table>
 					</td>
 				</tr>
 				<%--}}} GROUP : TERM AND CONDITIONS POLICY --%>

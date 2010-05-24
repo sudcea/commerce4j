@@ -187,6 +187,57 @@ public class ItemDAOImpl extends JdbcDaoSupport implements ItemDAO {
 		return l;
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.commerce4j.model.dao.ItemDAO#findAllByTag(java.lang.String, java.lang.Integer, java.lang.Integer)
+	 */
+	public List<ItemDTO> findAllByTag(String tag, Integer max, Integer first) {
+		
+		first = (first == null || first == 0) ? 0 : first;
+		max = (max == null || max == 0) ? 4 : max;
+		
+		String sql = "SELECT " +
+		"  it.item_id, " +
+		"  it.item_sku, " +
+		"  it.created, " +
+		"  it.item_title, " +
+		"  it.item_desc, " +
+		"  it.item_status, " +
+		"  it.item_price, " +
+		"  tp.type_id, " +
+		"  tp.type_name, " +
+		"  tp.type_desc, " +
+		"  us.user_id, " +
+		"  us.user_name, " +
+		"  us.firstname, " +
+		"  us.lastname, " +
+		"  us.email_address, " +
+		"  st.store_id, " +
+		"  st.store_name, " +
+		"  su.status_name, " +
+		"  cu.currency_abrev, " +
+		"  cu.currency_symbol, " +
+		"  br.brand_id, " +
+		"  br.brand_name, " +
+		"  br.featured " +
+		" FROM c4j_items it " +
+		" INNER JOIN c4j_stores st on st.store_id = it.store_id " +
+		" INNER JOIN c4j_users us on us.user_id = it.user_id " +
+		" INNER JOIN c4j_items_type tp on tp.type_id = it.type_id " +
+		" INNER JOIN c4j_currencies cu ON it.currency_id = cu.currency_id " +
+		" INNER JOIN c4j_status su ON su.status_id = it.status_id " +
+		" LEFT JOIN c4j_brands br ON br.brand_id = it.brand_id " +
+		" WHERE " + 
+		" item_id in (SELECT item_id FROM c4j_items_tags WHERE tag = ? GROUP BY item_id ) " +
+		" ORDER BY it.created DESC " +
+		" LIMIT ?,?";
+
+		Object[] params = {tag, first, max};
+		@SuppressWarnings("unchecked")
+		List<ItemDTO> l = getJdbcTemplate().query(sql, params, rowMapper);
+		
+		return l;
+	}
+	
 	/*
 	 * Entity Row Mapper.
 	 */

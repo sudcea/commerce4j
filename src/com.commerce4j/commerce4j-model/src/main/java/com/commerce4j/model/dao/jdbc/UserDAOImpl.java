@@ -56,7 +56,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
 		
 		String sql = "SELECT " +
 				"u.user_id,u.user_name, u.user_pass, u.email_address,u.firstname, " +
-				"u.lastname,u.creation_date,u.active, " +
+				"u.lastname,u.creation_date,u.active,u.cell_phone, " +
 				"c.country_id,c.iso,c.country_name " +
 				"FROM c4j_users u " +
 				"INNER JOIN c4j_countries c ON c.country_id = u.country_id " +
@@ -93,7 +93,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
 
 		String sql = "INSERT INTO c4j_users   " +
 		"(user_name, user_pass, email_address,firstname," +
-		"lastname,cellphone,country_id,creation_date,active)  " +
+		"lastname,cell_phone,country_id,creation_date,active)  " +
 		"values (?,?,?,?,?,?,?,?,?)";
 		
 		// build the SQL Update parameters
@@ -163,7 +163,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
 			user.setFirstName(rs.getString("firstname"));
 			user.setActive(rs.getInt("active"));
 			user.setCreationDate(rs.getTimestamp("creation_date"));
-			
+			user.setCellPhone(rs.getString("cell_phone"));
 			return user;
 		}
 		
