@@ -22,10 +22,11 @@ function register_user() {
 		parameters: $('f_registration').serialize(true),
 		onComplete: function(transport) {
 		 	response = transport.responseText.evalJSON();
-			if (response.responseCode === 'success') 
-				process_registered_user(response.userId); 
-			else if (response.responseCode === 'failure') 
+			if (response.responseCode === 'success') {
+				process_registered_user(response.userId) ;
+			} else if (response.responseCode === 'failure') { 
 				display_form_messages('d_msgs', response.errors, 'errors', true);
+			}
 		},
 		
 		onFailure: function(transport) {
@@ -35,6 +36,6 @@ function register_user() {
 
 }
 
-function process_registered_users(user_id) {
-	window.location.href='home.jspa?welcome_user';
+function process_registered_user(user_id) {
+	window.location.href='home.jspa?aid=welcome&uid='+user_id;
 }

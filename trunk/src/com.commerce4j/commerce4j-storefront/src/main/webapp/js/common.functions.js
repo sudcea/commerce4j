@@ -295,7 +295,7 @@ function display_form_messages(id, arr, className, input_errors) {
 		
 		if (input_errors === true) {
 			highlight(e.key);
-			if ($(e.key) && ($(e.key).type === 'text' || $(e.key).type === 'password')) {
+			if ($(e.key) && ($(e.key).type === 'text' || $(e.key).type === 'password' || $(e.key).type === 'select')) {
 				errimg = new Element('img', {
 					src : 'images/error.png',
 					alt : e.value,

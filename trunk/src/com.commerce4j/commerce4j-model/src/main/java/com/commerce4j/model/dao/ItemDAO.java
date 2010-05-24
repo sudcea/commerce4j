@@ -56,6 +56,16 @@ public interface ItemDAO {
 	 */
 	public List<ItemDTO> findAllByLastAddition(Integer categoryId, Integer max, Integer first);
 	
+	
+	/**
+	 * Find all items filtered by tag.
+	 * 
+	 * @param tag The tag to filter with.
+	 * @param max The max numbers of records to return.
+	 * @param first The first (offset) record to start with.
+	 * @return A {@link ItemDTO} entity list or <code>null</code>.
+	 */
+	public List<ItemDTO> findAllByTag(String tag, Integer max, Integer first);
 
 	
 }

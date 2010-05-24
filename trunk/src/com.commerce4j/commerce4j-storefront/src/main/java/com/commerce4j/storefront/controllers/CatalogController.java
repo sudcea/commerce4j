@@ -31,6 +31,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.commerce4j.model.dao.BrandDAO;
+import com.commerce4j.model.dao.ItemDAO;
 import com.commerce4j.model.dao.ItemImageDAO;
 import com.commerce4j.model.dao.TagDAO;
 import com.commerce4j.model.dso.ItemDSO;
@@ -78,6 +79,9 @@ public class CatalogController extends BaseController  {
 		
 		// browse categories by parent
 		String sCategoryId = request.getParameter("c");
+		String tag = request.getParameter("tag");
+		
+		// find by category
 		if (StringUtils.isNotEmpty(sCategoryId)) {
 			Integer categoryId = new Integer(sCategoryId);
 			CategoryDTO category = getCategoryDSO().findCategoryById(categoryId);
@@ -93,6 +97,13 @@ public class CatalogController extends BaseController  {
 			List<ItemDTO> listings = itemDSO.findAllByCategory(categoryId);
 			mav.addObject("listings", listings);
 			
+		}
+		
+		// find by tags
+		if (StringUtils.isNotEmpty(tag)) {
+			ItemDAO itemDAO = (ItemDAO) getApplicationContext().getBean("itemDAO");
+			List<ItemDTO> listings = itemDAO.findAllByTag(tag, 10, 0);
+			mav.addObject("listings", listings);
 		}
 		
 		return mav ;
