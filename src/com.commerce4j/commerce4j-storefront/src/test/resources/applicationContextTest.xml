@@ -16,13 +16,7 @@
 	<!--
 	JEE BEANS
 	-->
-	<ehcache:config configLocation="classpath:ehcache.xml" />
-
-	<ehcache:proxy id="imageCache" refId="itemImageDAO">
-		<ehcache:caching methodName="find*" cacheName="imageCache" />
-		<ehcache:caching methodName="exists*" cacheName="imageCache" />
-		<ehcache:flushing cacheNames="imageCache" methodName="find*" when="after"/>
-	</ehcache:proxy>
+	
 	
 	<ehcache:proxy id="itemsCache" refId="itemDSO">
 		<ehcache:caching methodName="find*" cacheName="itemsCache" />
@@ -35,6 +29,11 @@
 
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="mailer" class="com.commerce4j.storefront.utils.gmail.SendMailImpl">
+		<property name="username" value="username" />
+		<property name="password" value="password" />
 	</bean>
 
 	<!--
@@ -77,74 +76,6 @@
 	</bean>
 	
 
-	<!--
-	WEB BEANS
-	-->
-	<bean id="paramResolver"
-		class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
-		<property name="paramName" value="aid" />
-		<property name="defaultMethodName" value="unspecified" />
-	</bean>
-
-	<bean id="baseController" class="com.commerce4j.storefront.controllers.BaseController"
-		abstract="true">
-		<property name="methodNameResolver" ref="paramResolver" />
-		<property name="jdbcTemplate" ref="jdbcTemplate" />
-		<property name="profileDSO" ref="profileDSO" />
-		<property name="categoryDSO" ref="categoryDSO" />
-		<property name="itemDSO" ref="itemDSO" />
-	</bean>
-
-	<bean id="homeController" parent="baseController"
-		class="com.commerce4j.storefront.controllers.HomeController">
-	</bean>
-
-	<bean id="catalogController" parent="baseController"
-		class="com.commerce4j.storefront.controllers.CatalogController">
-	</bean>
-
-	<bean id="profileController" parent="baseController"
-		class="com.commerce4j.storefront.controllers.ProfileController">
-	</bean>
-
-	<bean id="cartController" parent="baseController"
-		class="com.commerce4j.storefront.controllers.CartController">
-	</bean>
-
-	<bean name="syndicationController" parent="baseController"
-		class="com.commerce4j.storefront.controllers.SyndicationController">
-	</bean>
-
-	<bean name="jsonView" class="org.springframework.web.servlet.view.json.JsonView">
-		<property name="jsonWriter" ref="jsonWriter" />
-	</bean>
-
-	<bean name="jsonWriter"
-		class="org.springframework.web.servlet.view.json.writer.xstream.XStreamJsonStringWriter">
-		<property name="convertAllMapValues" value="true" />
-	</bean>
-
-	<bean id="urlMapping"
-		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-		<property name="mappings">
-			<props>
-				<prop key="/home.*">homeController</prop>
-				<prop key="/profile.*">profileController</prop>
-				<prop key="/catalog.*">catalogController</prop>
-				<prop key="/cart.*">cartController</prop>
-				<prop key="/syndication.*">syndicationController</prop>
-			</props>
-		</property>
-	</bean>
-
-	<bean id="jspViewResolver"
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
-		<property name="prefix" value="/jsp/" />
-		<property name="suffix" value=".jsp" />
-	</bean>
-
-	<bean name="xmlViewResolver" class="org.springframework.web.servlet.view.XmlViewResolver" />
-
+	
 
 </beans>

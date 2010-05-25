@@ -15,14 +15,20 @@
  */
 package com.commerce4j.storefront.utils;
 
+import javax.mail.MessagingException;
+
 /**
  * Send mail utility.
  * 
  * @author carlos.quijano
  * @version $Revision$ $Date$
  */
-public class SendMail {
+public interface SendMail {
 	
 	
+	public void sendMessage(
+			String from, String recipients[], 
+			String subject, String message 
+	) throws MessagingException;
 	
 }

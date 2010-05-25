@@ -149,7 +149,7 @@ public abstract class BaseController extends MultiActionController {
 	protected Message newError(String key, String value, Object[] replace) {
 		return new Message("ERROR", key, MessageFormat.format(value, replace));
 	}
-		
+
 	/**
 	 * Message Object Simple Implementation.
 	 */
