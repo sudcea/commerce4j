@@ -196,11 +196,8 @@ public class CatalogController extends BaseController  {
 
 			// retrieve from cache and finally write bytes to response
 			response.setContentType("image/jpeg");
-			for (int i = 0; i < bytes.length; i++) {
-		        response.getOutputStream().write(bytes[i]);
-		    }
-			
-			
+			response.setContentLength(bytes.length);
+			response.getOutputStream().write(bytes);
 		}
 		
 		

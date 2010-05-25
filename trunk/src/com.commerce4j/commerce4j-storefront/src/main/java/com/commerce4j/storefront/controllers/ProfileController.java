@@ -15,8 +15,11 @@
  */
 package com.commerce4j.storefront.controllers;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,9 +31,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.commerce4j.model.dao.UserDAO;
+import com.commerce4j.model.dto.StoreDTO;
+import com.commerce4j.model.dto.UserDTO;
+import com.commerce4j.storefront.model.RegistrationInfo;
 import com.commerce4j.storefront.utils.EmailValidator;
+import com.commerce4j.storefront.utils.SendMail;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.thoughtworks.xstream.XStream;
 
 
 /**
@@ -225,6 +234,63 @@ public class ProfileController extends BaseController {
 			
 			if (logger.isDebugEnabled())
 				logger.debug("REGISTERED UID @ " + userId);
+			
+			UserDAO userDAO = (UserDAO) getBean("userDAO");
+			UserDTO userDTO = userDAO.findById(userId);
+			
+			// send confirmation mail
+			try {
+				
+				// get store
+				StoreDTO store = new StoreDTO();
+				store.setStoreId(1);
+				store.setStoreName("Commerce4J StoreFront");
+				store.setStoreUrl("http://www.commerce4j.org/");
+				
+				// build registration information object
+				RegistrationInfo info = new RegistrationInfo();
+				info.setUser(userDTO);
+				info.setStore(store);
+				info.setUrl("http://localhost/13asdasdasdsdas");
+				
+				// serializae registration object to XML
+				File inputFile = File.createTempFile("UID" + userId, "xml");
+				XStream xstream = new XStream();
+				xstream.alias("registration", RegistrationInfo.class);
+				xstream.toXML(info, new FileOutputStream(inputFile));
+
+				// transform 
+				StringWriter outWriter = new StringWriter();
+				javax.xml.transform.Source xmlSource =
+		                new javax.xml.transform.stream.StreamSource(inputFile);
+		        javax.xml.transform.Source xsltSource =
+		                new javax.xml.transform.stream.StreamSource(getClass().getResourceAsStream("/templates/welcome_mail.xsl"));
+		        javax.xml.transform.Result result =
+		                new javax.xml.transform.stream.StreamResult(outWriter);
+		 
+		        // create an instance of TransformerFactory
+		        javax.xml.transform.TransformerFactory transFact =
+		                javax.xml.transform.TransformerFactory.newInstance();
+
+		        javax.xml.transform.Transformer trans =
+		                transFact.newTransformer(xsltSource);
+		 
+		        trans.transform(xmlSource, result);
+	        
+				String from = "commerce4j@commerce4j.org";
+				String[] recipients = {emailAddress};
+				String subject = "Commerce4J Confirmation";
+				String message = outWriter.getBuffer().toString();
+
+				SendMail mailer = (SendMail) getBean("mailer");
+				mailer.sendMessage(from, recipients, subject, message);
+			} catch (Exception e) {
+				e.printStackTrace();
+				if (logger.isErrorEnabled())
+						logger.error(e);
+			}
+				
+		
 			
 			responseModel.put("responseCode", SUCCESS);
 			responseModel.put("responseMessage", "Registro Completo");

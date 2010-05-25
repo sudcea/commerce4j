@@ -26,9 +26,24 @@ public class StoreDTO extends AbstractBaseDTO {
 	private Integer storeId;
 	private String description;
 	private String storeName;
+	private String storeUrl;
 	
 	
 	
+	/**
+	 * JavaBean Getter, Gets the storeUrl current value.
+	 * @return The storeUrl current value.
+	 */
+	public String getStoreUrl() {
+		return storeUrl;
+	}
+	/**
+	 * JavaBean Setter, Sets value to storeUrl.
+	 * @param storeUrl The value of storeUrl to set.
+	 */
+	public void setStoreUrl(String storeUrl) {
+		this.storeUrl = storeUrl;
+	}
 	/**
 	 * JavaBean Getter, Gets the storeName current value.
 	 * @return The storeName current value.

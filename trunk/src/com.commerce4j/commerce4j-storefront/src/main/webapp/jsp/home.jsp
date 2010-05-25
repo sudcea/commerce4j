@@ -30,7 +30,8 @@
 			uri = 'syndication.jspa?aid=countAllTagsByName';
 			var block_tagcloud = new C4JBlocks.TagCloud(
 				uri,'d_tagcloud'
-			).display();		
+			).display();
+					
 		});
 	</script>
  </head>
