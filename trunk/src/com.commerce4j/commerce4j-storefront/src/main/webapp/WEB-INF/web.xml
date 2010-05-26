@@ -62,6 +62,18 @@
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
 
+	
+	<!-- ERROR-PAGE: Error pages definition -->
+	<error-page>
+		<error-code>500</error-code>
+		<location>/jsp/errors/500.jsp</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>404</error-code>
+		<location>/jsp/errors/404.jsp</location>
+	</error-page>
+
 	<!-- RESOURCE-REF: Commerce4j DataSource Pointer -->
 	<resource-ref>
 		<description>Commerce4j Database</description>
