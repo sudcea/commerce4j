@@ -28,6 +28,7 @@
 		<ehcache:caching methodName="find*" cacheName="itemsCache" />
 		<ehcache:flushing cacheNames="itemsCache" methodName="find*" when="after"/>
 	</ehcache:proxy>
+	
 
 	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName" value="java:/comp/env/jdbc/commerce4j" />
@@ -35,6 +36,15 @@
 
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	
+	<!--
+	MAIL BEANS
+	-->
+	<bean id="mailer" class="com.commerce4j.storefront.utils.gmail.SendMailImpl">
+		<property name="username" value="gmailuid" />
+		<property name="password" value="gmailpwd" />
 	</bean>
 
 	<!--

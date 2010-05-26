@@ -49,7 +49,7 @@ public class SendMailImpl implements SendMail {
 			String subject, String message 
 	) throws MessagingException {
 		
-		Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
+		// Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
 		boolean debug = true;
 
 		Properties props = new Properties();

@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" isErrorPage="true"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="/jsp/include/license.jsp" flush="true" />
@@ -19,7 +19,7 @@
 
 	<%-- Exception Handler --%>
 	<font color="red">
-	<%= exception.toString() %><br>
+	<%= exception.toString() %><br />
 	</font>
 
 	<%
