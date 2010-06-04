@@ -87,4 +87,7 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
+    <properties>
+        <netbeans.hint.deploy.server>Tomcat55</netbeans.hint.deploy.server>
+    </properties>
 </project>

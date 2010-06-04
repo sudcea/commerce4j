@@ -61,7 +61,7 @@
  			</tr>
  			</table>
  			<br/>
-		 	<form id="frmCart">
+                        <form id="frmCart" action="cart.jspa">
  			<table class="listings" width="100%" cellspacing="0" border="0">
 		
 			<tr>
@@ -77,7 +77,7 @@
 			<c:forEach items='${sessionScope.cart}' var="cart" varStatus="status">
 			<tr>
 				<td valign="top" align="center">
-					<img src="images/img_not_available.png" />
+					<img src="images/img_not_available.png" alt="" />
 				</td>
 				<td valign="top">
 					<c:out value="${cart.item.itemTitle}" />

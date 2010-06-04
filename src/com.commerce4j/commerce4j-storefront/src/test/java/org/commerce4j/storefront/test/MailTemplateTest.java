@@ -63,7 +63,8 @@ public class MailTemplateTest extends TestCase {
 		info.setUser(user);
 		info.setStore(store);
 		info.setUrl("http://localhost/13asdasdasdsdas");
-		
+
+
 		try {
                     XStream xstream = new XStream();
                     File xmlFile = File.createTempFile("user", "xml");
@@ -71,12 +72,22 @@ public class MailTemplateTest extends TestCase {
                     xstream.toXML(info, new FileOutputStream(xmlFile));
                     System.out.println(xstream.toXML(info));
 
-                    javax.xml.transform.Source xmlSource =
-                            new javax.xml.transform.stream.StreamSource(xmlFile);
-                    javax.xml.transform.Source xsltSource =
-                            new javax.xml.transform.stream.StreamSource(getClass().getResourceAsStream("/templates/welcome_mail.xsl"));
-                    javax.xml.transform.Result result =
-                            new javax.xml.transform.stream.StreamResult(System.out);
+                    javax.xml.transform.Source xmlSource;
+                    javax.xml.transform.Source xsltSource;
+                    javax.xml.transform.Result result;
+
+                    xmlSource = new javax.xml.transform.stream.StreamSource(
+                            xmlFile
+                    );
+
+                    xsltSource =
+                            new javax.xml.transform.stream.StreamSource(
+                            getClass().getResourceAsStream("/templates/welcome_mail.xsl")
+                    );
+                    
+                    result = new javax.xml.transform.stream.StreamResult(
+                            System.out
+                    );
 
                     // create an instance of TransformerFactory
                     javax.xml.transform.TransformerFactory transFact =
@@ -86,6 +97,7 @@ public class MailTemplateTest extends TestCase {
                             transFact.newTransformer(xsltSource);
 
                     trans.transform(xmlSource, result);
+                    
                 } catch (Exception e) {
 
                 }
