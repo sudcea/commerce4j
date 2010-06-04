@@ -64,28 +64,32 @@ public class MailTemplateTest extends TestCase {
 		info.setStore(store);
 		info.setUrl("http://localhost/13asdasdasdsdas");
 		
-		
-		XStream xstream = new XStream();
-		File xmlFile = File.createTempFile("user", "xml");
-		xstream.alias("registration", RegistrationInfo.class);
-		xstream.toXML(info, new FileOutputStream(xmlFile));
-		System.out.println(xstream.toXML(info));
+		try {
+                    XStream xstream = new XStream();
+                    File xmlFile = File.createTempFile("user", "xml");
+                    xstream.alias("registration", RegistrationInfo.class);
+                    xstream.toXML(info, new FileOutputStream(xmlFile));
+                    System.out.println(xstream.toXML(info));
 
-        javax.xml.transform.Source xmlSource =
-                new javax.xml.transform.stream.StreamSource(xmlFile);
-        javax.xml.transform.Source xsltSource =
-                new javax.xml.transform.stream.StreamSource(getClass().getResourceAsStream("/welcome_mail.xsl"));
-        javax.xml.transform.Result result =
-                new javax.xml.transform.stream.StreamResult(System.out);
- 
-        // create an instance of TransformerFactory
-        javax.xml.transform.TransformerFactory transFact =
-                javax.xml.transform.TransformerFactory.newInstance(  );
- 
-        javax.xml.transform.Transformer trans =
-                transFact.newTransformer(xsltSource);
- 
-        trans.transform(xmlSource, result);
+                    javax.xml.transform.Source xmlSource =
+                            new javax.xml.transform.stream.StreamSource(xmlFile);
+                    javax.xml.transform.Source xsltSource =
+                            new javax.xml.transform.stream.StreamSource(getClass().getResourceAsStream("/templates/welcome_mail.xsl"));
+                    javax.xml.transform.Result result =
+                            new javax.xml.transform.stream.StreamResult(System.out);
+
+                    // create an instance of TransformerFactory
+                    javax.xml.transform.TransformerFactory transFact =
+                            javax.xml.transform.TransformerFactory.newInstance();
+
+                    javax.xml.transform.Transformer trans =
+                            transFact.newTransformer(xsltSource);
+
+                    trans.transform(xmlSource, result);
+                } catch (Exception e) {
+
+                }
+		
 	}
 	
 	
