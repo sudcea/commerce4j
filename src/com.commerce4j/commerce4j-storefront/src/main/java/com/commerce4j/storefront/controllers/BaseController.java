@@ -19,9 +19,13 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,6 +35,8 @@ import com.commerce4j.model.dso.CategoryDSO;
 import com.commerce4j.model.dso.ItemDSO;
 import com.commerce4j.model.dso.ProfileDSO;
 import com.commerce4j.model.dto.CartDTO;
+import java.io.InputStream;
+import java.io.Writer;
 
 
 /**
@@ -124,6 +130,18 @@ public abstract class BaseController extends MultiActionController {
 		
 		return (List<CartDTO>) request.getSession().getAttribute("cart");
 	}
+
+        protected void xslTransform(InputStream xml, InputStream xsl, Writer out) 
+        throws TransformerConfigurationException, TransformerException {
+            // create sources
+            javax.xml.transform.Source xmlSource = new javax.xml.transform.stream.StreamSource(xml);
+            javax.xml.transform.Source xsltSource = new javax.xml.transform.stream.StreamSource(xsl);
+            javax.xml.transform.Result result = new javax.xml.transform.stream.StreamResult(out);
+            // create an instance of TransformerFactory
+            javax.xml.transform.TransformerFactory transFact = javax.xml.transform.TransformerFactory.newInstance();
+            javax.xml.transform.Transformer trans = transFact.newTransformer(xsltSource);
+            trans.transform(xmlSource, result);
+        }
 	
 	/**
 	 * Creates a new Error {@link Message} object. This object is used
