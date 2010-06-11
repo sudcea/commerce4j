@@ -17,7 +17,7 @@ function register_user() {
 	});
 	
 	// ajax controller call
-	new Ajax.Request('profile.jspa?aid=processRegistration',  {
+	new Ajax.Request('syndication.jspa?aid=register',  {
 		method: 'post',
 		parameters: $('f_registration').serialize(true),
 		onComplete: function(transport) {
@@ -33,6 +33,8 @@ function register_user() {
 			alert('Error de Transporte');
 		}
 	});
+
+        return;
 
 }
 
