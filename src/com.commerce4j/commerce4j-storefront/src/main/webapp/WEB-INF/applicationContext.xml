@@ -41,12 +41,18 @@
 	
 	<!--
 	MAIL BEANS
-	-->
+
 	<bean id="mailer" class="com.commerce4j.storefront.utils.gmail.SendMailImpl">
 		<property name="username" value="gmailuid" />
 		<property name="password" value="gmailpwd" />
 	</bean>
 
+        <bean id="mailer" class="com.commerce4j.storefront.utils.postmark.SendMailImpl">
+		<property name="username" value="gmailuid" />
+		<property name="password" value="gmailpwd" />
+	</bean>
+        -->
+        
 	<!--
 	DAO BEANS
 	-->
