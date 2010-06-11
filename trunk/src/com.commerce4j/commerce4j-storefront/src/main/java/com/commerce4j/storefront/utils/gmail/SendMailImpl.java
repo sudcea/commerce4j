@@ -15,7 +15,6 @@
  */
 package com.commerce4j.storefront.utils.gmail;
 
-import java.security.Security;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -29,6 +28,8 @@ import javax.mail.internet.MimeMessage;
 import com.commerce4j.storefront.utils.SendMail;
 
 /**
+ * Sendmail using GMAIL implementation.
+ *
  * @author carlos.quijano
  * @version $Revision$ $Date$
  */
@@ -62,9 +63,10 @@ public class SendMailImpl implements SendMail {
 		props.put("mail.smtp.socketFactory.fallback", "false");
 
 		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(username, password);
-			}
+                    @Override
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                            return new PasswordAuthentication(username, password);
+                    }
 		});
 
 		session.setDebug(debug);
