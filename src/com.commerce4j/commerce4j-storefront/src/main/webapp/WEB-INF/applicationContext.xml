@@ -46,13 +46,16 @@
 		<property name="username" value="gmailuid" />
 		<property name="password" value="gmailpwd" />
 	</bean>
-
+        
         <bean id="mailer" class="com.commerce4j.storefront.utils.postmark.SendMailImpl">
-		<property name="username" value="gmailuid" />
-		<property name="password" value="gmailpwd" />
+                <property name="token" value="29d90865-37c4-41be-a265-f4f5898874d1" />
 	</bean>
         -->
-        
+
+        <bean id="mailer" class="com.commerce4j.storefront.utils.smtp.SendMailImpl">
+                <property name="smtpHost" value="localhost" />
+	</bean>
+
 	<!--
 	DAO BEANS
 	-->
@@ -77,6 +80,10 @@
 	</bean>
 	
 	<bean id="tagDAO" class="com.commerce4j.model.dao.jdbc.TagDAOImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+
+        <bean id="configDAO" class="com.commerce4j.model.dao.jdbc.ConfigDAOImpl">
 		<property name="jdbcTemplate" ref="jdbcTemplate" />
 	</bean>
 

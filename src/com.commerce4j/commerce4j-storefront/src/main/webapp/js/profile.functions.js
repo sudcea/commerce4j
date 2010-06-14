@@ -1,3 +1,7 @@
+/*
+ * @author Carlos Quijano
+ * @require prototype.js
+ */
 
 		
 

@@ -44,9 +44,9 @@ import com.thoughtworks.xstream.XStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.UUID;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -287,66 +287,73 @@ public class SyndicationController extends BaseController
                     emailAddress, firstName,
                     lastName, cellPhone, new Integer(countryId));
 
-            // generate unique id key for after registration validation
-            UUID uid = UUID.randomUUID();
-
-            if (logger.isDebugEnabled()) {
-                logger.debug("REGISTERED UID @ " + userId);
-            }
-
-
             // data objets
             UserDAO userDAO = (UserDAO) getBean("userDAO");
             UserDTO userDTO = userDAO.findById(userId);
             ConfigDAO configDAO = (ConfigDAO) getBean("configDAO");
 
-            // send confirmation mail
-            try {
+            if (logger.isDebugEnabled()) {
+                logger.debug("UID @ " + userId + "/" + userDTO.getGuid());
+            }
 
-                String storeName = configDAO.findById("STORE_NAME");
-                String storeURL = configDAO.findById("STORE_URL");
-                String from = configDAO.findById("REGISTRATION_MAIL_FROM");
-                String subject = configDAO.findById("REGISTRATION_MAIL_SUBJECT");
-                String url = storeURL
-                        + "/profile.jspa?aid=confirm&uid="
-                        + uid.toString();
+            // check if store is configured for mail confirmation
+            final String CONFIRM_KEY = "REGISTRATION_MAIL_CONFIRM";
+            String confirmEmailAddress = configDAO.findById(CONFIRM_KEY);
 
-
-                // get store
-                StoreDTO store = new StoreDTO();
-                store.setStoreId(1);
-                store.setStoreName(storeName);
-                store.setStoreUrl(storeURL);
-
-                // build registration information object
-                RegistrationInfo info = new RegistrationInfo();
-                info.setUser(userDTO);
-                info.setStore(store);
-                info.setUrl(url);
-
-                // serializae registration object to XML
-                File inputFile = File.createTempFile("UID" + userId, "xml");
-                XStream xstream = new XStream();
-                xstream.alias("registration", RegistrationInfo.class);
-                xstream.toXML(info, new FileOutputStream(inputFile));
-
-                // transform xml object source to html mail output
-                StringWriter outWriter = new StringWriter();
-                xslTransform(
-                        new FileInputStream(inputFile),
-                        getClass().getResourceAsStream("/templates/welcome_mail.xsl"),
-                        outWriter);
-
-                // send mail using mailer implementation
+            // send confirmation mail if mailer is configured
+            if (StringUtils.equalsIgnoreCase("Yes", confirmEmailAddress)) {
                 SendMail mailer = (SendMail) getBean("mailer");
-                mailer.sendMessage(
+                if (mailer != null)
+                try {
+
+                    // get variables from database
+                    String storeName = configDAO.findById("STORE_NAME");
+                    String storeURL = configDAO.findById("STORE_URL");
+                    String from = configDAO.findById("REGISTRATION_MAIL_FROM");
+                    String subject = configDAO.findById("REGISTRATION_MAIL_SUBJECT");
+                    String prefixURL = "/profile.jspa?aid=confirm&uid=";
+                    String url = storeURL + prefixURL + userDTO.getGuid();
+
+                    // get store
+                    StoreDTO store = new StoreDTO();
+                    store.setStoreId(1);
+                    store.setStoreName(storeName);
+                    store.setStoreUrl(storeURL);
+
+                    // build registration information object
+                    RegistrationInfo info = new RegistrationInfo();
+                    info.setUser(userDTO);
+                    info.setStore(store);
+                    info.setUrl(url);
+
+                    // serializae registration object to XML
+                    File inputFile = File.createTempFile("UID" + userId, "xml");
+                    XStream xstream = new XStream();
+                    xstream.alias("registration", RegistrationInfo.class);
+                    xstream.toXML(info, new FileOutputStream(inputFile));
+
+                    // transform xml object source to html mail output
+                    StringWriter outWriter = new StringWriter();
+                    InputStream xslStream = getClass().getResourceAsStream("/templates/welcome_mail.xsl");
+                    InputStream xmlStream = new FileInputStream(inputFile);
+                    xslTransform( xmlStream, xslStream, outWriter);
+
+                    // send mail using mailer implementation
+                    mailer.sendMessage(
                         from, new String[]{emailAddress},
-                        subject, outWriter.getBuffer().toString());
-            } catch (Exception e) {
-                e.printStackTrace();
-                if (logger.isErrorEnabled()) {
-                    logger.error(e);
+                        subject, outWriter.getBuffer().toString()
+                    );
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    if (logger.isErrorEnabled()) {
+                        logger.error(e);
+                    }
                 }
+            } else {
+                // if no email confirmation is required, then set the user
+                // active
+                userDTO.setActive(1);
+                userDAO.update(userDTO);
             }
 
             // all ok, send nice response
