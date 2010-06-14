@@ -57,7 +57,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
 		String sql = "SELECT " +
 				"u.user_id,u.user_name, u.user_pass, u.email_address,u.firstname, " +
 				"u.lastname,u.creation_date,u.active,u.cell_phone, " +
-				"c.country_id,c.iso,c.country_name " +
+				"c.country_id,c.iso,c.country_name,user_guid " +
 				"FROM c4j_users u " +
 				"INNER JOIN c4j_countries c ON c.country_id = u.country_id " +
 				"WHERE user_id = ?";		
@@ -93,22 +93,26 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
 
 		String sql = "INSERT INTO c4j_users   " +
 		"(user_name, user_pass, email_address,firstname," +
-		"lastname,cell_phone,country_id,creation_date,active)  " +
-		"values (?,?,?,?,?,?,?,?,?)";
+		"lastname,cell_phone,country_id,creation_date,user_guid, active)  " +
+		"values (?,?,?,?,?,?,?,?,?,?)";
 		
 		// build the SQL Update parameters
 		Object params[] = {
-				userDTO.getUserName(),
-				userDTO.getUserPass(),
-				userDTO.getEmailAddress(),
-				userDTO.getFirstName(),
-				userDTO.getLastName(),
-				userDTO.getCellPhone(),
-				userDTO.getCountry().getCountryId(),
-				new Date(),
-				userDTO.getActive()
+                    userDTO.getUserName(),
+                    userDTO.getUserPass(),
+                    userDTO.getEmailAddress(),
+                    userDTO.getFirstName(),
+                    userDTO.getLastName(),
+                    userDTO.getCellPhone(),
+                    userDTO.getCountry().getCountryId(),
+                    new Date(),
+                    // added guid
+                    userDTO.getGuid(),
+                    userDTO.getActive()
 		};
-		
+                
+
+                
 		// we're going to use a SqlUpdate helper in order
 		// to retrieve the populated last insert id after
 		// the sql update.
@@ -123,6 +127,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
 		su.declareParameter(new SqlParameter(Types.VARCHAR));
 		su.declareParameter(new SqlParameter(Types.INTEGER));
 		su.declareParameter(new SqlParameter(Types.TIMESTAMP));
+                su.declareParameter(new SqlParameter(Types.VARCHAR));
 		su.declareParameter(new SqlParameter(Types.SMALLINT));
 		su.setReturnGeneratedKeys(true);
 		su.compile();
@@ -138,7 +143,37 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
 		
 		return userDTO;
 	}
-	
+
+
+	/* (non-Javadoc)
+	 * @see com.commerce4j.model.dao.UserDAO#save(com.commerce4j.model.dto.UserDTO)
+	 */
+	public UserDTO update(UserDTO userDTO) {
+
+            String sql = "UPDATE c4j_users   " +
+            "SET user_name = ?, user_pass = ?, " +
+            "email_address = ?,firstname = ?," +
+            "lastname = ?,cell_phone = ?,country_id = ?,user_guid = ?, active = ?  " +
+            "WHERE user_id = ? ";
+
+            // update user
+            Object[] args = {
+                userDTO.getUserName(),
+                userDTO.getUserPass(),
+                userDTO.getEmailAddress(),
+                userDTO.getFirstName(),
+                userDTO.getLastName(),
+                userDTO.getCellPhone(),
+                userDTO.getCountry().getCountryId(),
+                userDTO.getGuid(),
+                userDTO.getActive(),
+                userDTO.getUserId()
+            };
+            getJdbcTemplate().update(sql, args);
+
+            return findById(userDTO.getUserId());
+        }
+        
 	/*
 	 * Entity RowMapper 
 	 */
@@ -164,6 +199,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
 			user.setActive(rs.getInt("active"));
 			user.setCreationDate(rs.getTimestamp("creation_date"));
 			user.setCellPhone(rs.getString("cell_phone"));
+                        user.setGuid(rs.getString("user_guid"));
 			return user;
 		}
 		

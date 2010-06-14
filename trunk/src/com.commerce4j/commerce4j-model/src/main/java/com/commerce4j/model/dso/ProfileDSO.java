@@ -46,9 +46,29 @@ public interface ProfileDSO {
 			String cellPhone,
 			Integer countryId
 	);
-	
+
+        /**
+         * Update the user generated unique id.
+         *
+         * @param userId the user id to update.
+         * @param guid the user unique id to update.
+         */
+        public void updateGUID(Long userId, String guid);
+
+        /**
+         * Check if user is already registered or not by it's username.
+         *
+         * @param userName The username to check.
+         * @return <code>true</code> If exists, <code>false</code> otherwise.
+         */
 	public boolean isUserValid(String userName);
-	
+
+        /**
+         * Check if email address is already registered or not.
+         * 
+         * @param eMail The email to validate
+         * @return <code>true</code> If exists, <code>false</code> otherwise.
+         */
 	public boolean isEmailValid(String eMail);
 	
 }

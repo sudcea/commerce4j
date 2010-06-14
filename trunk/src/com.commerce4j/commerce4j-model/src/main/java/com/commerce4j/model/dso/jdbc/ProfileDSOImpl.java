@@ -19,6 +19,7 @@ import com.commerce4j.model.dao.UserDAO;
 import com.commerce4j.model.dso.ProfileDSO;
 import com.commerce4j.model.dto.CountryDTO;
 import com.commerce4j.model.dto.UserDTO;
+import java.util.UUID;
 
 /**
  * JDBC Implementation for the {@link ProfileDSO} business object.
@@ -50,7 +51,8 @@ public class ProfileDSOImpl implements ProfileDSO {
 		userDTO.setEmailAddress(emailAddress);
 		userDTO.setFirstName(firstName);
 		userDTO.setLastName(lastName);
-		userDTO.setActive(1);
+		userDTO.setActive(0);
+                userDTO.setGuid(UUID.randomUUID().toString());
 		userDTO.setCountry(country);
 		
 		// persist user
@@ -58,6 +60,19 @@ public class ProfileDSOImpl implements ProfileDSO {
 		
 		return userDTO.getUserId();
 	}
+
+        /* (non-Javadoc)
+	 * @see com.commerce4j.model.dso.ProfileDSO#updateGUID(java.lang.Long, java.lang.String)
+	 */
+        public void updateGUID(Long userId, String guid) {
+
+            UserDTO dto = userDAO.findById(userId);
+            if (dto != null) {
+                dto.setGuid(guid);
+                userDAO.update(dto);
+            }
+
+        }
 	
 	/* (non-Javadoc)
 	 * @see com.commerce4j.model.dso.ProfileDSO#isUserValid(java.lang.String)
