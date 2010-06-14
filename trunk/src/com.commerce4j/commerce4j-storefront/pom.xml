@@ -87,8 +87,20 @@
             <artifactId>spring-json</artifactId>
             <version>1.2</version>
         </dependency>
-
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>1.5.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.0.1</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
 </project>
+
+
 
 

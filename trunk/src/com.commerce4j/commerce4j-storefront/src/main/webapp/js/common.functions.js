@@ -1,3 +1,9 @@
+/*
+ * @author Carlos Quijano
+ * @require prototype.js
+ */
+
+
 if(typeof(Prototype) == "undefined")
     throw "Commerce4j Client Side Library Requires Prototype to be loaded.";
 
@@ -18,7 +24,10 @@ C4JBlocks.TagCloud = Class.create({
 		this.src = src;
 		this.container = container;
 	},
-	
+
+        /**
+         * Show and Display the component.
+         */
 	display : function() {
 		
 		if ($(this.container)) {
@@ -44,8 +53,9 @@ C4JBlocks.TagCloud = Class.create({
 	
 	/**
 	 * Print the DOM to writer.
-	 * 
-	 * @param listings The tags array.
+         * 
+	 * @id the element id to paint the cloud width.
+	 * @tags the tags array.
 	 */
 	draw : function(id, tags) {
 		var container = $(id);
@@ -150,8 +160,9 @@ C4JBlocks.ItemRotator = Class.create({
 	
 	/**
 	 * Print the DOM to writer.
-	 * 
-	 * @param listings The listings array.
+	 * @id the element id to paint the dom with.
+	 * @listings listings The listings array.
+         * @orientation The component orientation (v = vertical, h = horizontal)
 	 */
 	draw : function(id, listings, orientation) {
 		var container = $(id);
@@ -254,90 +265,111 @@ C4JBlocks.ItemRotator = Class.create({
 	}
 });
 
+/**
+ * Hightlihgth element.
+ */
 function highlight(id, ok) {
-	if ($(id) && ($(id).type === 'text' || $(id).type === 'password' || $(id).type === 'select')) {
-		$(id).addClassName('highlight');
-	}
+    // add classname hignthlight to form elements
+    if ($(id) && (
+        $(id).type === 'text' ||
+        $(id).type === 'password' ||
+        $(id).type === 'select')) {
+            $(id).addClassName('highlight');
+    }
 }
 
+/**
+ * Format string value to currency format.
+ */
 function format_currency(num) {
-	num = num.toString().replace(/\$|\,/g,'');
-	if(isNaN(num))
-	num = "0";
-	sign = (num == (num = Math.abs(num)));
-	num = Math.floor(num*100+0.50000000001);
-	cents = num%100;
-	num = Math.floor(num/100).toString();
-	if(cents<10)
-	cents = "0" + cents;
-	for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
-	num = num.substring(0,num.length-(4*i+3))+','+
-	num.substring(num.length-(4*i+3));
-	return (((sign)?'':'-') + num + '.' + cents);
+    num = num.toString().replace(/\$|\,/g,'');
+    if(isNaN(num))
+    num = "0";
+    sign = (num == (num = Math.abs(num)));
+    num = Math.floor(num*100+0.50000000001);
+    cents = num%100;
+    num = Math.floor(num/100).toString();
+    if(cents<10)
+    cents = "0" + cents;
+    for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
+    num = num.substring(0,num.length-(4*i+3))+','+
+    num.substring(num.length-(4*i+3));
+    return (((sign)?'':'-') + num + '.' + cents);
 }
 
+/**
+ * Display Form Messages array to DOM.
+ */
 function display_form_messages(id, arr, className, input_errors) {
-	
-	
-	$(id).update('');
-	
-	d_title = document.createElement('strong');
-	Element.insert(d_title,'Por favor verifique lo siguiente');
-	
-	$(id).update(d_title);
-	$(id).addClassName(className);
-	ul = document.createElement('ul');
-	
-	$A(arr).each(function(e) {
-		li = document.createElement('li');
-		Element.insert(li, e.value);
-		ul.appendChild(li);	
-		
-		if (input_errors === true) {
-			highlight(e.key);
-			if ($(e.key) && ($(e.key).type === 'text' || $(e.key).type === 'password' || $(e.key).type === 'select')) {
-				errimg = new Element('img', {
-					src : 'images/error.png',
-					alt : e.value,
-					style : 'margin-left: 2px; display: none'
-				});
-				errimg.addClassName('highlight');
-				$(e.key).insert({after : errimg});
-				new Effect.Appear(errimg);
-			}
-		}
-		
-	});
-	
-	$(id).appendChild(ul);
-	new Effect.Appear(id);
+
+    // clear element
+    $(id).update('');
+
+    // add title
+    d_title = document.createElement('strong');
+    Element.insert(d_title,'Por favor verifique lo siguiente');
+
+    // add unordered list
+    $(id).update(d_title);
+    $(id).addClassName(className);
+    ul = document.createElement('ul');
+
+    // iterate array elements and append a error list
+    // item.
+    $A(arr).each(function(e) {
+            li = document.createElement('li');
+            Element.insert(li, e.value);
+            ul.appendChild(li);
+
+            if (input_errors === true) {
+                    highlight(e.key);
+                    if ($(e.key) && ($(e.key).type === 'text' || $(e.key).type === 'password' || $(e.key).type === 'select')) {
+                            errimg = new Element('img', {
+                                    src : 'images/error.png',
+                                    alt : e.value,
+                                    style : 'margin-left: 2px; display: none'
+                            });
+                            errimg.addClassName('highlight');
+                            $(e.key).insert({after : errimg});
+                            new Effect.Appear(errimg);
+                    }
+            }
+
+    });
+
+    // appear element
+    $(id).appendChild(ul);
+    new Effect.Appear(id);
 }
 
+/**
+ * Add to Cart.
+ */
 function add_to_cart(item, quantity, redirect) {
-	if (item == undefined) return false;
-	
-	var params = {
-		item : item, 
-		quantity : quantity
-	};
-	
-	// ajax controller call
-	new Ajax.Request('cart.jspa?aid=add',  {
-		method: 'post',
-		parameters: params,
-		onComplete: function(transport) {
-		 	response = transport.responseText.evalJSON();
-		 	alert(response);
+    if (item == undefined) return false;
+
+    var params = {
+            item : item,
+            quantity : quantity
+    };
+
+    // ajax controller call
+    new Ajax.Request('cart.jspa?aid=add',  {
+            method: 'post',
+            parameters: params,
+            onComplete: function(transport) {
+                    response = transport.responseText.evalJSON();
+                    alert(response);
 //			if (response.responseCode === 'success') 
 //				process_registered_user(response.userId); 
 //			else if (response.responseCode === 'failure') 
 //				display_form_messages('d_msgs', response.errors, 'errors', true);
-		},
-		
-		onFailure: function(transport) {
-			alert('Error de Transporte');
-		}
-	});
+            },
+
+            onFailure: function(transport) {
+                    alert('Error de Transporte');
+            }
+    });
 	
 }
 
