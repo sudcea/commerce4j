@@ -16,6 +16,7 @@
 package com.commerce4j.model.dao.jdbc;
 
 import com.commerce4j.model.dao.ConfigDAO;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 /**
@@ -27,10 +28,9 @@ public class ConfigDAOImpl extends JdbcDaoSupport implements ConfigDAO {
     /*
      */
     public String findById(String param) {
-        String sql = "SELECT config_value FROM c4j_config " +
-                "WHERE config_id = ?";
-        return (String) getJdbcTemplate().queryForObject(sql, String.class);
-
+        String sql = "SELECT config_value FROM c4j_config WHERE config_id = ? ";
+        Object o = getJdbcTemplate().queryForObject(sql, new Object[] {param}, String.class );
+        return (o != null) ? o.toString() : StringUtils.EMPTY;
     }
 
 }

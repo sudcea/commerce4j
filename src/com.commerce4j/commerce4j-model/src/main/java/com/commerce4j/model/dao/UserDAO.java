@@ -40,7 +40,15 @@ public interface UserDAO {
 	 * @return The {@link UserDTO} persisted instance.
 	 */
 	public UserDTO save(UserDTO userDTO);
-	
+
+        /**
+	 * Updates a existent {@link UserDTO} in the persistence layer.
+	 *
+	 * @param userDTO The {@link UserDTO} instance to update.
+	 * @return The {@link UserDTO} persisted instance.
+	 */
+	public UserDTO update(UserDTO userDTO);
+
 	/**
 	 * Count number of users by username.
 	 * 
