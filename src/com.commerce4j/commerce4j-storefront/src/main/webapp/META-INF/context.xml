@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context>
-
-	<Resource auth="Container" description="Commerce4j DataSource"
-		name="jdbc/commerce4j" type="javax.sql.DataSource" 
-		driverClassName="com.mysql.jdbc.Driver"
-		maxIdle="2" maxWait="5000" maxActive="25"
-		username="c4j" password="c4j" 
-		url="jdbc:mysql://localhost/commerce4j?useUnicode=true&amp;characterEncoding=UTF8" 
-		validationQuery="select 1"/>
-
-	<WatchedResource>WEB-INF/web.xml</WatchedResource>
-	<WatchedResource>META-INF/context.xml</WatchedResource>
+<Context path="/commerce4j-storefront-0.0.1">
+  <Resource auth="Container" description="Commerce4j DataSource" driverClassName="com.mysql.jdbc.Driver" maxActive="25" maxIdle="2" maxWait="5000" name="jdbc/commerce4j" password="c4j" type="javax.sql.DataSource" url="jdbc:mysql://localhost/commerce4j?useUnicode=true&amp;characterEncoding=UTF8" username="c4j" validationQuery="select 1"/>
+  <WatchedResource>WEB-INF/web.xml</WatchedResource>
+  <WatchedResource>META-INF/context.xml</WatchedResource>
 </Context>
-
-
