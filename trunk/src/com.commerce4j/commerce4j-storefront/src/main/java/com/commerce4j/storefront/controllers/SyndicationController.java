@@ -30,6 +30,7 @@ import com.commerce4j.model.dao.UserDAO;
 import com.commerce4j.model.dso.ItemDSO;
 import com.commerce4j.model.dto.BrandDTO;
 import com.commerce4j.model.dto.CategoryDTO;
+import com.commerce4j.model.dto.CountryDTO;
 import com.commerce4j.model.dto.ItemDTO;
 import com.commerce4j.model.dto.StoreDTO;
 import com.commerce4j.model.dto.TagCountDTO;
@@ -288,9 +289,17 @@ public class SyndicationController extends BaseController
                     lastName, cellPhone, new Integer(countryId));
 
             // data objets
+
             UserDAO userDAO = (UserDAO) getBean("userDAO");
             UserDTO userDTO = userDAO.findById(userId);
             ConfigDAO configDAO = (ConfigDAO) getBean("configDAO");
+
+            // set other user properties
+            if (StringUtils.isNumeric(countryId)) {
+                CountryDTO country = new CountryDTO();
+                country.setCountryId(new Integer(countryId));
+                userDTO.setCountry(country);
+            }
 
             if (logger.isDebugEnabled()) {
                 logger.debug("UID @ " + userId + "/" + userDTO.getGuid());
