@@ -26,12 +26,12 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 public abstract class AbstractBaseDTO {
 	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
-	}
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+            return ToStringBuilder.reflectionToString(this);
+    }
 	
-
 }
