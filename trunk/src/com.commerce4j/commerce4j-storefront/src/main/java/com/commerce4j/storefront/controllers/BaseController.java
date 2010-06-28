@@ -30,8 +30,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
 import com.commerce4j.model.dso.CategoryDSO;
+import com.commerce4j.model.dso.HelpDSO;
 import com.commerce4j.model.dso.ItemDSO;
 import com.commerce4j.model.dso.ProfileDSO;
+import com.commerce4j.model.dso.jdbc.HelpDSOImpl;
 import com.commerce4j.model.dto.CartDTO;
 import java.io.InputStream;
 import java.io.Writer;
@@ -71,6 +73,7 @@ public abstract class BaseController extends MultiActionController {
 	private CategoryDSO categoryDSO;
 	private ProfileDSO profileDSO;
 	private ItemDSO itemDSO;
+        private HelpDSO helpDso;
 	
 	/**
 	 * Constructor, Creates a new type instance of BaseController.
@@ -299,5 +302,15 @@ public abstract class BaseController extends MultiActionController {
 	public void setItemDSO(ItemDSO itemDSO) {
 		this.itemDSO = itemDSO;
 	}
+
+    public HelpDSO getHelpDso() {
+        return helpDso;
+    }
+
+    public void setHelpDso(HelpDSO helpDso) {
+        this.helpDso = helpDso;
+    }
+        
+
 	
 }
