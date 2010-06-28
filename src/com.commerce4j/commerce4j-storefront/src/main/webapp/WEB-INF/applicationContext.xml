@@ -87,6 +87,10 @@
 		<property name="jdbcTemplate" ref="jdbcTemplate" />
 	</bean>
 
+        <bean id="helpDAO" class="com.commerce4j.model.dao.jdbc.HelpDAOImpl">
+            <property name="jdbcTemplate" ref="jdbcTemplate"/>
+        </bean>
+
 	<bean id="categoryDSO" class="com.commerce4j.model.dso.jdbc.CategoryDSOImpl">
 		<property name="categoryDAO" ref="categoryDAO" />
 	</bean>
@@ -98,6 +102,10 @@
 	<bean id="itemDSO" class="com.commerce4j.model.dso.jdbc.ItemDSOImpl">
 		<property name="itemDAO" ref="itemDAO" />
 	</bean>
+
+        <bean id="helpDso" class="com.commerce4j.model.dso.jdbc.HelpDSOImpl">
+                <property name="helpDao" ref="helpDAO"/>
+         </bean>
 	
 
 	<!--
@@ -116,6 +124,7 @@
 		<property name="profileDSO" ref="profileDSO" />
 		<property name="categoryDSO" ref="categoryDSO" />
 		<property name="itemDSO" ref="itemDSO" />
+                <property name="helpDso" ref="helpDso"/>
 	</bean>
 
 	<bean id="homeController" parent="baseController"

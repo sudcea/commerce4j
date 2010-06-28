@@ -27,7 +27,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.commerce4j.model.dao.UserDAO;
 import com.commerce4j.model.dto.CategoryDTO;
+import com.commerce4j.model.dto.HelpDTO;
 import com.commerce4j.model.dto.UserDTO;
+
+import com.mysql.jdbc.*;
 
 /**
  * Home Page MultiAction Controller.
@@ -94,5 +97,23 @@ public class HomeController extends BaseController {
 		// return mav
 		return mav;
 	}
+
+        /**
+         * Help Action, Helps the new User or Viewer by FAQ's
+         *
+         */
+        public ModelAndView help(HttpServletRequest request, HttpServletResponse response){
+            Map<String, Object> model;
+
+            model = new HashMap<String, Object>();
+            List<HelpDTO> help = getHelpDso().findAllFaqs();
+            if(help != null && !help.isEmpty())
+            {
+                model.put("help", help);
+            }
+            return new ModelAndView("help", model);
+
+        }
+
 
 }

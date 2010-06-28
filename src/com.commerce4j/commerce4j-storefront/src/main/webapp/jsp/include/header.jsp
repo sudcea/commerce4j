@@ -14,6 +14,8 @@
 		&oacute; 
 		
 		<a href="profile.jspa?aid=register">Registrarse</a>
+
+                <a href="home.jspa?aid=help"> Ayuda</a>
 	</span>
 </td>
 <td align="right" width="20%" valign="bottom">
