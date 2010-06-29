@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  *
- * @author Ignatiues charles Arun
+ * @author Ignatiues charles Arun kumar
  */
 public interface HelpDSO {
     public List<HelpDTO> findAllFaqs();

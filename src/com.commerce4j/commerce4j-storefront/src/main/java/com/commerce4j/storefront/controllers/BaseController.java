@@ -1,6 +1,6 @@
 /**
  * Copyright 2010 Commerce4J.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -41,51 +41,51 @@ import java.io.Writer;
 
 /**
  * Abstract Base MultiActionController.
- * 
+ *
  * @author carlos.quijano
  * @version $Revision$ $Date$
  */
 public abstract class BaseController extends MultiActionController {
-	
+
 	/**
 	 * Action Success default constant string.
 	 */
 	public static final String SUCCESS = "success";
-	
+
 	/**
 	 * Action Failure default constant string.
 	 */
 	public static final String FAILURE = "failure";
-	
+
 	/**
 	 * HTTP Header for the JSON encoding.
 	 */
 	public static final String HTTP_HEADER_JSON =  "application/json";
-	
+
 	/**
 	 * Web Application Resource Bundle instance.
 	 */
 	public static final ResourceBundle bundle = ResourceBundle.getBundle("i18n");
-	
-	
-	
+
+
+
 	private JdbcTemplate jdbcTemplate;
 	private CategoryDSO categoryDSO;
 	private ProfileDSO profileDSO;
 	private ItemDSO itemDSO;
         private HelpDSO helpDso;
-	
+
 	/**
 	 * Constructor, Creates a new type instance of BaseController.
 	 */
 	public BaseController() {
 		super();
 	}
-	
+
 	/**
-	 * Default unspecified action, any multiaction controller must 
+	 * Default unspecified action, any multiaction controller must
 	 * have a default.
-	 * 
+	 *
 	 * @param request The {@link HttpServletRequest} object for this action.
 	 * @param response The {@link HttpServletResponse} object for this action.
 	 * @return The {@link ModelAndView} instance for this action.
@@ -93,46 +93,46 @@ public abstract class BaseController extends MultiActionController {
 	protected abstract ModelAndView unspecified(
 			HttpServletRequest request, HttpServletResponse response
 	);
-	
+
 	/**
 	 * Get a String from ResourceBundle.
-	 * 
+	 *
 	 * @param key The key to look the String for.
-	 * @return A String value object from the resource bundle. 
+	 * @return A String value object from the resource bundle.
 	 */
 	protected String getString(String key) {
 		return bundle.getString(key);
 	}
-	
+
 	/**
 	 * Get a Bean from the Application Context.
-	 * 
+	 *
 	 * @param id The bean identifier.
 	 * @return The requested bean object.
 	 */
 	protected Object getBean(String id) {
 		return getWebApplicationContext().getBean(id);
 	}
-	
+
 	/**
 	 * Get the current session shopping cart. If no is yet available
 	 * then an empty cart is returned.
-	 * 
+	 *
 	 * @param request The {@link HttpServletRequest} object for this action.
 	 * @return The current session shopping cart list.
 	 */
 	@SuppressWarnings("unchecked")
 	protected List<CartDTO> getCart(HttpServletRequest request) {
-		
+
 		// check cart in session
 		if (request.getSession().getAttribute("cart") == null) {
 			request.getSession().setAttribute("cart", new ArrayList<CartDTO>());
 		}
-		
+
 		return (List<CartDTO>) request.getSession().getAttribute("cart");
 	}
 
-        protected void xslTransform(InputStream xml, InputStream xsl, Writer out) 
+        protected void xslTransform(InputStream xml, InputStream xsl, Writer out)
         throws TransformerConfigurationException, TransformerException {
             // create sources
             javax.xml.transform.Source xmlSource = new javax.xml.transform.stream.StreamSource(xml);
@@ -143,24 +143,24 @@ public abstract class BaseController extends MultiActionController {
             javax.xml.transform.Transformer trans = transFact.newTransformer(xsltSource);
             trans.transform(xmlSource, result);
         }
-	
+
 	/**
 	 * Creates a new Error {@link Message} object. This object is used
 	 * to wrap a key-value message object.
-	 * 
-	 * @param key The message unique key. 
+	 *
+	 * @param key The message unique key.
 	 * @param value The message value.
 	 * @return A new Error {@link Message} object.
 	 */
 	protected Message newError(String key, String value) {
 		return new Message("ERROR", key, value);
 	}
-	
+
 	/**
 	 * Creates a new Error {@link Message} object. This object is used
 	 * to wrap a key-value message object.
-	 * 
-	 * @param key The message unique key. 
+	 *
+	 * @param key The message unique key.
 	 * @param value The message value.
 	 * @param replace The message replace values.
 	 * @return
@@ -173,15 +173,15 @@ public abstract class BaseController extends MultiActionController {
 	 * Message Object Simple Implementation.
 	 */
 	class Message {
-		
+
 		private String key;
 		private String type;
 		private String value;
-		
-		
+
+
 		/**
 		 * Constructor, Creates a new type instance of Message.
-		 * 
+		 *
 		 * @param key The message unique key.
 		 * @param type The message type.
 		 * @param value The message value.
@@ -192,7 +192,7 @@ public abstract class BaseController extends MultiActionController {
 			this.type = type;
 			this.value = value;
 		}
-		
+
 		/**
 		 * JavaBean Getter, Gets the key current value.
 		 * @return The key current value.
@@ -235,10 +235,10 @@ public abstract class BaseController extends MultiActionController {
 		public void setValue(String value) {
 			this.value = value;
 		}
-		
-		
+
+
 	}
-	
+
 	/**
 	 * JavaBean Getter, Gets the jdbcTemplate current value.
 	 * @return The jdbcTemplate current value.
@@ -286,7 +286,7 @@ public abstract class BaseController extends MultiActionController {
 	public void setProfileDSO(ProfileDSO profileDSO) {
 		this.profileDSO = profileDSO;
 	}
-	
+
 	/**
 	 * JavaBean Getter, Gets the itemDSO current value.
 	 * @return The itemDSO current value.
@@ -310,7 +310,7 @@ public abstract class BaseController extends MultiActionController {
     public void setHelpDso(HelpDSO helpDso) {
         this.helpDso = helpDso;
     }
-        
 
-	
+
+
 }

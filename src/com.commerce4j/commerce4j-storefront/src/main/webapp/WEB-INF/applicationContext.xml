@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:jee="http://www.springframework.org/schema/jee"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:ehcache="http://www.springmodules.org/schema/ehcache"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-               http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd        
-               http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd     
-               http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd   
+               http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+               http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+               http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
                http://www.springmodules.org/schema/ehcache http://www.springmodules.org/schema/cache/springmodules-ehcache.xsd">
 
@@ -23,12 +23,12 @@
 		<ehcache:caching methodName="exists*" cacheName="imageCache" />
 		<ehcache:flushing cacheNames="imageCache" methodName="find*" when="after"/>
 	</ehcache:proxy>
-	
+
 	<ehcache:proxy id="itemsCache" refId="itemDSO">
 		<ehcache:caching methodName="find*" cacheName="itemsCache" />
 		<ehcache:flushing cacheNames="itemsCache" methodName="find*" when="after"/>
 	</ehcache:proxy>
-	
+
 
 	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName" value="java:/comp/env/jdbc/commerce4j" />
@@ -37,8 +37,8 @@
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
-	
-	
+
+
 	<!--
 	MAIL BEANS
 
@@ -46,7 +46,7 @@
 		<property name="username" value="gmailuid" />
 		<property name="password" value="gmailpwd" />
 	</bean>
-        
+
         <bean id="mailer" class="com.commerce4j.storefront.utils.postmark.SendMailImpl">
                 <property name="token" value="29d90865-37c4-41be-a265-f4f5898874d1" />
 	</bean>
@@ -74,11 +74,11 @@
 	<bean id="itemDAO" class="com.commerce4j.model.dao.jdbc.ItemDAOImpl">
 		<property name="jdbcTemplate" ref="jdbcTemplate" />
 	</bean>
-	
+
 	<bean id="itemImageDAO" class="com.commerce4j.model.dao.jdbc.ItemImageDAOImpl">
 		<property name="jdbcTemplate" ref="jdbcTemplate" />
 	</bean>
-	
+
 	<bean id="tagDAO" class="com.commerce4j.model.dao.jdbc.TagDAOImpl">
 		<property name="jdbcTemplate" ref="jdbcTemplate" />
 	</bean>
@@ -106,7 +106,7 @@
         <bean id="helpDso" class="com.commerce4j.model.dso.jdbc.HelpDSOImpl">
                 <property name="helpDao" ref="helpDAO"/>
          </bean>
-	
+
 
 	<!--
 	WEB BEANS

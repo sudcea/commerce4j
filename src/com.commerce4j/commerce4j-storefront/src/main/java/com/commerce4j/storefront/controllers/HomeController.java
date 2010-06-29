@@ -1,6 +1,6 @@
 /**
  * Copyright 2010 Commerce4J.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -34,7 +34,7 @@ import com.mysql.jdbc.*;
 
 /**
  * Home Page MultiAction Controller.
- * 
+ *
  * @author carlos.quijano
  * @version $Revision$ $Date$
  */
@@ -46,25 +46,25 @@ public class HomeController extends BaseController {
 	public ModelAndView unspecified(HttpServletRequest request, HttpServletResponse response) {
 		return home(request,response);
 	}
-		
+
 	/**
 	 * Home Action, this is the default action.
-	 * 
+	 *
 	 * @param request The {@link HttpServletRequest} object for this action.
 	 * @param response The {@link HttpServletResponse} object for this action.
 	 * @return The {@link ModelAndView} instance for this action.
 	 */
 	public ModelAndView home(HttpServletRequest request, HttpServletResponse response) {
-		
+
 		// declare locales
 		Map<String, Object> model;
 		List<CategoryDTO> categories;
-		
+
 		// init locals
 		model = new HashMap<String, Object>();
 		categories = getCategoryDSO().findRootCategories(1);
-		
-		// find the store categories 
+
+		// find the store categories
 		if (categories != null && !categories.isEmpty()) {
 			model.put("categories", categories);
 		}
@@ -72,19 +72,19 @@ public class HomeController extends BaseController {
 		// return mav
 		return new ModelAndView("home", model);
 	}
-	
+
 	/**
 	 * Welcome Action, welcomes new users to the store
-	 * 
+	 *
 	 * @param request
 	 * @param response
 	 * @return
 	 */
 	public ModelAndView welcome(HttpServletRequest request, HttpServletResponse response) {
-		
+
 		// declare locales
 		ModelAndView mav = home(request, response);
-		
+
 		// init locals
 		String uid = request.getParameter("uid");
 		if (StringUtils.isNotEmpty(uid) && StringUtils.isNumeric(uid)) {
