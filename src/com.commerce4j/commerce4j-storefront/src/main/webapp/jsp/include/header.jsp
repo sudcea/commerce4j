@@ -10,10 +10,10 @@
 	<span class="smaller gray">
 		Bienvenido!!!, 
 		
-		<a href="profile.jspa?aid=login">Iniciar Sesi&oacute;n</a> 
+		<a href="profile.jspa?aid=login"><fmt:message key="login.link" /></a>
 		&oacute; 
 		
-		<a href="profile.jspa?aid=register">Registrarse</a>
+		<a href="profile.jspa?aid=register"><fmt:message key="register.link" /></a>
 
                
 	</span>
@@ -21,14 +21,14 @@
 <td align="right" width="20%" valign="bottom">
 	
 	
-	<table cellpadding="0" cellspacing="0">
+	<table cellpadding="2" cellspacing="1">
 	<tr>
-	<td class="smaller gray"><a href="home.jspa">Inicio</a></td>
+	<td class="smaller gray"><a href="home.jspa"><fmt:message key="home.link" /></a></td>
 	<td class="smaller gray">|</td>
         <td class="smaller gray"><a href="profile.jspa?aid=profile"><fmt:message key="profile.link" /></a></td>
 	<td class="smaller gray">|</td>
 	<td class="smaller gray"><a href="cart.jspa"><img src="images/cart.png" alt="" /></a></td>
-	<td class="smaller gray"><a href="cart.jspa">Carrito</a></td>
+	<td class="smaller gray"><a href="cart.jspa"><fmt:message key="cart.link" /></a></td>
 	</tr>
 	</table>
 	
