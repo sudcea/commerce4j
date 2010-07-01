@@ -15,7 +15,7 @@
 		
 		<a href="profile.jspa?aid=register">Registrarse</a>
 
-                <a href="home.jspa?aid=help"> Ayuda</a>
+               
 	</span>
 </td>
 <td align="right" width="20%" valign="bottom">
@@ -44,7 +44,7 @@
 <td>
 	<a href="home.jspa"><fmt:message key="storefront.home.link" /></a> |
 	<a href="javascript:void(0)" onclick="show_category_bubble(this)"><fmt:message key="storefront.catalog.link" /></a> |
-	<a href="help.jspa"><fmt:message key="storefront.help.link" /></a>
+	<a href="home.jspa?aid=help"><fmt:message key="storefront.help.link" /></a>
 </td>
 <td align="right">
 <div class="navsearch">
