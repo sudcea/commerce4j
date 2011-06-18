@@ -26,7 +26,7 @@
     </bean>
 	
 	
-		<bean id="cacheProvider"
+	<bean id="cacheProvider"
         class="org.springmodules.cache.provider.ehcache.EhCacheFacade">
     <property name="cacheManager" ref="cacheManager" />
   </bean>
